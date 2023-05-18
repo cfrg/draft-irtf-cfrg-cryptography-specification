@@ -353,17 +353,17 @@ In summary, {{RFC8439}} serves as an excellent example of a well-written cryptog
 {{RFC8032}} is a specification that describes the Edwards-curve Digital Signature Algorithm (EdDSA). This specification had several errata filed against it for corrections and has had documented criticisms published online.
 
 
-### Test Vectors
+## Test Vectors
 
 The test vectors included in this document were not comprehensive and did not cover all the cases described in the algorithm, resulting in multiple incompatible implementations. There were also issues with a “greater than” comparison which should have been a “greater than or equal to” which were not explicitly covered by the test vectors.
 
 
-### Unnecessary Branching
+## Unnecessary Branching
 
 Some components of the cryptographic algorithms in EdDSA had branches that sometimes led to different implementation behavior. In particular, in the verification step for Ed25519, the following text exists: “Check the group equation [8][S]B = [8]R + [8][k]A'.  It's sufficient, but not required, to instead check [S]B = R + [k]A'.” This alternative branch has led to disagreement between what signatures are valid or not, which has a profound effect on applications. Minimizing and removing similar branches – especially those that exist in the name of performance – should be a goal of all cryptographic specifications.
 
 
-### Compatibility and Modularity
+## Compatibility and Modularity
 
 EdDSA is a variant of the Schnorr signature scheme, but with some small variations that make it incompatible with other related Schnorr signature schemes. This includes a “clamping” operation that makes EdDSA keys and operations incompatible with x25519 ({{RFC7748}}). Many of the issues in the specification derive from the fact that the specification was written to match an existing implementation rather than define an algorithm. This limited the authors from focusing on compatibility with other related standards and primitives, resulting in numerous issues.
 
