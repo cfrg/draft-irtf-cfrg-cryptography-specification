@@ -1,4 +1,3 @@
-
 ---
 title: Guidelines for Writing Cryptography Specifications
 abbrev: Crypto Specs
