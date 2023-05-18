@@ -35,6 +35,7 @@ informative:
   RFC3552:
   RFC7748:
   RFC8439:
+  RFC8032:
 
 
 --- abstract
