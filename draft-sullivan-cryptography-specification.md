@@ -2,7 +2,7 @@
 ---
 title: Guidelines for Writing Cryptography Specifications
 abbrev: Crypto Specs
-docname: draft-sullivan-cryptography-specification
+docname: draft-sullivan-cryptography-specification-latest
 date:
 category: info
 
@@ -244,7 +244,7 @@ Implementers require a clear, concise, and unambiguous specification to develop 
 
 ### Test vectors
 
-Test vectors ideally cover all branches of the specification, with reasonable exceptions, such as branches that occur with negligible probability and as such are computationally infeasible to reproduce. To facilitate writing tests, where possible, all functions should be written with determinism in mind. In particular, this means that functions that produce random outputs, such as a function that produces random elements in a prime-order group, should accept randomness as input and test vectors should specify this randomness as an input to the function. Specifications should minimize internal calls to PRNGs or similar and emphasize determinism. 
+Test vectors ideally cover all branches of the specification, with reasonable exceptions, such as branches that occur with negligible probability and as such are computationally infeasible to reproduce. To facilitate writing tests, where possible, all functions should be written with determinism in mind. In particular, this means that functions that produce random outputs, such as a function that produces random elements in a prime-order group, should accept randomness as input and test vectors should specify this randomness as an input to the function. Specifications should minimize internal calls to PRNGs or similar and emphasize determinism.
 
 Finally, specifications should make the connection between specification and test vectors clear by including explicit reproducibility steps that describe how test vectors were derived for parts of the specification. This might mean pointing to a reference implementation with instructions for how to run it, where the reference implementation is written in a way that is clearly consistent with the specification.
 
@@ -279,7 +279,7 @@ Protocol designers in the standards community use specifications to understand h
 
 
 
-* Clearly define the interfaces, APIs, or functions exposed by the protocol or primitive, indicating how they should be used and any potential risks associated with their misuse. For example, for each input to the protocol, it should be made clear whether or not these are attacker controlled and, if so, describe what steps must be taken to validate that input. 
+* Clearly define the interfaces, APIs, or functions exposed by the protocol or primitive, indicating how they should be used and any potential risks associated with their misuse. For example, for each input to the protocol, it should be made clear whether or not these are attacker controlled and, if so, describe what steps must be taken to validate that input.
 * Describe any corner cases or situations that may impact security, providing guidance on how to avoid or mitigate potential risks. This includes explicitly stating the probability of an algorithm failing due to invalid operations occurring (such as divide-by-zero) both in the typical case and under attacker-controlled inputs.
 * Explain any dependencies or interactions with other protocols, primitives, or system components, highlighting potential compatibility or interoperability issues.
 * Provide guidance on configuration, parameter selection, or deployment considerations that may affect the security or performance of the protocol in real-world scenarios. This includes the impact of new discoveries that weaken the security assumptions of a primitive.
@@ -356,7 +356,7 @@ In summary, {{RFC8439}} serves as an excellent example of a well-written cryptog
 
 ### Test Vectors
 
-The test vectors included in this document were not comprehensive and did not cover all the cases described in the algorithm, resulting in multiple incompatible implementations. There were also issues with a “greater than” comparison which should have been a “greater than or equal to” which were not explicitly covered by the test vectors. 
+The test vectors included in this document were not comprehensive and did not cover all the cases described in the algorithm, resulting in multiple incompatible implementations. There were also issues with a “greater than” comparison which should have been a “greater than or equal to” which were not explicitly covered by the test vectors.
 
 
 ### Unnecessary Branching
@@ -396,3 +396,4 @@ This document has no IANA actions.
 {:numbered="false"}
 
 TODO acknowledge.
+
