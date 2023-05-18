@@ -361,7 +361,7 @@ The test vectors included in this document were not comprehensive and did not co
 
 ## Unnecessary Branching
 
-Some components of the cryptographic algorithms in EdDSA had branches that sometimes led to different implementation behavior. In particular, in the verification step for Ed25519, the following text exists: “Check the group equation [8][S]B = [8]R + [8][k]A'.  It's sufficient, but not required, to instead check [S]B = R + [k]A'.” This alternative branch has led to disagreement between what signatures are valid or not, which has a profound effect on applications. Minimizing and removing similar branches – especially those that exist in the name of performance – should be a goal of all cryptographic specifications.
+Some components of the cryptographic algorithms in EdDSA had branches that sometimes led to different implementation behavior. In particular, in the verification step for Ed25519, the following text exists: “Check the group equation \[8\]\[S\]B = \[8\]R + \[8\]\[k\]A'.  It's sufficient, but not required, to instead check \[S\]B = R + \[k\]A'.” This alternative branch has led to disagreement between what signatures are valid or not, which has a profound effect on applications. Minimizing and removing similar branches – especially those that exist in the name of performance – should be a goal of all cryptographic specifications.
 
 
 ## Compatibility and Modularity
