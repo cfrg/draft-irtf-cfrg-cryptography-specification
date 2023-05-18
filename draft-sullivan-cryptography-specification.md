@@ -29,6 +29,8 @@ author:
     country: United States of America
     email: caw@heapingbits.net
 
+ipr: none
+
 informative:
   RFC8439:
   RFC8874:
