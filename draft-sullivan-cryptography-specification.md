@@ -380,7 +380,7 @@ We have also discussed the representation of mathematical operations and the imp
 Finally, we have examined a well-written example, {{RFC8439}}, to demonstrate how these guidelines can be applied in practice. By highlighting specific sections of this specification, we have shown how authors can create high-quality specifications that cater to the diverse needs of their target audiences.
 
 In conclusion, the process of writing cryptography specifications is both an art and a science. The guidelines presented in this document should serve as a foundation for authors, but it is essential to remain open to feedback and collaboration with the broader community. By doing so, we can continue to develop and refine the specifications that underpin the secure and reliable communication systems of today and the future.
- 
+
 
 # Security Considerations
 
