@@ -145,7 +145,7 @@ Consistency in the notation used to represent mathematical operations is essenti
 
 #### Use of Standard Mathematical Symbols
 
-Specification authors should use standard mathematical symbols to represent mathematical operations whenever possible. This approach promotes clarity and reduces the risk of misinterpretation. It is important to remember that some symbols may have different meanings in different contexts or disciplines. In such cases, specification authors should clarify the intended meaning of a symbol within the context of the specification. For example, when describing group operations using multiplicative notation, the multiplication symbol × should be used instead of the asterisk symbol.
+Specification authors should use standard mathematical symbols to represent mathematical operations whenever possible. This approach promotes clarity and reduces the risk of misinterpretation. It is important to remember that some symbols may have different meanings in different contexts or disciplines. In such cases, specification authors should clarify the intended meaning of a symbol within the context of the specification. For example, when describing group operations using multiplicative notation, the multiplication symbol * should be used instead of the x symbol.
 
 
 #### Explicitly Defining Custom Operations
@@ -250,7 +250,7 @@ Test vectors ideally cover all branches of the specification, with reasonable ex
 
 Finally, specifications should make the connection between specification and test vectors clear by including explicit reproducibility steps that describe how test vectors were derived for parts of the specification. This might mean pointing to a reference implementation with instructions for how to run it, where the reference implementation is written in a way that is clearly consistent with the specification.
 
-It’s possible to include too many test vectors in a specification, which increases document length and decreases readability. Authors should provide test vectors that cover:
+It's possible to include too many test vectors in a specification, which increases document length and decreases readability. Authors should provide test vectors that cover:
 
 
 
@@ -258,7 +258,7 @@ It’s possible to include too many test vectors in a specification, which incre
 * All valid but degenerate cases that result in error or early exit of an algorithm
 * Exceptions that can be reached by attacker-controlled inputs
 
-It is NOT necessary to include test vectors for cases that are statistically improbable to be triggered, even by attacker-controlled input, based on the underlying cryptographic assumptions. For example, if an error case is only reachable when an intermediate data point matches the pre-image of a hash value that was randomly generated, finding a test vector to trigger that case would require the ability to compute a hash pre-image, which is deemed unfeasible for sufficiently strong hash functions. Exceptional cases that don’t have test vectors should be explicitly noted in the algorithm description.
+It is NOT necessary to include test vectors for cases that are statistically improbable to be triggered, even by attacker-controlled input, based on the underlying cryptographic assumptions. For example, if an error case is only reachable when an intermediate data point matches the pre-image of a hash value that was randomly generated, finding a test vector to trigger that case would require the ability to compute a hash pre-image, which is deemed unfeasible for sufficiently strong hash functions. Exceptional cases that don't have test vectors should be explicitly noted in the algorithm description.
 
 Lastly, specifications should provide references to machine-readable test vectors (e.g., in JSON format) that persist alongside the specification. This helps avoid possibly error-prone parsing in translating test vectors from a textual specification to test code inputs.
 
@@ -358,17 +358,17 @@ In summary, {{RFC8439}} serves as an excellent example of a well-written cryptog
 
 ## Test Vectors
 
-The test vectors included in this document were not comprehensive and did not cover all the cases described in the algorithm, resulting in multiple incompatible implementations. There were also issues with a “greater than” comparison which should have been a “greater than or equal to” which were not explicitly covered by the test vectors.
+The test vectors included in this document were not comprehensive and did not cover all the cases described in the algorithm, resulting in multiple incompatible implementations. There were also issues with a "greater than" comparison which should have been a "greater than or equal to" which were not explicitly covered by the test vectors.
 
 
 ## Unnecessary Branching
 
-Some components of the cryptographic algorithms in EdDSA had branches that sometimes led to different implementation behavior. In particular, in the verification step for Ed25519, the following text exists: “Check the group equation \[8\]\[S\]B = \[8\]R + \[8\]\[k\]A'.  It's sufficient, but not required, to instead check \[S\]B = R + \[k\]A'.” This alternative branch has led to disagreement between what signatures are valid or not, which has a profound effect on applications. Minimizing and removing similar branches – especially those that exist in the name of performance – should be a goal of all cryptographic specifications.
+Some components of the cryptographic algorithms in EdDSA had branches that sometimes led to different implementation behavior. In particular, in the verification step for Ed25519, the following text exists: "Check the group equation \[8\]\[S\]B = \[8\]R + \[8\]\[k\]A'.  It's sufficient, but not required, to instead check \[S\]B = R + \[k\]A'." This alternative branch has led to disagreement between what signatures are valid or not, which has a profound effect on applications. Minimizing and removing similar branches - especially those that exist in the name of performance - should be a goal of all cryptographic specifications.
 
 
 ## Compatibility and Modularity
 
-EdDSA is a variant of the Schnorr signature scheme, but with some small variations that make it incompatible with other related Schnorr signature schemes. This includes a “clamping” operation that makes EdDSA keys and operations incompatible with x25519 ({{RFC7748}}). Many of the issues in the specification derive from the fact that the specification was written to match an existing implementation rather than define an algorithm. This limited the authors from focusing on compatibility with other related standards and primitives, resulting in numerous issues.
+EdDSA is a variant of the Schnorr signature scheme, but with some small variations that make it incompatible with other related Schnorr signature schemes. This includes a "clamping" operation that makes EdDSA keys and operations incompatible with x25519 ({{RFC7748}}). Many of the issues in the specification derive from the fact that the specification was written to match an existing implementation rather than define an algorithm. This limited the authors from focusing on compatibility with other related standards and primitives, resulting in numerous issues.
 
 
 # Conclusion
