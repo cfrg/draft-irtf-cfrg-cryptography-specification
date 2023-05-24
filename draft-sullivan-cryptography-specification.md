@@ -2,10 +2,10 @@
 title: Guidelines for Writing Cryptography Specifications
 abbrev: Crypto Specs
 docname: draft-sullivan-cryptography-specification-latest
-date:
+date: May 2023
 category: info
 
-ipr:
+ipr: none
 keyword: Internet-Draft
 
 stand_alone: yes
@@ -28,8 +28,6 @@ author:
     city: San Francisco
     country: United States of America
     email: caw@heapingbits.net
-
-ipr: none
 
 informative:
   RFC8439:
