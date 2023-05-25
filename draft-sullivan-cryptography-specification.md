@@ -1,15 +1,11 @@
 ---
-title: Guidelines for Writing Cryptography Specifications
-abbrev: Crypto Specs
+title: "Guidelines for Writing Cryptography Specifications"
+abbrev: "Crypto Specs"
 docname: draft-sullivan-cryptography-specification-latest
-date: May 2023
 category: info
-
-ipr: none
-keyword: Internet-Draft
-
-stand_alone: yes
-pi: [toc, sortrefs, symrefs]
+consensus: false
+submissiontype: IRTF
+v: 3
 
 author:
  -
@@ -170,7 +166,11 @@ structuring of prose.
 
 ## Precision
 
-Precision is a crucial aspect of writing high-quality specifications, particularly for cryptography, where small deviations or ambiguities can lead to severe security vulnerabilities. A precise specification ensures that resulting implementations are consistent and correct, and that any analysis done matches the specification.
+Precision is a crucial aspect of writing high-quality specifications,
+particularly for cryptography, where small deviations or ambiguities can lead
+to severe security vulnerabilities. A precise specification ensures that
+resulting implementations are consistent and correct, and that any analysis
+done matches the specification.
 
 To achieve precision in your specifications, consider the following recommendations:
 
@@ -808,7 +808,9 @@ communication systems of today and the future.
 
 # Security Considerations
 
-TODO Security
+This document discusses best practices for writing and editing cryptography
+specifications. It does not provide any guidance for the semantic contents
+of those specifications.
 
 
 # IANA Considerations
@@ -818,6 +820,5 @@ This document has no IANA actions.
 
 --- back
 
-# Acknowledgments
-{:numbered="false"}
-
+<!-- # Acknowledgments
+{:numbered="false"} -->
