@@ -1,7 +1,7 @@
 ---
 title: "Guidelines for Writing Cryptography Specifications"
 abbrev: "Crypto Specs"
-docname: draft-sullivan-cryptography-specification-latest
+docname: draft-irtf-cfrg-cryptography-specification-latest
 category: info
 consensus: false
 submissiontype: IRTF
