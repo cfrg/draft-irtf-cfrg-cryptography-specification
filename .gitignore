@@ -17,7 +17,7 @@
 /versioned/
 Gemfile.lock
 archive.json
-draft-sullivan-cryptography-specification.xml
+draft-irtf-cfrg-cryptography-specification.xml
 package-lock.json
 report.xml
 !requirements.txt
