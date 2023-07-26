@@ -397,6 +397,24 @@ abstractions help make the job of using the object in higher-level algorithms
 easier and less prone to code duplication.
 
 
+### Completeness
+
+The operations defined in a cryptography specification should be complete, with
+defined behavior on all inputs. This includes error handing, and edge cases
+which would otherwise not impact the algorithm's cryptographic properties.
+In particular, when deserializing a byte string, the behavior on all byte
+strings should be defined, including cases which would not be valid outputs of
+the corresponding serialization function. A complete specification help avoids
+implementation variations. These variations can lead to interoperability
+failures, gaps between formal analysis and real-world practice, or security
+vulnerabilities.
+
+Avoid defining multiple implementation behaviors as valid. Leaving multiple
+options to implementators leads to compounding complexity: downstream
+specifications may need to profile the algorithm to pick the preferred option,
+and validation tools must be configurable to assert either case.
+
+
 ### Documentation and Examples
 
 Thorough documentation and illustrative examples play a crucial role in
