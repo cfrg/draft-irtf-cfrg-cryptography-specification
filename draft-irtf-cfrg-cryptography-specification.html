@@ -16,23 +16,23 @@ high-quality specifications that cater to the needs of each community,
 including guidance on representing mathematical operations, security
 definitions, and threat models. 
     " name="description">
-<meta content="xml2rfc 3.17.4" name="generator">
+<meta content="xml2rfc 3.18.2" name="generator">
 <meta content="draft-irtf-cfrg-cryptography-specification-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.17.4
-    Python 3.11.4
+  xml2rfc 3.18.2
+    Python 3.11.6
     ConfigArgParse 1.5.3
     google-i18n-address 3.1.0
     intervaltree 3.1.0
     Jinja2 3.1.2
     lxml 4.9.3
-    platformdirs 3.9.1
+    platformdirs 3.11.0
     pycountry 22.3.5
     PyYAML 6.0
     requests 2.31.0
     setuptools 67.7.2
     six 1.16.0
-    wcwidth 0.2.6
+    wcwidth 0.2.9
 -->
 <link href="draft-irtf-cfrg-cryptography-specification.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -655,7 +655,7 @@ sub, sup {
 }
 #toc nav li {
   line-height: 1.3em;
-  margin: 0.75em 0;
+  margin: 2px 0;
   padding-left: 1.2em;
   text-indent: -1.2em;
 }
@@ -748,7 +748,7 @@ hr.addr {
     z-index: 2;
     top: 0;
     right: 0;
-    padding: 0;
+    padding: 1px 0 0 0;
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
@@ -872,16 +872,13 @@ hr.addr {
     border-top: none;
     padding-top: 0;
   }
-  figure, pre {
+  figure, pre, .vcard {
     page-break-inside: avoid;
-  }
-  figure {
-    overflow: scroll;
   }
   h1, h2, h3, h4, h5, h6 {
     page-break-after: avoid;
   }
-  h2+*, h3+*, h4+*, h5+*, h6+* {
+  :is(h2, h3, h4, h5, h6)+*, dd {
     page-break-before: avoid;
   }
   pre {
@@ -894,6 +891,9 @@ hr.addr {
   }
   td {
     border-top: 1px solid #ddd;
+  }
+  .toplink {
+    display: none;
   }
 }
 
@@ -995,28 +995,6 @@ address div.right {
   text-align: right;
 }
 
-/* Give the table caption label the same styling as the figcaption */
-
-@media print {
-  .toplink {
-    display: none;
-  }
-
-  /* avoid overwriting the top border line with the ToC header */
-  #toc {
-    padding-top: 1px;
-  }
-
-  /* Avoid page breaks inside dl and author address entries */
-  dd {
-    page-break-before: avoid;
-  }
-  .vcard {
-    page-break-inside: avoid;
-  }
-
-}
-
 /* Dark mode. */
 @media (prefers-color-scheme: dark) {
 :root {
@@ -1053,11 +1031,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Crypto Specs</td>
-<td class="right">July 2023</td>
+<td class="right">November 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Sullivan &amp; Wood</td>
-<td class="center">Expires 27 January 2024</td>
+<td class="center">Expires 10 May 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1070,17 +1048,17 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-irtf-cfrg-cryptography-specification-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-07-26" class="published">26 July 2023</time>
+<time datetime="2023-11-07" class="published">7 November 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2024-01-27">27 January 2024</time></dd>
+<dd class="expires"><time datetime="2024-05-10">10 May 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
       <div class="author-name">N. Sullivan</div>
-<div class="org">Cloudflare, Inc.</div>
+<div class="org">Cryptography Consulting LLC</div>
 </div>
 <div class="author">
       <div class="author-name">C. A. Wood</div>
@@ -1130,7 +1108,7 @@ definitions, and threat models.<a href="#section-abstract-1" class="pilcrow">¶<
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 27 January 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 10 May 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1361,44 +1339,51 @@ analyzed by different audiences, including the engineering community, research
 community, and standardization community. By addressing the unique needs and
 expectations of each group, these guidelines aim to:<a href="#section-2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-2-2.1">Minimize ambiguity and misinterpretations, leading to clearer specifications
-and more accurate implementations.<a href="#section-2-2.1" class="pilcrow">¶</a>
+<li class="normal" id="section-2-2.1">
+          <p id="section-2-2.1.1">Minimize ambiguity and misinterpretations, leading to clearer specifications
+and more accurate implementations.<a href="#section-2-2.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-2-2.2">Ensure consistent and correct implementations by providing a clear
-description of both algorithms and their underlying mathematical foundation.<a href="#section-2-2.2" class="pilcrow">¶</a>
+        <li class="normal" id="section-2-2.2">
+          <p id="section-2-2.2.1">Ensure consistent and correct implementations by providing a clear
+description of both algorithms and their underlying mathematical foundation.<a href="#section-2-2.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-2-2.3">Facilitate review and analysis by the research community, allowing for the
+        <li class="normal" id="section-2-2.3">
+          <p id="section-2-2.3.1">Facilitate review and analysis by the research community, allowing for the
 verification of security properties and the identification of potential
-vulnerabilities.<a href="#section-2-2.3" class="pilcrow">¶</a>
+vulnerabilities.<a href="#section-2-2.3.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-2-2.4">Enable interoperability of implementations of these specifications, promoting
-collaboration and compatibility between various systems and protocols.<a href="#section-2-2.4" class="pilcrow">¶</a>
+        <li class="normal" id="section-2-2.4">
+          <p id="section-2-2.4.1">Enable interoperability of implementations of these specifications, promoting
+collaboration and compatibility between various systems and protocols.<a href="#section-2-2.4.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="section-2-3">Each of these stakeholder groups contributes something different to the overall process of deploying software:<a href="#section-2-3" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-2-4">
-<li id="section-2-4.1">Engineering community: This community identifies technical problems to be
+<li id="section-2-4.1">
+          <p id="section-2-4.1.1">Engineering community: This community identifies technical problems to be
 solved and have the skills and resources necessary to build solutions using
 computing tools. Engineers focus on why certain problems should be addressed,
 producing requirements that define the problem and solutions that meet those
 requirements. Their ultimate goal is to implement and ship software or hardware
-that effectively tackles these challenges.<a href="#section-2-4.1" class="pilcrow">¶</a>
+that effectively tackles these challenges.<a href="#section-2-4.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li id="section-2-4.2">Research community: Researchers
+        <li id="section-2-4.2">
+          <p id="section-2-4.2.1">Research community: Researchers
 are experts who explore the design space of different subject areas and
 evaluate potential solutions to problems with the goal of better understanding
 a topic. This group develops methods for designing tools and performing
 experiments to validate hypotheses. The research community concentrates on how
 problems should be solved, creating artifacts that help describe solutions.
 These may include academic, peer-reviewed papers or software that studies or
-supports the shipping of software.<a href="#section-2-4.2" class="pilcrow">¶</a>
+supports the shipping of software.<a href="#section-2-4.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li id="section-2-4.3">Standardization community: This group is responsible for developing
+        <li id="section-2-4.3">
+          <p id="section-2-4.3.1">Standardization community: This group is responsible for developing
 technical specifications of protocols that others can implement, analyze, and
 verify. The standardization community produces technical specifications that
 capture the details of a solution. These specifications serve as a foundation
 for creating interoperable systems and ensuring the correct implementation of
-cryptographic algorithms and protocols.<a href="#section-2-4.3" class="pilcrow">¶</a>
+cryptographic algorithms and protocols.<a href="#section-2-4.3.1" class="pilcrow">¶</a></p>
 </li>
       </ol>
 <p id="section-2-5">By following these guidelines and addressing the distinct needs of each
@@ -1435,30 +1420,35 @@ misinterpretation, which can lead to incorrect implementations and security
 vulnerabilities.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <p id="section-3.1-2">To achieve simplicity, specification authors should focus on:<a href="#section-3.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.1-3.1">Clearly defining the problem: Start by presenting a concise and easily
+<li class="normal" id="section-3.1-3.1">
+            <p id="section-3.1-3.1.1">Clearly defining the problem: Start by presenting a concise and easily
 comprehensible description of the problem that the specification aims to
 solve. Avoid unnecessary jargon and strive to make the problem statement
 accessible to readers with varying levels of expertise in the field. Ideally,
-each specification addresses precisely one clearly defined problem.<a href="#section-3.1-3.1" class="pilcrow">¶</a>
+each specification addresses precisely one clearly defined problem.<a href="#section-3.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.1-3.2">Reducing complex concepts to component parts: When explaing with multi-step
+          <li class="normal" id="section-3.1-3.2">
+            <p id="section-3.1-3.2.1">Reducing complex concepts to component parts: When explaing with multi-step
 cryptographic algorithms or concepts, break them down into smaller, more
 manageable components. This will make it easier for readers to understand the
-individual parts and their relationships to one another.<a href="#section-3.1-3.2" class="pilcrow">¶</a>
+individual parts and their relationships to one another.<a href="#section-3.1-3.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.1-3.3">Using straightforward language and terminology: Write the specification using
-clear, concise language, and consistent and broadly understood terminology.<a href="#section-3.1-3.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.1-3.3">
+            <p id="section-3.1-3.3.1">Using straightforward language and terminology: Write the specification using
+clear, concise language, and consistent and broadly understood terminology.<a href="#section-3.1-3.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.1-3.4">Avoid overly technical jargon, and define any terms that may be unfamiliar to
+          <li class="normal" id="section-3.1-3.4">
+            <p id="section-3.1-3.4.1">Avoid overly technical jargon, and define any terms that may be unfamiliar to
 some readers.  Limiting scope: Keep the specification focused on the primary
 problem or use case, i.e., avoid feature creep. Avoid introducing unrelated
 or peripheral topics, as this can create confusion and detract from the
-primary focus.<a href="#section-3.1-3.4" class="pilcrow">¶</a>
+primary focus.<a href="#section-3.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.1-3.5">Providing clear examples and diagrams: Include examples and visual aids, such
+          <li class="normal" id="section-3.1-3.5">
+            <p id="section-3.1-3.5.1">Providing clear examples and diagrams: Include examples and visual aids, such
 as diagrams or visualizations, to help illustrate complex concepts or
 processes. These tools can greatly improve the readability and understanding
-of the specification.<a href="#section-3.1-3.5" class="pilcrow">¶</a>
+of the specification.<a href="#section-3.1-3.5.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-3.1-4">By focusing on simplicity in document structure and prose in the specification
@@ -1482,43 +1472,49 @@ resulting implementations are consistent and correct, and that any analysis
 done matches the specification.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
 <p id="section-3.2-2">To achieve precision in your specifications, consider the following recommendations:<a href="#section-3.2-2" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-3.2-3">
-<li id="section-3.2-3.1">Use clear and concise language: Write your specification using
+<li id="section-3.2-3.1">
+            <p id="section-3.2-3.1.1">Use clear and concise language: Write your specification using
 straightforward and unambiguous language. Avoid jargon or colloquialisms that
 may lead to misinterpretation. When introducing technical terms or concepts,
 provide clear definitions or explanations to ensure that all readers are on the
-same page.<a href="#section-3.2-3.1" class="pilcrow">¶</a>
+same page.<a href="#section-3.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.2-3.2">Provide explicit instructions and avoid undefined behavior: When describing
+          <li id="section-3.2-3.2">
+            <p id="section-3.2-3.2.1">Provide explicit instructions and avoid undefined behavior: When describing
 algorithms, protocols, or procedures, provide step-by-step instructions that
 can be easily followed by implementers with minimal or zero risk of
 misinterpretation. This will help ensure that all implementations are
 consistent with the intended design and minimize the risk of errors or
-vulnerabilities.<a href="#section-3.2-3.2" class="pilcrow">¶</a>
+vulnerabilities.<a href="#section-3.2-3.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.2-3.3">Provide test vectors. Test vectors help check for correctness of all
+          <li id="section-3.2-3.3">
+            <p id="section-3.2-3.3.1">Provide test vectors. Test vectors help check for correctness of all
 behavior in the specification, especially those near edge cases. For example,
 if a specification involves a branch or condition, then test cases should
 ideally be written to exercise both paths of the branch. Sometimes this is
 infeasible, e.g., if probability of a particular branch happening is
-negligible, though more often than not branches can be adequately covered.<a href="#section-3.2-3.3" class="pilcrow">¶</a>
+negligible, though more often than not branches can be adequately covered.<a href="#section-3.2-3.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.2-3.4">Employ formal notation or pseudocode: Using formal notation or pseudocode
+          <li id="section-3.2-3.4">
+            <p id="section-3.2-3.4.1">Employ formal notation or pseudocode: Using formal notation or pseudocode
 can help provide a precise description of algorithms, data structures, and
 protocols. This will ensure that implementers, researchers, and protocol
 designers can accurately understand the intended behavior and interactions of
-the components within the specification.<a href="#section-3.2-3.4" class="pilcrow">¶</a>
+the components within the specification.<a href="#section-3.2-3.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.2-3.5">Specify data formats and encodings: Clearly define data formats, encoding
+          <li id="section-3.2-3.5">
+            <p id="section-3.2-3.5.1">Specify data formats and encodings: Clearly define data formats, encoding
 schemes, and serialization methods for all data types used in the
 specification. This will help ensure that different implementations can
 interoperate seamlessly and reduce the likelihood of incompatibilities or
-communication errors.<a href="#section-3.2-3.5" class="pilcrow">¶</a>
+communication errors.<a href="#section-3.2-3.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.2-3.6">Document assumptions and dependencies: Clearly state any assumptions or
+          <li id="section-3.2-3.6">
+            <p id="section-3.2-3.6.1">Document assumptions and dependencies: Clearly state any assumptions or
 dependencies on external components, including other specifications or protocol
 descriptions. This includes common dependencies like that of a random number
 generator. This will help implementers and researchers understand the context
-in which your specification operates and any potential limitations or risks.<a href="#section-3.2-3.6" class="pilcrow">¶</a>
+in which your specification operates and any potential limitations or risks.<a href="#section-3.2-3.6.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 <p id="section-3.2-4">Precise specifications minimize ambiguity and reduce the likelihood of implementation errors or inconsistencies.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
@@ -1536,47 +1532,54 @@ helps lower the cognitive load necessary for readers to understand and work
 with the specification. To achieve consistency in your specifications, consider
 the following recommendations:<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-3.3-2">
-<li id="section-3.3-2.1">Establish a consistent terminology: Develop a clear and consistent set of
+<li id="section-3.3-2.1">
+            <p id="section-3.3-2.1.1">Establish a consistent terminology: Develop a clear and consistent set of
 terms and definitions that will be used throughout the document. Avoid using
 synonyms or multiple terms for the same concept, as this can lead to confusion.
 When using acronyms, always provide their full meaning upon first usage and use
-the acronym consistently afterward.<a href="#section-3.3-2.1" class="pilcrow">¶</a>
+the acronym consistently afterward.<a href="#section-3.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.3-2.2">Maintain a uniform style and tone: Write the specification using a
+          <li id="section-3.3-2.2">
+            <p id="section-3.3-2.2.1">Maintain a uniform style and tone: Write the specification using a
 consistent style and tone to ensure that readers can easily follow the content.
 This includes consistent use of grammatical structures, punctuation, and
 capitalization. If your organization has a style guide, adhere to it when
-writing the specification.<a href="#section-3.3-2.2" class="pilcrow">¶</a>
+writing the specification.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.3-2.3">Use a logical structure: Organize your specification in a logical manner,
+          <li id="section-3.3-2.3">
+            <p id="section-3.3-2.3.1">Use a logical structure: Organize your specification in a logical manner,
 starting with an overview and then progressing through the various components,
 algorithms, and protocols. Make use of sections, subsections, and other
 structural elements to break up the content and make it easier to navigate and
 comprehend. Use forward or backward references to make navigation of the
-document simpler.<a href="#section-3.3-2.3" class="pilcrow">¶</a>
+document simpler.<a href="#section-3.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.3-2.4">Provide consistent formatting: Ensure that all elements within the
+          <li id="section-3.3-2.4">
+            <p id="section-3.3-2.4.1">Provide consistent formatting: Ensure that all elements within the
 specification, such as tables, figures, pseudocode and equations, are formatted
 consistently. This will help readers quickly identify and understand these
-elements as they progress through the document.<a href="#section-3.3-2.4" class="pilcrow">¶</a>
+elements as they progress through the document.<a href="#section-3.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.3-2.5">Be consistent with conventions and notations: When using mathematical
+          <li id="section-3.3-2.5">
+            <p id="section-3.3-2.5.1">Be consistent with conventions and notations: When using mathematical
 notation, programming languages, or other conventions, apply them consistently
 throughout the document. This will help prevent confusion and allow readers to
-focus on the content rather than deciphering different notations.<a href="#section-3.3-2.5" class="pilcrow">¶</a>
+focus on the content rather than deciphering different notations.<a href="#section-3.3-2.5.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.3-2.6">Reference external documents consistently: When referring to external
+          <li id="section-3.3-2.6">
+            <p id="section-3.3-2.6.1">Reference external documents consistently: When referring to external
 documents or resources, such as other RFCs, standards, or research papers,
 provide consistent and accurate citations. This will enable readers to locate
-and review these resources as needed.<a href="#section-3.3-2.6" class="pilcrow">¶</a>
+and review these resources as needed.<a href="#section-3.3-2.6.1" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-3.3-2.7">Keep the broader context in mind: Try to adopt the same terminology and
+          <li id="section-3.3-2.7">
+            <p id="section-3.3-2.7.1">Keep the broader context in mind: Try to adopt the same terminology and
 conventions as other related documents the reader may be familiar with,
 especially for specifications that are developed based on peer-reviewed,
 published work. Consistency across audiences is important to help lower the bar
 to successful collaboration and effective communication. If the specification
 is intended to be part of the RFC series, reuse conventions from other
-documents in the series.<a href="#section-3.3-2.7" class="pilcrow">¶</a>
+documents in the series.<a href="#section-3.3-2.7.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
 <p id="section-3.3-3">By focusing on consistency in your cryptography specification, you will make it
@@ -1905,19 +1908,22 @@ written in a way that addresses their specific concerns.<a href="#section-5-1" c
 <p id="section-5.1-1">Implementers require a clear, concise, and unambiguous specification to develop
 production-grade software. To cater to implementers:<a href="#section-5.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.1-2.1">Provide step-by-step instructions for implementing algorithms or processes,
+<li class="normal" id="section-5.1-2.1">
+            <p id="section-5.1-2.1.1">Provide step-by-step instructions for implementing algorithms or processes,
 ensuring that all required inputs, outputs, and intermediate steps are
 defined. Where exceptional cases occur, those should be noted and recommended
 error-handling steps should be given.  Include test vectors to help
-implementers verify the correctness of their implementations.<a href="#section-5.1-2.1" class="pilcrow">¶</a>
+implementers verify the correctness of their implementations.<a href="#section-5.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.1-2.2">Describe best practices for representing components of the specification in
+          <li class="normal" id="section-5.1-2.2">
+            <p id="section-5.1-2.2.1">Describe best practices for representing components of the specification in
 code, addressing exceptional cases and recommended error handling procedures,
 as well as aspects of the specification that are difficult to implement
-correctly (e.g., where side-channel attacks might be possible).<a href="#section-5.1-2.2" class="pilcrow">¶</a>
+correctly (e.g., where side-channel attacks might be possible).<a href="#section-5.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.1-2.3">Clearly indicate any optional features, variations, or extensions, specifying
-their impact on interoperability and security.<a href="#section-5.1-2.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-5.1-2.3">
+            <p id="section-5.1-2.3.1">Clearly indicate any optional features, variations, or extensions, specifying
+their impact on interoperability and security.<a href="#section-5.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <div id="test-vectors">
@@ -1944,11 +1950,14 @@ consistent with the specification.<a href="#section-5.1.1-2" class="pilcrow">¶<
 increases document length and decreases readability. Authors should provide
 test vectors that cover:<a href="#section-5.1.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.1.1-4.1">Typical test cases that exercise all logical pathways within an algorithm<a href="#section-5.1.1-4.1" class="pilcrow">¶</a>
+<li class="normal" id="section-5.1.1-4.1">
+              <p id="section-5.1.1-4.1.1">Typical test cases that exercise all logical pathways within an algorithm<a href="#section-5.1.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-5.1.1-4.2">All valid but degenerate cases that result in error or early exit of an algorithm<a href="#section-5.1.1-4.2" class="pilcrow">¶</a>
+            <li class="normal" id="section-5.1.1-4.2">
+              <p id="section-5.1.1-4.2.1">All valid but degenerate cases that result in error or early exit of an algorithm<a href="#section-5.1.1-4.2.1" class="pilcrow">¶</a></p>
 </li>
-            <li class="normal" id="section-5.1.1-4.3">Exceptions that can be reached by attacker-controlled inputs<a href="#section-5.1.1-4.3" class="pilcrow">¶</a>
+            <li class="normal" id="section-5.1.1-4.3">
+              <p id="section-5.1.1-4.3.1">Exceptions that can be reached by attacker-controlled inputs<a href="#section-5.1.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-5.1.1-5">It is NOT necessary to include test vectors for cases that are statistically
@@ -1976,27 +1985,31 @@ textual specification to test code inputs.<a href="#section-5.1.1-6" class="pilc
 cryptographic protocol or primitive to ensure its correctness and analyze its
 security properties. To cater to researchers:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.2-2.1">Clearly define the underlying mathematical concepts and notations used in the
+<li class="normal" id="section-5.2-2.1">
+            <p id="section-5.2-2.1.1">Clearly define the underlying mathematical concepts and notations used in the
 specification, ensuring that all symbols, functions, and variables are
 consistently and accurately represented as explained in the section
-Representing Mathematical Operations.<a href="#section-5.2-2.1" class="pilcrow">¶</a>
+Representing Mathematical Operations.<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.2-2.2">Provide detailed security definitions, goals, and threat models, including
+          <li class="normal" id="section-5.2-2.2">
+            <p id="section-5.2-2.2.1">Provide detailed security definitions, goals, and threat models, including
 the capabilities and limitations of adversaries and their impact on parameter
 selection. In general, authors should make input requirements that are
 important for the security of the protocol or construction maximally clear.
-See: Defining Security Definitions and Threat Models.<a href="#section-5.2-2.2" class="pilcrow">¶</a>
+See: Defining Security Definitions and Threat Models.<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.2-2.3">Describe any assumptions made about the underlying primitives or protocols
+          <li class="normal" id="section-5.2-2.3">
+            <p id="section-5.2-2.3.1">Describe any assumptions made about the underlying primitives or protocols
 and the justifications for these assumptions. Such assumptions should include
 references to external documents that describe these underlying primitives or
 protocols where appropriate, unless there are gaps between how the underlying
-primitive or protocol is used and how it is described externally.<a href="#section-5.2-2.3" class="pilcrow">¶</a>
+primitive or protocol is used and how it is described externally.<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.2-2.4">Clearly present any security proofs, analysis, or references to existing
+          <li class="normal" id="section-5.2-2.4">
+            <p id="section-5.2-2.4.1">Clearly present any security proofs, analysis, or references to existing
 literature that support the security claims of the specification. If there
 are gaps between the specification and formal security analysis, these gaps
-should be noted, along with rationale that justifies the gaps.<a href="#section-5.2-2.4" class="pilcrow">¶</a>
+should be noted, along with rationale that justifies the gaps.<a href="#section-5.2-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2010,26 +2023,30 @@ should be noted, along with rationale that justifies the gaps.<a href="#section-
 how to safely use the cryptographic protocol or primitive when designing a
 higher-level protocol that depends on it. To cater to protocol designers:<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.3-2.1">Clearly define the interfaces, APIs, or functions exposed by the protocol or
+<li class="normal" id="section-5.3-2.1">
+            <p id="section-5.3-2.1.1">Clearly define the interfaces, APIs, or functions exposed by the protocol or
 primitive, indicating how they should be used and any potential risks
 associated with their misuse. For example, for each input to the protocol, it
 should be made clear whether or not these are attacker controlled and, if so,
-describe what steps must be taken to validate that input.<a href="#section-5.3-2.1" class="pilcrow">¶</a>
+describe what steps must be taken to validate that input.<a href="#section-5.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.3-2.2">Describe any corner cases or situations that may impact security, providing
+          <li class="normal" id="section-5.3-2.2">
+            <p id="section-5.3-2.2.1">Describe any corner cases or situations that may impact security, providing
 guidance on how to avoid or mitigate potential risks. This includes
 explicitly stating the probability of an algorithm failing due to invalid
 operations occurring (such as divide-by-zero) both in the typical case and
-under attacker-controlled inputs.<a href="#section-5.3-2.2" class="pilcrow">¶</a>
+under attacker-controlled inputs.<a href="#section-5.3-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.3-2.3">Explain any dependencies or interactions with other protocols, primitives, or
+          <li class="normal" id="section-5.3-2.3">
+            <p id="section-5.3-2.3.1">Explain any dependencies or interactions with other protocols, primitives, or
 system components, highlighting potential compatibility or interoperability
-issues.<a href="#section-5.3-2.3" class="pilcrow">¶</a>
+issues.<a href="#section-5.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-5.3-2.4">Provide guidance on configuration, parameter selection, or deployment
+          <li class="normal" id="section-5.3-2.4">
+            <p id="section-5.3-2.4.1">Provide guidance on configuration, parameter selection, or deployment
 considerations that may affect the security or performance of the protocol in
 real-world scenarios. This includes the impact of new discoveries that weaken
-the security assumptions of a primitive.<a href="#section-5.3-2.4" class="pilcrow">¶</a>
+the security assumptions of a primitive.<a href="#section-5.3-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-5.3-3">By addressing the specific needs of implementers, researchers, and protocol
@@ -2300,6 +2317,7 @@ of those specifications.<a href="#section-10-1" class="pilcrow">¶</a></p>
       <h2 id="name-references">
 <a href="#section-12" class="section-number selfRef">12. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
+<div id="sec-normative-references">
 <section id="section-12.1">
         <h3 id="name-normative-references">
 <a href="#section-12.1" class="section-number selfRef">12.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
@@ -2315,6 +2333,8 @@ of those specifications.<a href="#section-10-1" class="pilcrow">¶</a></p>
 <dd class="break"></dd>
 </dl>
 </section>
+</div>
+<div id="sec-informative-references">
 <section id="section-12.2">
         <h3 id="name-informative-references">
 <a href="#section-12.2" class="section-number selfRef">12.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
@@ -2342,6 +2362,7 @@ of those specifications.<a href="#section-10-1" class="pilcrow">¶</a></p>
 <dd class="break"></dd>
 </dl>
 </section>
+</div>
 </section>
 <div id="authors-addresses">
 <section id="appendix-A">
@@ -2350,14 +2371,13 @@ of those specifications.<a href="#section-10-1" class="pilcrow">¶</a></p>
       </h2>
 <address class="vcard">
         <div dir="auto" class="left"><span class="fn nameRole">Nick Sullivan</span></div>
-<div dir="auto" class="left"><span class="org">Cloudflare, Inc.</span></div>
-<div dir="auto" class="left"><span class="street-address">101 Townsend St</span></div>
+<div dir="auto" class="left"><span class="org">Cryptography Consulting LLC</span></div>
 <div dir="auto" class="left">
 <span class="locality">San Francisco</span>,  </div>
 <div dir="auto" class="left"><span class="country-name">United States of America</span></div>
 <div class="email">
 <span>Email:</span>
-<a href="mailto:nick@cloudflare.com" class="email">nick@cloudflare.com</a>
+<a href="mailto:nicholas.sullivan+ietf@gmail.com" class="email">nicholas.sullivan+ietf@gmail.com</a>
 </div>
 </address>
 <address class="vcard">

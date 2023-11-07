@@ -3,9 +3,10 @@
 
 
 Network Working Group                                        N. Sullivan
-Internet-Draft                                                C. A. Wood
-Intended status: Informational                          Cloudflare, Inc.
-Expires: 27 January 2024                                    26 July 2023
+Internet-Draft                               Cryptography Consulting LLC
+Intended status: Informational                                C. A. Wood
+Expires: 10 May 2024                                    Cloudflare, Inc.
+                                                         7 November 2023
 
 
            Guidelines for Writing Cryptography Specifications
@@ -48,7 +49,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 January 2024.
+   This Internet-Draft will expire on 10 May 2024.
 
 Copyright Notice
 
@@ -1016,11 +1017,10 @@ Table of Contents
 Authors' Addresses
 
    Nick Sullivan
-   Cloudflare, Inc.
-   101 Townsend St
+   Cryptography Consulting LLC
    San Francisco,
    United States of America
-   Email: nick@cloudflare.com
+   Email: nicholas.sullivan+ietf@gmail.com
 
 
    Christopher A. Wood
