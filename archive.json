@@ -1,0 +1,97 @@
+{
+  "magic": "E!vIA5L86J2I",
+  "timestamp": "2024-01-11T00:42:08.255497+00:00",
+  "repo": "cfrg/draft-irtf-cfrg-cryptography-specification",
+  "labels": [
+    {
+      "name": "bug",
+      "description": "Something isn't working",
+      "color": "d73a4a"
+    },
+    {
+      "name": "documentation",
+      "description": "Improvements or additions to documentation",
+      "color": "0075ca"
+    },
+    {
+      "name": "duplicate",
+      "description": "This issue or pull request already exists",
+      "color": "cfd3d7"
+    },
+    {
+      "name": "enhancement",
+      "description": "New feature or request",
+      "color": "a2eeef"
+    },
+    {
+      "name": "good first issue",
+      "description": "Good for newcomers",
+      "color": "7057ff"
+    },
+    {
+      "name": "help wanted",
+      "description": "Extra attention is needed",
+      "color": "008672"
+    },
+    {
+      "name": "invalid",
+      "description": "This doesn't seem right",
+      "color": "e4e669"
+    },
+    {
+      "name": "question",
+      "description": "Further information is requested",
+      "color": "d876e3"
+    },
+    {
+      "name": "wontfix",
+      "description": "This will not be worked on",
+      "color": "ffffff"
+    }
+  ],
+  "issues": [],
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOJ5_kp85Wd-R-",
+      "title": "Add some guidelines on completeness.",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cryptography-specification/pull/1",
+      "state": "MERGED",
+      "author": "davidben",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This is partially covered by a couple bullet points under precision, but I think it's worth calling out explicitly, and expanding on it a bit.",
+      "createdAt": "2023-07-26T17:57:21Z",
+      "updatedAt": "2023-07-26T18:05:03Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-cryptography-specification",
+      "baseRefName": "main",
+      "baseRefOid": "30eda9bac3b7e21371b03d644a4b57de5036918f",
+      "headRepository": "davidben/draft-irtf-cfrg-cryptography-specification",
+      "headRefName": "completeness",
+      "headRefOid": "773759fd789865683b28bf04aa9025b9510af70e",
+      "closedAt": "2023-07-26T18:05:03Z",
+      "mergedAt": "2023-07-26T18:05:03Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "c583af6465b3d15e7658ee8d33ce740a387f4c4a"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOJ5_kp85cSYDZ",
+          "commit": {
+            "abbreviatedOid": "773759f"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Lovely \ud83d\ude4f\ud83d\ude0a",
+          "createdAt": "2023-07-26T18:04:58Z",
+          "updatedAt": "2023-07-26T18:04:58Z",
+          "comments": []
+        }
+      ]
+    }
+  ]
+}
