@@ -1044,10 +1044,6 @@ Table of Contents
               for Security", RFC 7748, DOI 10.17487/RFC7748, January
               2016, <https://www.rfc-editor.org/rfc/rfc7748>.
 
-   [RFC7996]  Brownlee, N., "SVG Drawings for RFCs: SVG 1.2 RFC",
-              RFC 7996, DOI 10.17487/RFC7996, December 2016,
-              <https://www.rfc-editor.org/rfc/rfc7996>.
-
    [RFC8032]  Josefsson, S. and I. Liusvaara, "Edwards-Curve Digital
               Signature Algorithm (EdDSA)", RFC 8032,
               DOI 10.17487/RFC8032, January 2017,
