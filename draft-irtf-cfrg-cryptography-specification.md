@@ -57,14 +57,13 @@ suitable for deployment.
 # Introduction
 
 High-quality cryptography specifications are critical for the
-development and deployment of secure cryptographic protocols. This
-document provides guidelines for specification writers to follow to
-help ensure that their specifications are of high quality and are
-useful for their intended audience, covering topics such as
-representing mathematical operations, defining security definitions,
-and describing threat models. Adhering to these guidelines helps
-ensure that specifications are easier to understand, implement, and
-analyze, leading to high assurance and interoperable systems.
+development and deployment of secure cryptographic protocols.  This
+document provides guidelines for specification writers.  The guidelines
+cover mathematical operations, security definitions, and threat models.
+They help ensure that specifications are of high quality and useful for
+their intended audience.  Adhering to these guidelines helps ensure
+that specifications are easier to understand, implement, and analyze,
+leading to high assurance and interoperable systems.
 
 {::boilerplate bcp14-tagged}
 
@@ -94,28 +93,24 @@ protocols.
 Each of these stakeholder groups contributes something different to the
 overall process of deploying software:
 
-1. Engineering community: This community identifies technical problems
-to be solved and have the skills and resources necessary to build
-solutions using computing tools. Engineers focus on why certain
-problems should be addressed, producing requirements that define the
-problem and solutions that meet those requirements. Their ultimate
-goal is to implement and ship software or hardware that effectively
-tackles these challenges.
-2. Research community: Researchers are experts who explore the design
-space of different subject areas and evaluate potential solutions to
-problems with the goal of better understanding a topic. This group
-develops methods for designing tools and performing experiments to
-validate hypotheses. The research community concentrates on how
-problems should be solved, creating artifacts that help describe
-solutions. These may include academic, peer-reviewed papers or
-software that studies or supports the shipping of software.
-3. Standardization community: This group is responsible for developing
-technical specifications of protocols that others can implement,
-analyze, and verify. The standardization community produces technical
-specifications that capture the details of a solution. These
-specifications serve as a foundation for creating interoperable
-systems and ensuring the correct implementation of cryptographic
-algorithms and protocols.
+1. Engineering community: Engineers identify technical problems and
+build solutions using computing tools.  They focus on why problems
+should be addressed, producing requirements that define the problem
+and solutions that meet those requirements.  Their ultimate goal is to
+implement and ship software or hardware that effectively tackles these
+challenges.
+2. Research community: Researchers explore the design space of
+different subject areas and evaluate potential solutions.  They develop
+methods for designing tools and performing experiments to validate
+hypotheses.  This work concentrates on how problems should be solved,
+creating artifacts that help describe solutions.  These may include
+academic, peer-reviewed papers or software that studies or supports
+the shipping of software.
+3. Standardization community: This group develops technical
+specifications of protocols that others can implement, analyze, and
+verify.  The specifications capture the details of a solution and
+serve as a foundation for creating interoperable systems.  They ensure
+the correct implementation of cryptographic algorithms and protocols.
 
 By following these guidelines and addressing the distinct needs of each
 stakeholder group, authors can create well-structured,
@@ -184,48 +179,43 @@ with the right attention to detail and structuring of prose.
 
 ## Precision
 
-Precision is a crucial aspect of writing high-quality specifications,
-particularly for cryptography, where small deviations or ambiguities
-can lead to severe security vulnerabilities. A precise specification
-ensures that resulting implementations are consistent and correct, and
-that any analysis done matches the specification.
+Precision is essential in cryptographic specifications, as small
+deviations or ambiguities can lead to severe security vulnerabilities.
+A precise specification ensures consistent and correct implementations
+while enabling accurate security analysis.
 
-To achieve precision in your specifications, consider the following
-recommendations:
+The following recommendations help achieve precision:
 
-1. Use clear and concise language: Write your specification using
-straightforward and unambiguous language. Avoid jargon or
-colloquialisms that may lead to misinterpretation. When introducing
-technical terms or concepts, provide clear definitions or explanations
-to ensure that all readers are on the same page.
-2. Provide explicit instructions and avoid undefined behavior: When
-describing algorithms, protocols, or procedures, provide step-by-step
-instructions that can be easily followed by implementers with minimal
-or zero risk of misinterpretation. This will help ensure that all
-implementations are consistent with the intended design and minimize
-the risk of errors or vulnerabilities.
-3. Provide test vectors. Test vectors help check for correctness of
-all behavior in the specification, especially those near edge cases.
-For example, if a specification involves a branch or condition, then
-test cases should ideally be written to exercise both paths of the
-branch. Sometimes this is infeasible, e.g., if probability of a
-particular branch happening is negligible, though more often than not
-branches can be adequately covered.
-4. Employ formal notation or pseudocode: Using formal notation or
-pseudocode can help provide a precise description of algorithms, data
-structures, and protocols. This will ensure that implementers,
-researchers, and protocol designers can accurately understand the
-intended behavior and interactions of the components within the
-specification.
-5. Specify data formats and encodings: Clearly define data formats,
+1. Use clear and concise language, avoiding jargon or colloquialisms
+that may lead to misinterpretation.  When introducing technical terms
+or concepts, provide clear definitions or explanations to ensure that
+all readers are on the same page.
+2. Provide explicit instructions and avoid undefined behavior, ensuring
+implementers can follow step-by-step instructions with minimal or zero
+risk of misinterpretation.  This helps ensure that all implementations
+are consistent with the intended design and minimizes the risk of
+errors or vulnerabilities.
+3. Provide test vectors that check for correctness of all behavior in
+the specification, especially those near edge cases.  For example, if a
+specification involves a branch or condition, then test cases should
+ideally be written to exercise both paths of the branch.  Sometimes
+this is infeasible, e.g., if probability of a particular branch
+happening is negligible, though more often than not branches can be
+adequately covered.
+4. Employ formal notation or pseudocode to provide a precise
+description of algorithms, data structures, and protocols.  This
+ensures that implementers, researchers, and protocol designers can
+accurately understand the intended behavior and interactions of the
+components within the specification.
+5. Specify data formats and encodings, clearly defining formats,
 encoding schemes, and serialization methods for all data types used
-in the specification. This will help ensure that different
-implementations can interoperate seamlessly and reduce the likelihood
+in the specification.  This helps ensure that different
+implementations can interoperate seamlessly and reduces the likelihood
 of incompatibilities or communication errors.
-6. Document assumptions and dependencies: Clearly state any
+6. Document assumptions and dependencies, clearly stating any
 assumptions or dependencies on external components, including other
-specifications or protocol descriptions. This includes common
-dependencies like that of a random number generator. This will help
+specifications or protocol descriptions.  This includes common
+dependencies like that of a random number generator.  This helps
 implementers and researchers understand the context in which your
 specification operates and any potential limitations or risks.
 
@@ -235,12 +225,14 @@ implementation errors or inconsistencies.
 
 ## Consistency
 
-When a document is self-consistent and consistent with the expectations
-of documents of its type, it helps reduce ambiguity and is easier to
-consume. Ensuring consistency across concepts, vocabulary, language,
-and presentation helps lower the cognitive load necessary for readers
-to understand and work with the specification. To achieve consistency
-in your specifications, consider the following recommendations:
+A specification must be internally consistent.  It should also align
+with the conventions of similar documents.
+
+Consistent use of concepts, vocabulary, language, and presentation
+reduces ambiguity.  This clarity makes the specification easier to
+understand and implement.
+
+The following recommendations help achieve consistency:
 
 1. Establish a consistent terminology: Develop a clear and consistent
 set of terms and definitions that will be used throughout the
@@ -294,12 +286,15 @@ content requires special guidance.
 
 ### Representing Mathematical Operations
 
-Mathematical operations are fundamental to cryptographic algorithms and
-protocols, and their clear and precise representation in specifications
-is crucial for correct implementation and analysis. This section
-provides guidelines for representing mathematical operations in
-cryptography specifications in a way that is both comprehensible and
-unambiguous to the target audiences, including target audiences.
+Cryptographic protocols rely on mathematical operations.  These
+operations require precise and clear representation in specifications.
+
+Ambiguous or inconsistent mathematical notation leads directly to
+implementation errors and interoperability failures.
+
+{{RFC7748}} demonstrates effective mathematical representation through
+clear introduction of scalar multiplication notation, consistent usage
+throughout, and concrete examples.
 
 
 #### Notation Consistency
@@ -317,53 +312,45 @@ carat, but not by both.
 
 #### Use of Standard Mathematical Symbols
 
-Specification authors should use standard mathematical symbols to
-represent mathematical operations whenever possible. This approach
-promotes clarity and reduces the risk of misinterpretation. It is
-important to remember that some symbols may have different meanings in
-different contexts or disciplines. In such cases, authors should
-clarify the intended meaning of a symbol within the context of the
-specification. For example, when describing group operations using
-multiplicative notation, the multiplication symbol * should be used
-instead of the x symbol.
+Widely recognized mathematical symbols promote clarity and reduce the
+risk of misinterpretation.  However, some symbols have different
+meanings across contexts or disciplines.  The specification should
+clarify the intended meaning of such symbols.  For instance, group
+operations in multiplicative notation use the * multiplication symbol
+rather than the x symbol to avoid confusion.
 
 
 #### Explicitly Defining Custom Operations
 
-When a specification requires custom mathematical operations or
-notation, these should be explicitly defined and accompanied by clear
-explanations and examples. Specification authors should take care to
-minimize the use of custom operations to avoid creating unnecessary
-complexity and potential confusion. When using custom operations, it
-is essential to ensure their definitions are unambiguous and easily
-understandable to the target audiences. A glossary of terms MAY be
-useful when there are multiple custom or uncommon operations
-introduced in the specification.
+Mathematical operations and notation that extend beyond standard
+conventions require explicit definitions with clear explanations and
+examples.  These definitions may be useful.  New notation should be kept
+minimal, as excessive use can confuse readers and complicate
+implementation.  For specifications with multiple non-standard
+operations, a glossary of terms may be useful.
 
 
 #### Pseudocode and Algorithmic Descriptions
 
-Providing algorithmic descriptions or pseudocode alongside mathematical
-expressions can greatly improve the clarity of a specification,
-particularly for implementers. Pseudocode should be clear, concise,
-and closely resemble the structure of actual programming languages.
-Including comments and explanations within the pseudocode can further
-enhance its readability and ease of understanding. Consistent notation
-for describing loops or if/then statements should be used throughout
-the document.
+Mathematical expressions often need to be supplemented with pseudocode
+or algorithmic descriptions to bridge the gap between theory and
+implementation.  Pseudocode should be written in a style that
+resembles real programming languages.  Comments clarify the logic.
+Control structures such as loops and conditionals should use consistent
+notation throughout the document.
 
 
 #### Visual Representations
 
-Visual representations, such as diagrams, tables or visualizations,
-can be a valuable tool for conveying complex mathematical concepts or
-relationships in a more digestible form. When including visual
-representations, specification authors should ensure they are clear,
-accurately labeled, and consistent with the overall notation system.
+Diagrams and other visual aids help convey complex mathematical
+concepts.  These elements must be clear, properly labeled, and
+consistent with the notation system.  Visual representations
+supplement the text; they do not replace it.
 
-All non-ASCII symbols `<u format="lit-name-num">⊕</u>` **MUST**
+
+All non-ASCII symbols `<u format="lit-name-num">⊕</u>` must
 appear in UTF-8 and be wrapped in `<u>` with `format="lit-name-num"`.
-Authors **MAY** add `ascii="xor"` and include **ascii** in the format
+Authors may add `ascii="xor"` and include ascii in the format
 list when an ASCII fallback aids text readers (see RFC 7997 §3).
 
 
