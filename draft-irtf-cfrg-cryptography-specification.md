@@ -875,10 +875,11 @@ cipher constructions, but this may not be clear to implementers.
 
 In summary, {{RFC8439}} serves as an excellent example of a
 well-written cryptography specification, providing clear, precise, and
-comprehensive information for target audiences alike.  By studying and
-emulating the structure and content of specifications like {{RFC8439}},
-authors can create high-quality specifications that cater to the
-diverse needs of their target audiences.
+comprehensive information for implementers, researchers, and protocol	
+designers alike.  By studying and emulating the structure and content
+of specifications like {{RFC8439}}, authors can create high-quality
+specifications that cater to the diverse needs of their target
+audiences.
 
 
 # Examples of Specifications That Could Be Improved
