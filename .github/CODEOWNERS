@@ -1,3 +1,3 @@
 # Automatically generated CODEOWNERS
 # Regenerate with `make update-codeowners`
-draft-irtf-cfrg-cryptography-specification.md nick@cloudflare.com caw@heapingbits.net
+draft-irtf-cfrg-cryptography-specification.md nicholas.sullivan+ietf@gmail.com caw@heapingbits.net
