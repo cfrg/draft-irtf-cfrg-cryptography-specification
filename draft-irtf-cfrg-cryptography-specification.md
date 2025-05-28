@@ -624,6 +624,22 @@ concerns.
 Implementers require a clear, concise, and unambiguous specification
 to develop production-grade software.
 
+To cater to implementers:
+
+* Provide step-by-step instructions for implementing algorithms or
+  processes, ensuring that all required inputs, outputs, and
+  intermediate steps are defined.  Where exceptional cases occur,
+  those should be noted and recommended error-handling steps should
+  be given.  Include test vectors to help implementers verify the
+  correctness of their implementations.
+* Describe best practices for representing components of the
+  specification in code, addressing exceptional cases and
+  recommended error handling procedures, as well as aspects of the
+  specification that are difficult to implement correctly (e.g.,
+  where side-channel attacks might be possible).
+* Clearly indicate any optional features, variations, or extensions,
+  specifying their impact on interoperability and security.
+
 ### Test vectors
 
 Test vectors ideally cover all branches of the specification, with
@@ -670,22 +686,6 @@ test vectors (e.g., in JSON format) that persist alongside the
 specification.  This helps avoid possibly error-prone parsing in
 translating test vectors from a textual specification to test code
 inputs.
-
-To cater to implementers:
-
-* Provide step-by-step instructions for implementing algorithms or
-  processes, ensuring that all required inputs, outputs, and
-  intermediate steps are defined.  Where exceptional cases occur,
-  those should be noted and recommended error-handling steps should
-  be given.  Include test vectors to help implementers verify the
-  correctness of their implementations.
-* Describe best practices for representing components of the
-  specification in code, addressing exceptional cases and
-  recommended error handling procedures, as well as aspects of the
-  specification that are difficult to implement correctly (e.g.,
-  where side-channel attacks might be possible).
-* Clearly indicate any optional features, variations, or extensions,
-  specifying their impact on interoperability and security.
 
 
 ## Catering to Researchers
@@ -901,16 +901,14 @@ equal to" which were not explicitly covered by the test vectors.
 
 ## Unnecessary Branching
 
-Some components of the cryptographic algorithms in EdDSA had branches
-that sometimes led to different implementation behavior.  In particular,
-in the verification step for Ed25519, the following text exists:
-"Check the group equation \[8\]\[S\]B = \[8\]R + \[8\]\[k\]A'.  It's
-sufficient, but not required, to instead check \[S\]B = R + \[k\]A'."
-This alternative branch has led to disagreement between what signatures
-are valid or not, which has a profound effect on applications.
-Minimizing and removing similar branches - especially those that exist
-in the name of performance - should be a goal of all cryptographic
-specifications.
+Some parts of EdDSA permit more than one verification path, which can
+split implementations.  For Ed25519, {{RFC8032}} gives two options:
+8·S·B = 8·R + 8·k·A′ (where · denotes scalar multiplication, ′
+denotes a derived point, and = denotes equality) or S·B = R + k·A′
+(shortcut).  The shortcut saves cycles but lets libraries disagree on
+which signatures are valid.  Specs should avoid such optional
+branches—especially performance-only shortcuts—to keep implementations
+interoperable.
 
 
 ## Compatibility and Modularity
