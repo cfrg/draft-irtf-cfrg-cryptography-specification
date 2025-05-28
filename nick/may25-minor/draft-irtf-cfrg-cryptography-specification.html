@@ -2021,6 +2021,28 @@ concerns.<a href="#section-5-1" class="pilcrow">¶</a></p>
         </h3>
 <p id="section-5.1-1">Implementers require a clear, concise, and unambiguous specification
 to develop production-grade software.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">To cater to implementers:<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1-3.1">
+            <p id="section-5.1-3.1.1">Provide step-by-step instructions for implementing algorithms or
+processes, ensuring that all required inputs, outputs, and
+intermediate steps are defined.  Where exceptional cases occur,
+those should be noted and recommended error-handling steps should
+be given.  Include test vectors to help implementers verify the
+correctness of their implementations.<a href="#section-5.1-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.1-3.2">
+            <p id="section-5.1-3.2.1">Describe best practices for representing components of the
+specification in code, addressing exceptional cases and
+recommended error handling procedures, as well as aspects of the
+specification that are difficult to implement correctly (e.g.,
+where side-channel attacks might be possible).<a href="#section-5.1-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.1-3.3">
+            <p id="section-5.1-3.3.1">Clearly indicate any optional features, variations, or extensions,
+specifying their impact on interoperability and security.<a href="#section-5.1-3.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 <div id="test-vectors">
 <section id="section-5.1.1">
           <h4 id="name-test-vectors">
@@ -2073,28 +2095,6 @@ test vectors (e.g., in JSON format) that persist alongside the
 specification.  This helps avoid possibly error-prone parsing in
 translating test vectors from a textual specification to test code
 inputs.<a href="#section-5.1.1-6" class="pilcrow">¶</a></p>
-<p id="section-5.1.1-7">To cater to implementers:<a href="#section-5.1.1-7" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-5.1.1-8.1">
-              <p id="section-5.1.1-8.1.1">Provide step-by-step instructions for implementing algorithms or
-processes, ensuring that all required inputs, outputs, and
-intermediate steps are defined.  Where exceptional cases occur,
-those should be noted and recommended error-handling steps should
-be given.  Include test vectors to help implementers verify the
-correctness of their implementations.<a href="#section-5.1.1-8.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-5.1.1-8.2">
-              <p id="section-5.1.1-8.2.1">Describe best practices for representing components of the
-specification in code, addressing exceptional cases and
-recommended error handling procedures, as well as aspects of the
-specification that are difficult to implement correctly (e.g.,
-where side-channel attacks might be possible).<a href="#section-5.1.1-8.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-5.1.1-8.3">
-              <p id="section-5.1.1-8.3.1">Clearly indicate any optional features, variations, or extensions,
-specifying their impact on interoperability and security.<a href="#section-5.1.1-8.3.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
 </section>
 </div>
 </section>
@@ -2384,16 +2384,14 @@ equal to" which were not explicitly covered by the test vectors.<a href="#sectio
         <h3 id="name-unnecessary-branching">
 <a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-unnecessary-branching" class="section-name selfRef">Unnecessary Branching</a>
         </h3>
-<p id="section-8.2-1">Some components of the cryptographic algorithms in EdDSA had branches
-that sometimes led to different implementation behavior.  In particular,
-in the verification step for Ed25519, the following text exists:
-"Check the group equation [8][S]B = [8]R + [8][k]A'.  It's
-sufficient, but not required, to instead check [S]B = R + [k]A'."
-This alternative branch has led to disagreement between what signatures
-are valid or not, which has a profound effect on applications.
-Minimizing and removing similar branches - especially those that exist
-in the name of performance - should be a goal of all cryptographic
-specifications.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
+<p id="section-8.2-1">Some parts of EdDSA permit more than one verification path, which can
+split implementations.  For Ed25519, <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> gives two options:
+8·S·B = 8·R + 8·k·A′ (where · denotes scalar multiplication, ′
+denotes a derived point, and = denotes equality) or S·B = R + k·A′
+(shortcut).  The shortcut saves cycles but lets libraries disagree on
+which signatures are valid.  Specs should avoid such optional
+branches—especially performance-only shortcuts—to keep implementations
+interoperable.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="compatibility-and-modularity">
