@@ -1,0 +1,2744 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Guidelines for Writing Cryptography Specifications</title>
+<meta content="Nick Sullivan" name="author">
+<meta content="Christopher A. Wood" name="author">
+<meta content="
+       This document provides guidelines and best practices for writing
+technical specifications for cryptography protocols and primitives,
+targeting the needs of implementers, researchers, and protocol
+designers.  It highlights the importance of technical specifications
+and discusses strategies for creating high-quality specifications
+that cater to the needs of each community, including guidance on
+representing mathematical operations, security definitions, and
+threat models. 
+    " name="description">
+<meta content="xml2rfc 3.29.0" name="generator">
+<meta content="draft-irtf-cfrg-cryptography-specification-latest" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.29.0
+    Python 3.12.11
+    ConfigArgParse 1.7
+    google-i18n-address 3.1.1
+    intervaltree 3.1.0
+    Jinja2 3.1.6
+    lxml 5.3.1
+    platformdirs 4.3.8
+    pycountry 24.6.1
+    PyYAML 6.0.2
+    requests 2.32.4
+    setuptools 80.9.0
+    wcwidth 0.2.13
+-->
+<link href="draft-irtf-cfrg-cryptography-specification.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Italic'), local('Lora-Italic'), url('https://martinthomson.github.io/rfc-css/fonts/lora-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lora Regular'), local('Lora-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/lora-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-cyrillic.woff2') format('woff2');
+  unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-vietnamese.woff2') format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Lora Bold'), local('Lora-Bold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-bold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Lora';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Lora SemiBold'), local('Lora-SemiBold'), url('https://martinthomson.github.io/rfc-css/fonts/lora-semibold-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Oxygen Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: italic;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-italic-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic-ext.woff2') format('woff2');
+  unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-cyrillic.woff2') format('woff2');
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-greek.woff2') format('woff2');
+  unicode-range: U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Sofia Sans Semi Condensed';
+  font-style: normal;
+  font-weight: 1 1000;
+  src: url('https://martinthomson.github.io/rfc-css/fonts/sofiasanssemicondensed-regular-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  color-scheme: light dark;
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --pilcrow-weak: #ddd;
+  --pilcrow-strong: #bbb;
+  --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
+  --font-title: "Sofia Sans Semi Condensed", sans-serif;
+  scrollbar-color: #bbb #eee;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+section {
+  clear: both;
+}
+.section-number {
+  padding-right: 0.5em;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  font-weight: 680;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+h1#title {
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1#title, h1#rfcnum {
+  margin: 1.5em 0 0.2em;
+}
+h1#rfcnum + h1#title {
+  margin: 0.2em 0;
+}
+
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 27px;
+}
+h4, h5, h6 {
+  font-size: 20px;
+  line-height: 24px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+#abstract+p {
+  font-size: 18px;
+  line-height: 24px;
+}
+#abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 16px;
+  line-height: 0;
+}
+
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 0.5em 2em;
+  & :is(ol, ul) {
+    margin-left: 1em;
+  }
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+  & li {
+    margin-top: 0.5em;
+  }
+}
+:is(ul, ol).compact, .ulCompact, .olCompact {
+  margin: 0 0 0 2em;
+  & li {
+    margin: 0;
+    & :first-child { margin-top: 0; }
+    & :last-child { margin-bottom: 0; }
+  }
+}
+
+/* definition lists */
+dl {
+  clear: left;
+  --indent: 3ch;
+  /* --indent: attr(indent ch); not supported in any browser, but we can dream */
+  &.olPercent {
+    --indent: 5ch;
+    & > dt {
+      min-width: calc(var(--indent) - 2ch);
+    }
+  }
+  &.olPercent > dt {
+    float: none;
+  }
+
+  dl > dd > & {
+    margin-top: 0.5em;
+    margin-bottom: 0;
+  }
+}
+dl:not(.dlNewline) > dt {
+  float: left;
+  margin-right: 2ch;
+  min-width: 8ch;
+}
+dl > dd {
+  margin-bottom: .8em;
+  margin-left: var(--indent) !important; /* stupid element overrides */
+  min-height: 2ex;
+}
+:is(dl.compact, .dlCompact) > dd {
+  margin-bottom: 0;
+  & > :is(:first-child, .break:first-child + *) {
+    margin-top: 0;
+  }
+  & > :is(:last-child) {
+    margin-bottom: 0;
+  }
+}
+:is(dd, span).break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href].selfRef, .iref + a[href].internal {
+  color: var(--text-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px var(--font-mono);
+}
+tt, code {
+  /* changing the font for inline elements leads to different ascender
+     and descender heights; as we want to retain baseline alignment,
+     remove leading to avoid altering the final height of lines
+     note: this fails if these blocks take an entire line,
+     a different solution would be great */
+  line-height: 0;
+}
+:is(h1, h2, h3, h4, h5, h6) :is(tt, code) {
+  font-size: 84%;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+  padding: 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+  caption-side: bottom;
+}
+@media screen {
+  /* Auto-collapse boilerplate. */
+  :is(#status-of-memo, #copyright) p {
+    margin: -2px 0;
+    max-height: 0;
+    transition: max-height 2s ease, margin 0.5s ease 0.5s;
+    overflow: hidden;
+  }
+  :is(#status-of-memo, #copyright):hover p,
+  :is(#status-of-memo, #copyright) h2:target ~ p {
+    margin: 0.5em 0;
+    max-height: 500px;
+    overflow: auto;
+  }
+  pre, svg {
+    display: inline-block;
+    /* In the horizontal direction, sometimes people make over-sized figures.
+       Scrollbars for those is therefore necessary: auto adds them as necessary..
+       In the vertical direction, the line-height can combine with the font
+       asender/descender height to produce scrollbars: hidden avoids that. */
+    overflow: auto hidden;
+  }
+  pre {
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  :is(pre, svg) + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  width: auto;
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+table .text-left {
+  text-align: left;
+}
+table .text-center {
+  text-align: center;
+}
+table .text-right {
+  text-align: right;
+}
+
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+:is(tr:nth-child(2n), thead+tbody > tr:nth-child(2n+1)) > td {
+  background-color: var(--background-color);
+}
+:is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
+  background-color: var(--highlight-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 0 3px 1em;
+}
+table p {
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  opacity: 0.2;
+  user-select: none;
+  &[href] {
+    color: var(--pilcrow-weak);
+    &:hover { text-decoration: none; }
+  }
+}
+@media not print {
+  :hover > a.pilcrow {
+    opacity: 1;
+  }
+  a.pilcrow[href]:hover {
+    color: var(--pilcrow-strong);
+    background-color: transparent;
+  }
+}
+@media print {
+  a.pilcrow {
+    display: none;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: 600;
+  font-size: var(--small-font-size);
+}
+.role {
+  font-variant: all-small-caps;
+}
+sub, sup {
+  line-height: 1;
+  font-size: 80%;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 15ch;
+  & dt {
+    width: var(--identifier-width);
+    min-width: var(--identifier-width);
+    clear: left;
+    float: left;
+    text-align: right;
+    margin-right: 1ch;
+  }
+  & dd {
+    margin: 0;
+    margin-left: calc(1em + var(--identifier-width)) !important;
+    min-width: 5em;
+  }
+  & .authors {
+    & .author {
+      display: inline-block;
+      margin-right: 1.5em;
+    }
+    & .org {
+      font-style: italic;
+    }
+  }
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+
+  & nav {
+    & ul {
+      margin: 0 0.5em 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    & li {
+      line-height: 1.3em;
+      margin: 2px 0;
+      padding-left: 1.2em;
+      text-indent: -1.2em;
+    }
+  }
+  & a.xref {
+    white-space: normal;
+  }
+}
+
+.references {
+  & > dt {
+    text-align: right;
+    font-weight: bold;
+    min-width: 10ch;
+    margin-right: 1.5ch;
+    &:target::before {
+      content: "⇒";
+      margin: 0 10px 0 -25px;
+    }
+  }
+  & > dd {
+    margin-left: 12ch !important;
+    overflow: visible;
+    & .refInstance {
+      margin-bottom: 0.8em;
+    }
+    & .ascii {
+      margin-bottom: 0.25em;
+    }
+  }
+}
+
+#rfc\.index\.index + ul {
+  margin-left: 0;
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  max-width: 20em;
+  margin: 1em auto 1em 0;
+
+  & .nameRole {
+    font-weight: 700;
+    margin-left: 0;
+  }
+  & .label {
+    margin: 0.5em 0;
+  }
+  & .type {
+    display: none;
+  }
+  & .alternative-contact {
+    margin: 0.5em 0 0.25em 0;
+  }
+  & .non-ascii {
+    margin: 0 0 0 2em;
+  }
+  & div.left {
+    text-align: left;
+  }
+  & div.right {
+    text-align: right;
+  }
+}
+
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+/* Comments */
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+
+@media screen {
+  #toc nav {
+    font-family: var(--font-title);
+    font-weight: 360;
+    & > ul { margin-bottom: 2em; }
+    & ul {
+      margin: 0 0 0 4px;
+      & :is(p, li) {
+        margin: 2px 0;
+      }
+    }
+  }
+  #toc a.toplink {
+    float: right;
+  }
+}
+@media not screen {
+  #toc a.toplink {
+    display: none;
+  }
+}
+
+
+/* TOC layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 1px 0 0 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+    &::before { /* css hamburger */
+      float: right;
+      position: relative;
+      width: 1em;
+      height: 1px;
+      left: -164px;
+      margin: 8px 0 0 0;
+      background: white none repeat scroll 0 0;
+      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+      content: "";
+    }
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active {
+    opacity: 1;
+    & nav { display: block; }
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:is(:link, :focus, :hover),
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin: 2px 0.5em 0;
+  }
+}
+
+/* TOC layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+  #toc a.toplink {
+    margin: 8px 0.5em 0;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre, .vcard {
+    page-break-inside: avoid;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  :is(h2, h3, h4, h5, h6)+*, dd {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+}
+
+/* SVG Trick: a prefix match works because only black and white are allowed */
+svg :is([stroke="black"], [stroke^="#000"]) {
+  stroke: var(--text-color);
+}
+svg :is([stroke="white"], [stroke^="#fff"]) {
+  stroke: var(--background-color);
+}
+svg :is([fill="black"], [fill^="#000"], :not([fill])) {
+  fill: var(--text-color);
+}
+svg :is([fill="white"], [fill^="#fff"]) {
+  fill: var(--background-color);
+}
+</style>
+
+</head>
+<body class="xml2rfc">
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">Crypto Specs</td>
+<td class="right">July 2025</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Sullivan &amp; Wood</td>
+<td class="center">Expires 8 January 2026</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Crypto Forum Research Group</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-irtf-cfrg-cryptography-specification-latest</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2025-07-07" class="published">7 July 2025</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Informational</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2026-01-08">8 January 2026</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">N. Sullivan</div>
+<div class="org">Cryptography Consulting LLC</div>
+</div>
+<div class="author">
+      <div class="author-name">C. A. Wood</div>
+<div class="org">Cloudflare, Inc.</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Guidelines for Writing Cryptography Specifications</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">This document provides guidelines and best practices for writing
+technical specifications for cryptography protocols and primitives,
+targeting the needs of implementers, researchers, and protocol
+designers.  It highlights the importance of technical specifications
+and discusses strategies for creating high-quality specifications
+that cater to the needs of each community, including guidance on
+representing mathematical operations, security definitions, and
+threat models.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<section class="note" id="section-note.1">
+      <h2 id="name-irtf">
+<a href="#name-irtf" class="section-name selfRef">IRTF</a>
+      </h2>
+<p id="section-note.1-1">This document is a product of the Crypto Forum Research Group (CFRG)
+in the IRTF.  This document may contain material that has not received
+review from the research community.  The IRTF publishes the results of
+research and development activities.  These results might not be
+suitable for deployment.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 8 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2025 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="auto internal xref">1</a>.  <a href="#name-introduction" class="internal xref">Introduction</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-goals-and-requirements" class="internal xref">Goals and Requirements</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-guidelines-for-cryptographi" class="internal xref">Guidelines for Cryptographic Specification Presentation</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-simplicity" class="internal xref">Simplicity</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-precision" class="internal xref">Precision</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-consistency" class="internal xref">Consistency</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.1">
+                    <p id="section-toc.1-1.3.2.3.2.1.1"><a href="#section-3.3.1" class="auto internal xref">3.3.1</a>.  <a href="#name-representing-mathematical-o" class="internal xref">Representing Mathematical Operations</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-guidelines-for-cryptography" class="internal xref">Guidelines for Cryptography Specification Content</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-reusability" class="internal xref">Reusability</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.1">
+                    <p id="section-toc.1-1.4.2.1.2.1.1"><a href="#section-4.1.1" class="auto internal xref">4.1.1</a>.  <a href="#name-build-on-existing-specifica" class="internal xref">Build on Existing Specifications</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.2">
+                    <p id="section-toc.1-1.4.2.1.2.2.1"><a href="#section-4.1.2" class="auto internal xref">4.1.2</a>.  <a href="#name-modular-design" class="internal xref">Modular Design</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.3">
+                    <p id="section-toc.1-1.4.2.1.2.3.1"><a href="#section-4.1.3" class="auto internal xref">4.1.3</a>.  <a href="#name-clear-interfaces-and-abstra" class="internal xref">Clear Interfaces and Abstractions</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.4">
+                    <p id="section-toc.1-1.4.2.1.2.4.1"><a href="#section-4.1.4" class="auto internal xref">4.1.4</a>.  <a href="#name-completeness" class="internal xref">Completeness</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1.2.5">
+                    <p id="section-toc.1-1.4.2.1.2.5.1"><a href="#section-4.1.5" class="auto internal xref">4.1.5</a>.  <a href="#name-documentation-and-examples" class="internal xref">Documentation and Examples</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-defining-security-definitio" class="internal xref">Defining Security Definitions and Threat Models</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.1">
+                    <p id="section-toc.1-1.4.2.2.2.1.1"><a href="#section-4.2.1" class="auto internal xref">4.2.1</a>.  <a href="#name-defining-security-goals" class="internal xref">Defining Security Goals</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.2">
+                    <p id="section-toc.1-1.4.2.2.2.2.1"><a href="#section-4.2.2" class="auto internal xref">4.2.2</a>.  <a href="#name-formalizing-security-defini" class="internal xref">Formalizing Security Definitions</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.3">
+                    <p id="section-toc.1-1.4.2.2.2.3.1"><a href="#section-4.2.3" class="auto internal xref">4.2.3</a>.  <a href="#name-describing-the-threat-model" class="internal xref">Describing the Threat Model</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.4">
+                    <p id="section-toc.1-1.4.2.2.2.4.1"><a href="#section-4.2.4" class="auto internal xref">4.2.4</a>.  <a href="#name-addressing-known-vulnerabil" class="internal xref">Addressing Known Vulnerabilities and Attacks</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2.2.5">
+                    <p id="section-toc.1-1.4.2.2.2.5.1"><a href="#section-4.2.5" class="auto internal xref">4.2.5</a>.  <a href="#name-providing-guidance-on-secur" class="internal xref">Providing Guidance on Secure Implementation and Deployment</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-catering-to-target-audience" class="internal xref">Catering to Target Audiences</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-catering-to-implementers" class="internal xref">Catering to Implementers</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1.2.1">
+                    <p id="section-toc.1-1.5.2.1.2.1.1"><a href="#section-5.1.1" class="auto internal xref">5.1.1</a>.  <a href="#name-test-vectors" class="internal xref">Test vectors</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-catering-to-researchers" class="internal xref">Catering to Researchers</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.3">
+                <p id="section-toc.1-1.5.2.3.1"><a href="#section-5.3" class="auto internal xref">5.3</a>.  <a href="#name-catering-to-protocol-design" class="internal xref">Catering to Protocol Designers</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-general-recommendations" class="internal xref">General Recommendations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-encourage-open-communicatio" class="internal xref">Encourage Open Communication and Feedback</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-seek-external-expertise" class="internal xref">Seek External Expertise</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-recognize-and-address-confl" class="internal xref">Recognize and Address Conflicting Interests</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-examples-of-well-written-sp" class="internal xref">Examples of Well-Written Specifications</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-chacha20-and-poly1305-for-i" class="internal xref">ChaCha20 and Poly1305 for IETF Protocols (RFC 8439)</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.1">
+                    <p id="section-toc.1-1.7.2.1.2.1.1"><a href="#section-7.1.1" class="auto internal xref">7.1.1</a>.  <a href="#name-introduction-and-overview" class="internal xref">Introduction and Overview</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.2">
+                    <p id="section-toc.1-1.7.2.1.2.2.1"><a href="#section-7.1.2" class="auto internal xref">7.1.2</a>.  <a href="#name-algorithm-descriptions" class="internal xref">Algorithm Descriptions</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.3">
+                    <p id="section-toc.1-1.7.2.1.2.3.1"><a href="#section-7.1.3" class="auto internal xref">7.1.3</a>.  <a href="#name-test-vectors-2" class="internal xref">Test Vectors</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.4">
+                    <p id="section-toc.1-1.7.2.1.2.4.1"><a href="#section-7.1.4" class="auto internal xref">7.1.4</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.5">
+                    <p id="section-toc.1-1.7.2.1.2.5.1"><a href="#section-7.1.5" class="auto internal xref">7.1.5</a>.  <a href="#name-iana-considerations-and-ref" class="internal xref">IANA Considerations and References</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.6">
+                    <p id="section-toc.1-1.7.2.1.2.6.1"><a href="#section-7.1.6" class="auto internal xref">7.1.6</a>.  <a href="#name-problematic-aspects" class="internal xref">Problematic Aspects</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-examples-of-specifications-" class="internal xref">Examples of Specifications That Could Be Improved</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-test-vectors-3" class="internal xref">Test Vectors</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
+                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-unnecessary-branching" class="internal xref">Unnecessary Branching</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.3">
+                <p id="section-toc.1-1.8.2.3.1"><a href="#section-8.3" class="auto internal xref">8.3</a>.  <a href="#name-compatibility-and-modularit" class="internal xref">Compatibility and Modularity</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-conclusion" class="internal xref">Conclusion</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-security-considerations-2" class="internal xref">Security Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#section-11" class="auto internal xref">11</a>. <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#section-12" class="auto internal xref">12</a>. <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.1">
+                <p id="section-toc.1-1.12.2.1.1"><a href="#section-12.1" class="auto internal xref">12.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12.2.2">
+                <p id="section-toc.1-1.12.2.2.1"><a href="#section-12.2" class="auto internal xref">12.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#appendix-A" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">High-quality cryptography specifications are critical for the
+development and deployment of secure cryptographic protocols.  This
+document provides guidelines for specification writers.  The guidelines
+cover mathematical operations, security definitions, and threat models.
+They help ensure that specifications are of high quality and useful for
+their intended audience.  Adhering to these guidelines helps ensure
+that specifications are easier to understand, implement, and analyze,
+leading to high assurance and interoperable systems.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+"<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
+described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
+appear in all capitals, as shown here.<a href="#section-1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="goals-and-requirements">
+<section id="section-2">
+      <h2 id="name-goals-and-requirements">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-goals-and-requirements" class="section-name selfRef">Goals and Requirements</a>
+      </h2>
+<p id="section-2-1">The primary goal of these guidelines is to help guide the authorship
+of cryptographic specifications so that they are as useful as possible
+when creating high-assurance cryptographic software.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">Specifications that follow these guidelines should be able to be
+easily understood, implemented, and analyzed by different audiences,
+including the engineering community, research community, and
+standardization community.  By addressing the unique needs and
+expectations of each group, these guidelines aim to:<a href="#section-2-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2-3.1">
+          <p id="section-2-3.1.1">Minimize ambiguity and misinterpretations, leading to clearer
+specifications and more accurate implementations.<a href="#section-2-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-2-3.2">
+          <p id="section-2-3.2.1">Ensure consistent and correct implementations by providing a clear
+description of both algorithms and their underlying mathematical
+foundation.<a href="#section-2-3.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-2-3.3">
+          <p id="section-2-3.3.1">Facilitate review and analysis by the research community, allowing
+for the verification of security properties and the identification of
+potential vulnerabilities.<a href="#section-2-3.3.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-2-3.4">
+          <p id="section-2-3.4.1">Enable interoperability of implementations of these specifications,
+promoting collaboration and compatibility between various systems and
+protocols.<a href="#section-2-3.4.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-2-4">Each of these stakeholder groups contributes something different to the
+overall process of deploying software:<a href="#section-2-4" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-2-5">
+<li id="section-2-5.1">
+          <p id="section-2-5.1.1">Engineering community: Engineers identify technical problems and
+build solutions using computing tools.  They focus on why problems
+should be addressed, producing requirements that define the problem
+and solutions that meet those requirements.  Their ultimate goal is to
+implement and ship software or hardware that effectively tackles these
+challenges.<a href="#section-2-5.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-2-5.2">
+          <p id="section-2-5.2.1">Research community: Researchers explore the design space of
+different subject areas and evaluate potential solutions.  They develop
+methods for designing tools and performing experiments to validate
+hypotheses.  This work concentrates on how problems should be solved,
+creating artifacts that help describe solutions.  These may include
+academic, peer-reviewed papers or software that studies or supports
+the shipping of software.<a href="#section-2-5.2.1" class="pilcrow">¶</a></p>
+</li>
+        <li id="section-2-5.3">
+          <p id="section-2-5.3.1">Standardization community: This group develops technical
+specifications of protocols that others can implement, analyze, and
+verify.  The specifications capture the details of a solution and
+serve as a foundation for creating interoperable systems.  They ensure
+the correct implementation of cryptographic algorithms and protocols.<a href="#section-2-5.3.1" class="pilcrow">¶</a></p>
+</li>
+      </ol>
+<p id="section-2-6">By following these guidelines and addressing the distinct needs of each
+stakeholder group, authors can create well-structured,
+informative specifications documents that facilitate the development,
+analysis, and implementation of high assurance cryptographic
+solutions.<a href="#section-2-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="guidelines-for-cryptographic-specification-presentation">
+<section id="section-3">
+      <h2 id="name-guidelines-for-cryptographi">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-guidelines-for-cryptographi" class="section-name selfRef">Guidelines for Cryptographic Specification Presentation</a>
+      </h2>
+<p id="section-3-1">Technical specifications do not stand on their own.  Their value is
+derived from their usefulness to the various communities that rely on
+them.  A specification can have amazing content but without the
+appropriate presentation, it may not be as useful as intended.  The
+guidelines in this section are a baseline set of recommendations for
+authors to consider when writing a cryptographic specification and are
+applicable beyond just cryptographic standards and are general good
+practices for specification writers.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<div id="simplicity">
+<section id="section-3.1">
+        <h3 id="name-simplicity">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-simplicity" class="section-name selfRef">Simplicity</a>
+        </h3>
+<p id="section-3.1-1">Complexity is one of the main causes of software bugs.  The opposite
+of complexity is simplicity, which is a key aspect of creating
+effective cryptography specifications.  By striving for simplicity in
+problem statements, technical content, and presentation, authors can
+make their documents more accessible to a wider audience, including
+implementers, researchers, and protocol designers.  Simplicity reduces
+the cognitive load required to understand the specification and
+minimizes the risk of misinterpretation, which can lead to incorrect
+implementations and security vulnerabilities.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-2">To achieve simplicity, authors should focus on:<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-3.1-3">
+          <dt id="section-3.1-3.1">Problem Definition</dt>
+          <dd style="margin-left: 1.5em" id="section-3.1-3.2">
+            <p id="section-3.1-3.2.1">Start by presenting a concise and easily comprehensible description
+of the problem that the specification aims to solve.  Avoid unnecessary
+jargon and strive to make the problem statement accessible to readers
+with varying levels of expertise in the field.<a href="#section-3.1-3.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-3.1-3.3">Component Breakdown</dt>
+          <dd style="margin-left: 1.5em" id="section-3.1-3.4">
+            <p id="section-3.1-3.4.1">When explaining multi-step cryptographic algorithms or concepts,
+break them down into smaller, more manageable components.  This will
+make it easier for readers to understand the individual parts and
+their relationships to one another.<a href="#section-3.1-3.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-3.1-3.5">Clear Language</dt>
+          <dd style="margin-left: 1.5em" id="section-3.1-3.6">
+            <p id="section-3.1-3.6.1">Write the specification using clear, concise language, and
+consistent and broadly understood terminology.  Avoid overly technical
+jargon, and define any terms that may be unfamiliar to some readers.<a href="#section-3.1-3.6.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-3.1-3.7">Focused Scope</dt>
+          <dd style="margin-left: 1.5em" id="section-3.1-3.8">
+            <p id="section-3.1-3.8.1">Keep the specification focused on the primary problem or use case,
+i.e., avoid feature creep.  Avoid introducing unrelated or peripheral
+topics, as this can create confusion and detract from the primary
+focus.<a href="#section-3.1-3.8.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+<p id="section-3.1-4">By focusing on simplicity in document structure and prose in the
+specification writing process, authors can create documents that are
+more accessible and easier to understand, ultimately resulting in more
+reliable and secure implementations of cryptographic algorithms and
+protocols.  Focusing on simplicity in writing does not imply
+imprecision or brevity.  Even long documents can embody simplicity
+with the right attention to detail and structuring of prose.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="precision">
+<section id="section-3.2">
+        <h3 id="name-precision">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-precision" class="section-name selfRef">Precision</a>
+        </h3>
+<p id="section-3.2-1">Precision is essential in cryptographic specifications, as small
+deviations or ambiguities can lead to severe security vulnerabilities.
+A precise specification ensures consistent and correct implementations
+while enabling accurate security analysis.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">The following recommendations help achieve precision:<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-3.2-3">
+<li id="section-3.2-3.1">
+            <p id="section-3.2-3.1.1">Use clear and concise language, avoiding jargon or colloquialisms
+that may lead to misinterpretation.  When introducing technical
+terms or concepts, provide clear definitions or explanations to
+ensure that all readers are on the same page.<a href="#section-3.2-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.2-3.2">
+            <p id="section-3.2-3.2.1">Provide explicit instructions and avoid undefined behavior,
+ensuring implementers can follow step-by-step instructions with
+minimal or zero risk of misinterpretation.  This helps ensure that
+all implementations are consistent with the intended design and
+minimizes the risk of errors or vulnerabilities.<a href="#section-3.2-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.2-3.3">
+            <p id="section-3.2-3.3.1">Provide test vectors that check for correctness of all behavior in
+the specification, especially those near edge cases.  For example,
+if a specification involves a branch or condition, then test cases
+should ideally be written to exercise both paths of the branch.
+Sometimes this is infeasible, e.g., if probability of a particular
+branch happening is negligible, though more often than not branches
+can be adequately covered.<a href="#section-3.2-3.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.2-3.4">
+            <p id="section-3.2-3.4.1">Employ formal notation or pseudocode to provide a precise
+description of algorithms, data structures, and protocols.  This
+ensures that implementers, researchers, and protocol designers can
+accurately understand the intended behavior and interactions of the
+components within the specification.<a href="#section-3.2-3.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.2-3.5">
+            <p id="section-3.2-3.5.1">Specify data formats and encodings, clearly defining formats,
+encoding schemes, and serialization methods for all data types used
+in the specification.  This helps ensure that different
+implementations can interoperate seamlessly and reduces the
+likelihood of incompatibilities or communication errors.<a href="#section-3.2-3.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.2-3.6">
+            <p id="section-3.2-3.6.1">Document assumptions and dependencies, clearly stating any
+assumptions or dependencies on external components, including other
+specifications or protocol descriptions.  This includes common
+dependencies like that of a random number generator.  This helps
+implementers and researchers understand the context in which your
+specification operates and any potential limitations or risks.<a href="#section-3.2-3.6.1" class="pilcrow">¶</a></p>
+</li>
+        </ol>
+<p id="section-3.2-4">Precise specifications minimize ambiguity and reduce the likelihood of
+implementation errors or inconsistencies.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="consistency">
+<section id="section-3.3">
+        <h3 id="name-consistency">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-consistency" class="section-name selfRef">Consistency</a>
+        </h3>
+<p id="section-3.3-1">A specification must be internally consistent.  It should also align
+with the conventions of similar documents.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">Consistent use of concepts, vocabulary, language, and presentation
+reduces ambiguity.  This clarity makes the specification easier to
+understand and implement.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3-3">The following recommendations help achieve consistency:<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-3.3-4">
+<li id="section-3.3-4.1">
+            <p id="section-3.3-4.1.1">Establish a consistent terminology: Develop a clear and consistent
+set of terms and definitions that will be used throughout the
+document.  Avoid using synonyms or multiple terms for the same
+concept, as this can lead to confusion.  When using acronyms, always
+provide their full meaning upon first usage and use the acronym
+consistently afterward.<a href="#section-3.3-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.3-4.2">
+            <p id="section-3.3-4.2.1">Maintain a uniform style and tone: Write the specification using a
+consistent style and tone to ensure that readers can easily follow
+the content.  This includes consistent use of grammatical
+structures, punctuation, and capitalization.  If your organization
+has a style guide, adhere to it when writing the specification.<a href="#section-3.3-4.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.3-4.3">
+            <p id="section-3.3-4.3.1">Use a logical structure: Organize your specification in a logical
+manner, starting with an overview and then progressing through the
+various components, algorithms, and protocols.  Make use of
+sections, subsections, and other structural elements to break up the
+content and make it easier to navigate and comprehend.  Use forward
+or backward references to make navigation of the document simpler.<a href="#section-3.3-4.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.3-4.4">
+            <p id="section-3.3-4.4.1">Provide consistent formatting: Ensure that all elements within the
+specification, such as tables, figures, pseudocode and equations,
+are formatted consistently.  This will help readers quickly identify
+and understand these elements as they progress through the document.<a href="#section-3.3-4.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.3-4.5">
+            <p id="section-3.3-4.5.1">Be consistent with conventions and notations: When using
+mathematical notation, programming languages, or other conventions,
+apply them consistently throughout the document.  This will help
+prevent confusion and allow readers to focus on the content rather
+than deciphering different notations.<a href="#section-3.3-4.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.3-4.6">
+            <p id="section-3.3-4.6.1">Reference external documents consistently: When referring to
+external documents or resources, such as other RFCs, standards, or
+research papers, provide consistent and accurate citations.  This
+will enable readers to locate and review these resources as needed.<a href="#section-3.3-4.6.1" class="pilcrow">¶</a></p>
+</li>
+          <li id="section-3.3-4.7">
+            <p id="section-3.3-4.7.1">Keep the broader context in mind: Try to adopt the same terminology
+and conventions as other related documents the reader may be
+familiar with, especially for specifications that are developed
+based on peer-reviewed, published work.  Consistency across
+audiences is important to help lower the bar to successful
+collaboration and effective communication.  If the specification is
+intended to be part of the RFC series, reuse conventions from other
+documents in the series.<a href="#section-3.3-4.7.1" class="pilcrow">¶</a></p>
+</li>
+        </ol>
+<p id="section-3.3-5">By focusing on consistency in your cryptography specification, you
+will make it more accessible and easier to understand for
+implementers, researchers, and protocol designers.  This, in turn,
+will facilitate the development of correct, secure, and interoperable
+cryptographic systems based on your specification.<a href="#section-3.3-5" class="pilcrow">¶</a></p>
+<p id="section-3.3-6">Cryptography specifications are often unique in their use of
+mathematical objects to define protocols.  As such, presenting this
+content requires special guidance.<a href="#section-3.3-6" class="pilcrow">¶</a></p>
+<div id="representing-mathematical-operations">
+<section id="section-3.3.1">
+          <h4 id="name-representing-mathematical-o">
+<a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-representing-mathematical-o" class="section-name selfRef">Representing Mathematical Operations</a>
+          </h4>
+<p id="section-3.3.1-1">Cryptographic protocols rely on mathematical operations.  These
+operations require precise and clear representation in specifications.<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.1-2">Ambiguous or inconsistent mathematical notation leads directly to
+implementation errors and interoperability failures.<a href="#section-3.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.3.1-3"><span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span> demonstrates effective mathematical representation through
+clear introduction of scalar multiplication notation, consistent usage
+throughout, and concrete examples.<a href="#section-3.3.1-3" class="pilcrow">¶</a></p>
+<div id="notation-consistency">
+<section id="section-3.3.1.1">
+            <h5 id="name-notation-consistency">
+<a href="#section-3.3.1.1" class="section-number selfRef">3.3.1.1. </a><a href="#name-notation-consistency" class="section-name selfRef">Notation Consistency</a>
+            </h5>
+<p id="section-3.3.1.1-1">Consistency in the notation used to represent mathematical operations
+is essential for avoiding confusion and ensuring that the specification
+is easy to understand.  Specification authors should establish a clear
+notation system from the beginning and use it consistently throughout
+the document.<a href="#section-3.3.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.1-2">This notation should be introduced with a comprehensive
+description or a reference to a well-known notation system to ensure
+that readers can easily follow the mathematical expressions.  For
+example, exponentiation can be represented by superscript or by a
+carat, but not by both.<a href="#section-3.3.1.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="use-of-standard-mathematical-symbols">
+<section id="section-3.3.1.2">
+            <h5 id="name-use-of-standard-mathematica">
+<a href="#section-3.3.1.2" class="section-number selfRef">3.3.1.2. </a><a href="#name-use-of-standard-mathematica" class="section-name selfRef">Use of Standard Mathematical Symbols</a>
+            </h5>
+<p id="section-3.3.1.2-1">Widely recognized mathematical symbols promote clarity and reduce the
+risk of misinterpretation.  However, some symbols have different
+meanings across contexts or disciplines.  The specification should
+clarify the intended meaning of such symbols.  For instance, group
+operations in multiplicative notation use the * multiplication symbol
+rather than the x symbol to avoid confusion.<a href="#section-3.3.1.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="explicitly-defining-custom-operations">
+<section id="section-3.3.1.3">
+            <h5 id="name-explicitly-defining-custom-">
+<a href="#section-3.3.1.3" class="section-number selfRef">3.3.1.3. </a><a href="#name-explicitly-defining-custom-" class="section-name selfRef">Explicitly Defining Custom Operations</a>
+            </h5>
+<p id="section-3.3.1.3-1">Mathematical operations and notation that extend beyond standard
+conventions require explicit definitions with clear explanations and
+examples.<a href="#section-3.3.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.3-2">Key aspects of defining custom operations:
+- Provide clear explanations and examples.
+- Keep new notation minimal to avoid confusion.
+- Consider including a glossary for multiple non-standard operations.<a href="#section-3.3.1.3-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="pseudocode-and-algorithmic-descriptions">
+<section id="section-3.3.1.4">
+            <h5 id="name-pseudocode-and-algorithmic-">
+<a href="#section-3.3.1.4" class="section-number selfRef">3.3.1.4. </a><a href="#name-pseudocode-and-algorithmic-" class="section-name selfRef">Pseudocode and Algorithmic Descriptions</a>
+            </h5>
+<p id="section-3.3.1.4-1">Mathematical expressions often need to be supplemented with pseudocode
+or algorithmic descriptions to bridge the gap between theory and
+implementation.  Pseudocode should be written in a style that
+resembles real programming languages.  Comments clarify the logic.
+Control structures such as loops and conditionals should use
+consistent notation throughout the document.<a href="#section-3.3.1.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="visual-representations">
+<section id="section-3.3.1.5">
+            <h5 id="name-visual-representations">
+<a href="#section-3.3.1.5" class="section-number selfRef">3.3.1.5. </a><a href="#name-visual-representations" class="section-name selfRef">Visual Representations</a>
+            </h5>
+<p id="section-3.3.1.5-1">Diagrams and other visual aids help convey complex mathematical
+concepts.  These elements must be clear, properly labeled, and
+consistent with the notation system.  Visual representations
+supplement the text; they do not replace it.<a href="#section-3.3.1.5-1" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-3.3.1.5-2">
+<li id="section-3.3.1.5-2.1">
+                <p id="section-3.3.1.5-2.1.1">Ensure that diagrams remain legible in all output formats, including
+TXT, HTML, and PDF.<a href="#section-3.3.1.5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li id="section-3.3.1.5-2.2">
+                <p id="section-3.3.1.5-2.2.1">For simple state machines or data flows, use ASCII diagrams that
+display clearly in all output formats.<a href="#section-3.3.1.5-2.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li id="section-3.3.1.5-2.3">
+                <p id="section-3.3.1.5-2.3.1">Keep every label, variable name, and symbol in your figures
+consistent with the notation used in the surrounding text.<a href="#section-3.3.1.5-2.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ol>
+</section>
+</div>
+<div id="ascii-safe-mathematical-notation">
+<section id="section-3.3.1.6">
+            <h5 id="name-ascii-safe-mathematical-not">
+<a href="#section-3.3.1.6" class="section-number selfRef">3.3.1.6. </a><a href="#name-ascii-safe-mathematical-not" class="section-name selfRef">ASCII-safe Mathematical Notation</a>
+            </h5>
+<p id="section-3.3.1.6-1">Cryptographic specifications <span class="bcp14">MUST</span> use ASCII-only characters in all
+algorithm descriptions. Symbols that lack direct ASCII representation
+(for example, ⊕, ∥, ⋅, ∞) <span class="bcp14">MAY</span> appear in informative examples or figures,
+but every such symbol <span class="bcp14">MUST</span> be accompanied by an ASCII equivalent and be
+defined exactly once in a dedicated Notation section. Each operator or
+symbol has exactly one meaning; authors <span class="bcp14">MUST NOT</span> overload a glyph (for
+example, <code>^</code>) for multiple operations. Following these rules ensures the
+plain-text RFC renders unambiguously and prevents implementation errors
+stemming from visual formatting differences across output formats.<a href="#section-3.3.1.6-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.6-2">Checklist for authors:<a href="#section-3.3.1.6-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3.1.6-3.1">
+                <p id="section-3.3.1.6-3.1.1">Define a concise notation table covering every non-obvious operator
+(<code>||</code>, <code>^</code>, <code>mod</code>, <code>XOR</code>, etc.).<a href="#section-3.3.1.6-3.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.3.1.6-3.2">
+                <p id="section-3.3.1.6-3.2.1">Prefer <code>XOR</code> or <code>||</code> over Unicode ⊕ or ∥ in normative text.<a href="#section-3.3.1.6-3.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.3.1.6-3.3">
+                <p id="section-3.3.1.6-3.3.1">Never reuse <code>^</code> for both XOR and exponentiation—spell out one of them
+instead.<a href="#section-3.3.1.6-3.3.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.3.1.6-3.4">
+                <p id="section-3.3.1.6-3.4.1">Verify all formulas in the generated <strong>.txt</strong> file; formatting must not
+change semantics.<a href="#section-3.3.1.6-3.4.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.3.1.6-3.5">
+                <p id="section-3.3.1.6-3.5.1">If Unicode appears in examples, provide the ASCII fallback inline,
+for example: ⊕ (<strong>XOR</strong>).<a href="#section-3.3.1.6-3.5.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+<p id="section-3.3.1.6-4">Rendering considerations (HTML/PDF only):<a href="#section-3.3.1.6-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3.1.6-5.1">
+                <p id="section-3.3.1.6-5.1.1">Authors <span class="bcp14">MAY</span> use <code>&lt;sup&gt;</code> (or Markdown <code>^</code>) markup so the ASCII <code>^</code>
+exponent indicator renders as a superscript in HTML or PDF outputs.
+The plain-text RFC <span class="bcp14">MUST</span> still display the caret character.<a href="#section-3.3.1.6-5.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.3.1.6-5.2">
+                <p id="section-3.3.1.6-5.2.1">It is acceptable for the rendered HTML/PDF to substitute Unicode
+symbols for clarity—e.g., ⊕ (U+2295) for XOR or ⋅ (U+22C5 or U+00B7)
+for multiplication—provided that the canonical text uses the ASCII
+equivalents (<code>XOR</code>, <code>*</code>) and the symbol meanings are listed in the
+Notation table.<a href="#section-3.3.1.6-5.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.3.1.6-5.3">
+                <p id="section-3.3.1.6-5.3.1">Such styling <span class="bcp14">MUST NOT</span> alter the normative meaning, and the ASCII
+representation <span class="bcp14">MUST</span> remain authoritative.<a href="#section-3.3.1.6-5.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+<div id="two-layer-rule">
+<section id="section-3.3.1.6.1">
+              <h6 id="name-two-layer-rule">
+<a href="#section-3.3.1.6.1" class="section-number selfRef">3.3.1.6.1. </a><a href="#name-two-layer-rule" class="section-name selfRef">Two-layer rule</a>
+              </h6>
+<p id="section-3.3.1.6.1-1">Normative layer (canonical text):
+- Limited to printable ASCII plus SP and LF.
+- Only the operator glyphs in the table below are
+  permitted.<a href="#section-3.3.1.6.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.6.1-2">Rendered layer (HTML/PDF):
+- Generated automatically by build tools (kramdown-RFC, Sphinx,
+  or similar tooling).
+- May substitute typographical symbols (for example, *→⋅,
+  XOR→⊕, <code>^</code>→superscript).
+- Substitutions are stylistic only; the ASCII source remains
+  authoritative.<a href="#section-3.3.1.6.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.6.1-3">Mandatory operator set<a href="#section-3.3.1.6.1-3" class="pilcrow">¶</a></p>
+<table class="center" id="table-1">
+                <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+<thead>
+                  <tr>
+                    <th class="text-left" rowspan="1" colspan="1">Concept</th>
+                    <th class="text-left" rowspan="1" colspan="1">ASCII glyph(s)</th>
+                    <th class="text-left" rowspan="1" colspan="1">Example</th>
+                    <th class="text-left" rowspan="1" colspan="1">Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="text-left" rowspan="1" colspan="1">Addition / subtraction</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>+</code>, <code>-</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>a + b</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1"> </td>
+                  </tr>
+                  <tr>
+                    <td class="text-left" rowspan="1" colspan="1">Multiplication</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>*</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>x * y</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">Define early that <code>*</code> is group/field multiplication</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left" rowspan="1" colspan="1">Exponentiation</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>^</code> or <code>**</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>g^k</code>, <code>2**255 - 19</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">Choose one symbol and use it consistently</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left" rowspan="1" colspan="1">XOR</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>XOR</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>a XOR b</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">Avoids clash with <code>^</code>; all-caps stands out</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left" rowspan="1" colspan="1">Concatenation</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>||</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>M1 || M2</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">Define in glossary</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left" rowspan="1" colspan="1">Equality / assignment</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>=</code> / <code>&lt;-</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>x &lt;- y</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>&lt;-</code> optional but must be defined</td>
+                  </tr>
+                </tbody>
+              </table>
+</section>
+</div>
+<div id="operator-glossary-and-constant-time-annotations">
+<section id="section-3.3.1.6.2">
+              <h6 id="name-operator-glossary-and-const">
+<a href="#section-3.3.1.6.2" class="section-number selfRef">3.3.1.6.2. </a><a href="#name-operator-glossary-and-const" class="section-name selfRef">Operator glossary and constant-time annotations</a>
+              </h6>
+<p id="section-3.3.1.6.2-1">Immediately after the terminology section, include a short table
+“Mathematical Operators and Symbols”.  Each entry <span class="bcp14">MUST</span> provide:
+1. ASCII glyph(s)
+2. Description of the operation
+3. Comment on constant-time versus variable-time expectations.<a href="#section-3.3.1.6.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.6.2-2">When pseudocode requires constant-time behavior, mark the line with the
+<code>CONST</code> tag, for example:<a href="#section-3.3.1.6.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.6.2-3"><code>
+z &lt;- CMOV(x, y, e)  # CONST: branch-free
+</code><a href="#section-3.3.1.6.2-3" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.6.2-4">Style checklist for authors<a href="#section-3.3.1.6.2-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3.1.6.2-5.1">
+                  <p id="section-3.3.1.6.2-5.1.1">If a glyph could be ambiguous (e.g., <code>^</code>), add an inline reminder the
+first time it appears: <code>^</code> (exponentiation).<a href="#section-3.3.1.6.2-5.1.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-3.3.1.6.2-5.2">
+                  <p id="section-3.3.1.6.2-5.2.1">Never overload the same glyph for two different operations within the
+same specification.<a href="#section-3.3.1.6.2-5.2.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-3.3.1.6.2-5.3">
+                  <p id="section-3.3.1.6.2-5.3.1">Prefer italic variables in rendered formats; keep them plain in ASCII.<a href="#section-3.3.1.6.2-5.3.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-3.3.1.6.2-5.4">
+                  <p id="section-3.3.1.6.2-5.4.1">Provide at least one worked example that exercises every operator.<a href="#section-3.3.1.6.2-5.4.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-3.3.1.6.2-5.5">
+                  <p id="section-3.3.1.6.2-5.5.1">If an uncommon Unicode symbol is truly necessary (e.g., ⟂ for "perp"),
+include it only inside <code>&lt;artwork type="html"&gt;</code> with an ASCII fallback
+in canonical text.<a href="#section-3.3.1.6.2-5.5.1" class="pilcrow">¶</a></p>
+</li>
+              </ul>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="guidelines-for-cryptography-specification-content">
+<section id="section-4">
+      <h2 id="name-guidelines-for-cryptography">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-guidelines-for-cryptography" class="section-name selfRef">Guidelines for Cryptography Specification Content</a>
+      </h2>
+<p id="section-4-1">In addition to cryptographic specification clarity and accessibility
+through presentation format, the content of a specification also
+influences the overall value of the specification.  The syntax of
+cryptographic objects introduced and their interfaces, as well as the
+way in which the object is structured for use in applications, is
+important for reliable and secure implementations of cryptographic
+algorithms and protocols.  In this section, we discuss factors that
+relate to the content of the specifications and their impact on
+overall quality.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div id="reusability">
+<section id="section-4.1">
+        <h3 id="name-reusability">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-reusability" class="section-name selfRef">Reusability</a>
+        </h3>
+<p id="section-4.1-1">Cryptography specifications that rely on bespoke sub-algorithms or
+lower-level components tend to be brittle and invite implementation
+issues.  To create efficient, interoperable, and widely adopted
+cryptographic systems, it is preferable to reuse existing components
+or primitives.  Reusability allows developers to build on existing
+work, reducing the time and effort required to create new
+implementations while leveraging established security properties and
+analyses.  This section discusses the importance of reusability in
+cryptography specifications and offers guidance for incorporating
+reusability principles into the specification development process.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<div id="build-on-existing-specifications">
+<section id="section-4.1.1">
+          <h4 id="name-build-on-existing-specifica">
+<a href="#section-4.1.1" class="section-number selfRef">4.1.1. </a><a href="#name-build-on-existing-specifica" class="section-name selfRef">Build on Existing Specifications</a>
+          </h4>
+<p id="section-4.1.1-1">When developing a cryptography specification, it is advantageous to
+build upon existing, well-established specifications, protocols, and
+primitives where possible.<a href="#section-4.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1.1-2">By doing so, authors can capitalize on the collective expertise of the
+community, as well as existing security analyses, implementation
+experiences, and best practices.  This approach reduces the potential
+for introducing new vulnerabilities and inconsistencies while
+promoting interoperability between different systems.<a href="#section-4.1.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="modular-design">
+<section id="section-4.1.2">
+          <h4 id="name-modular-design">
+<a href="#section-4.1.2" class="section-number selfRef">4.1.2. </a><a href="#name-modular-design" class="section-name selfRef">Modular Design</a>
+          </h4>
+<p id="section-4.1.2-1">Emphasizing modularity in the design of cryptography specifications
+allows for greater flexibility and reusability.  By breaking down
+complex algorithms into smaller, self-contained components or
+modules, specification writers facilitate the reuse of these
+components in different contexts or applications.  A modular design
+also simplifies the process of updating or replacing specific
+components without affecting the overall system, making it easier to
+incorporate new research findings or technological advancements.  An
+example of a modular design is the prime-order group abstraction.
+Algorithms that use this abstraction admit a modular design where the
+group implementation is described in a separate document dedicated to
+the details of the implementation of the group.  This approach
+simplifies both implementation and security analysis.<a href="#section-4.1.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="clear-interfaces-and-abstractions">
+<section id="section-4.1.3">
+          <h4 id="name-clear-interfaces-and-abstra">
+<a href="#section-4.1.3" class="section-number selfRef">4.1.3. </a><a href="#name-clear-interfaces-and-abstra" class="section-name selfRef">Clear Interfaces and Abstractions</a>
+          </h4>
+<p id="section-4.1.3-1">To promote misuse resistance and elegant higher-level designs,
+cryptography specifications should provide clear interfaces and
+abstractions for the components and primitives they describe.<a href="#section-4.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-2">Well-defined interfaces enable developers to understand and interact
+with a component without needing to know the details of its internal
+implementation.<a href="#section-4.1.3-2" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-3">This approach allows for the replacement or
+modification of components with minimal impact on the overall system
+and encourages the development of interchangeable components that can
+be reused across different applications and within protocols.<a href="#section-4.1.3-3" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-4">Cryptographic objects typically have a set of functions associated
+with them that make up the interface; structuring the functions to
+fit well-understood and existing abstractions helps make the job of
+using the object in higher-level algorithms easier and less prone to
+code duplication.<a href="#section-4.1.3-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="completeness">
+<section id="section-4.1.4">
+          <h4 id="name-completeness">
+<a href="#section-4.1.4" class="section-number selfRef">4.1.4. </a><a href="#name-completeness" class="section-name selfRef">Completeness</a>
+          </h4>
+<p id="section-4.1.4-1">The operations defined in a cryptography specification should be
+complete, with defined behavior on all inputs.  This includes error
+handling and edge cases which would otherwise not impact the
+algorithm's cryptographic properties.<a href="#section-4.1.4-1" class="pilcrow">¶</a></p>
+<p id="section-4.1.4-2">In particular, when
+deserializing a byte string, the behavior on all byte strings should
+be defined, including cases which would not be valid outputs of the
+corresponding serialization function.  A complete specification helps
+avoid implementation variations.  These variations can lead to
+interoperability failures, gaps between formal analysis and real-world
+practice, or security vulnerabilities.<a href="#section-4.1.4-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.1.4-3.1">
+              <p id="section-4.1.4-3.1.1">Define behavior for all inputs: Ensure that every possible input
+scenario is accounted for, including edge cases.<a href="#section-4.1.4-3.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-4.1.4-3.2">
+              <p id="section-4.1.4-3.2.1">Error handling: Clearly specify how errors should be managed to
+prevent unexpected behavior.<a href="#section-4.1.4-3.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-4.1.4-3.3">
+              <p id="section-4.1.4-3.3.1">Avoid multiple valid behaviors: Consistency is key; avoid leaving
+multiple implementation options open.<a href="#section-4.1.4-3.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-4.1.4-4">Avoid defining multiple implementation behaviors as valid.  Leaving
+multiple options to implementators leads to compounding complexity:
+downstream specifications may need to profile the algorithm to pick
+the preferred option, and validation tools must be configurable to
+assert either case.<a href="#section-4.1.4-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="documentation-and-examples">
+<section id="section-4.1.5">
+          <h4 id="name-documentation-and-examples">
+<a href="#section-4.1.5" class="section-number selfRef">4.1.5. </a><a href="#name-documentation-and-examples" class="section-name selfRef">Documentation and Examples</a>
+          </h4>
+<p id="section-4.1.5-1">Thorough documentation and illustrative examples play a crucial role
+in promoting reusability.  By providing comprehensive explanations of
+the specification's components, interfaces, and intended use cases,
+specification authors make it easier for developers to understand and
+implement the specification correctly.  Including examples of how
+components can be combined or applied in various scenarios further
+clarifies their usage and encourages their reuse in different
+contexts.<a href="#section-4.1.5-1" class="pilcrow">¶</a></p>
+<p id="section-4.1.5-2">Documentation Tips:
+  - Use clear, concise language
+  - Include illustrative examples
+  - Highlight use cases and scenarios<a href="#section-4.1.5-2" class="pilcrow">¶</a></p>
+<p id="section-4.1.5-3">By focusing on reusability in cryptography specifications, authors can
+help create secure, efficient, and adaptable cryptographic systems
+that can be more easily integrated, maintained, and updated, resulting
+in more robust and widely adopted solutions.<a href="#section-4.1.5-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="defining-security-definitions-and-threat-models">
+<section id="section-4.2">
+        <h3 id="name-defining-security-definitio">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-defining-security-definitio" class="section-name selfRef">Defining Security Definitions and Threat Models</a>
+        </h3>
+<p id="section-4.2-1">Cryptographic protocols are always used within a context of a broader
+system whose security relies on an understanding capabilities of
+potential attackers.  An incorrect definition or assumption about the
+threat models to a protocol can make a protocol that is safe in one
+context unsafe in a different context.  Precise definitions help
+researchers assess the security of the proposed algorithms and
+protocols, while comprehensible threat models enable implementers and
+protocol designers to understand the potential risks and limitations
+of the specification.  This section provides guidelines for defining
+security definitions and threat models in a way that caters to the
+needs of all target audiences.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<div id="defining-security-goals">
+<section id="section-4.2.1">
+          <h4 id="name-defining-security-goals">
+<a href="#section-4.2.1" class="section-number selfRef">4.2.1. </a><a href="#name-defining-security-goals" class="section-name selfRef">Defining Security Goals</a>
+          </h4>
+<p id="section-4.2.1-1">Specification authors should explicitly state the security goals that
+the proposed algorithms or protocols aim to achieve.  These goals
+should be comprehensive, covering all relevant aspects, such as
+confidentiality, integrity, authentication, non-repudiation, and
+availability as well as resistance to implementation flaws such as
+side-channels.<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.1-2">Furthermore, authors should clarify any trade-offs or
+limitations associated with the security goals, ensuring that the
+target audiences understand the intended balance between security and
+other factors, such as performance or ease of implementation.<a href="#section-4.2.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.2.1-3">Common Security Goals:
+  - Confidentiality
+  - Integrity
+  - Authentication
+  - Non-repudiation
+  - Availability
+  - Resistance to side-channels<a href="#section-4.2.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="formalizing-security-definitions">
+<section id="section-4.2.2">
+          <h4 id="name-formalizing-security-defini">
+<a href="#section-4.2.2" class="section-number selfRef">4.2.2. </a><a href="#name-formalizing-security-defini" class="section-name selfRef">Formalizing Security Definitions</a>
+          </h4>
+<p id="section-4.2.2-1">Formalizing security definitions is essential for researchers to
+rigorously analyze the algorithms and protocols described in the
+specification.  Specification authors should strive to express security
+definitions in a formal language, using consistent notation and
+terminology.  Authors should accompany formal definitions with clear
+explanations and examples to make them more accessible to implementers
+and protocol designers who may not be familiar with formal methods.<a href="#section-4.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.2-2">Steps to Formalize Security Definitions:
+  - Choose a formal language
+  - Ensure consistent notation
+  - Provide clear examples<a href="#section-4.2.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="describing-the-threat-model">
+<section id="section-4.2.3">
+          <h4 id="name-describing-the-threat-model">
+<a href="#section-4.2.3" class="section-number selfRef">4.2.3. </a><a href="#name-describing-the-threat-model" class="section-name selfRef">Describing the Threat Model</a>
+          </h4>
+<p id="section-4.2.3-1">A well-defined threat model provides an overview of the potential
+adversaries and the risks they pose to the security of the algorithms
+or protocols.  Specification authors should describe the threat model
+in detail, including the capabilities, resources, and motivations of
+adversaries.  Additionally, authors should identify any assumptions
+made about the adversarial model and explicitly state them to help the
+target audiences understand the intended scope and limitations of the
+specification's security guarantees.  Clear threat models help prevent
+misuse in inappropriate contexts.<a href="#section-4.2.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.3-2">Key Components of a Threat Model:
+  - Adversary capabilities
+  - Resources
+  - Motivations
+  - Assumptions about adversarial models<a href="#section-4.2.3-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="addressing-known-vulnerabilities-and-attacks">
+<section id="section-4.2.4">
+          <h4 id="name-addressing-known-vulnerabil">
+<a href="#section-4.2.4" class="section-number selfRef">4.2.4. </a><a href="#name-addressing-known-vulnerabil" class="section-name selfRef">Addressing Known Vulnerabilities and Attacks</a>
+          </h4>
+<p id="section-4.2.4-1">Specification authors should discuss known vulnerabilities and attacks
+relevant to the proposed algorithms or protocols.  This discussion
+should include an explanation of how the specification addresses or
+mitigates these issues, as well as any residual risks that remain.
+This information is valuable for implementers and protocol designers
+to understand the potential threats and for researchers to assess the
+robustness of the specification's security claims.<a href="#section-4.2.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="providing-guidance-on-secure-implementation-and-deployment">
+<section id="section-4.2.5">
+          <h4 id="name-providing-guidance-on-secur">
+<a href="#section-4.2.5" class="section-number selfRef">4.2.5. </a><a href="#name-providing-guidance-on-secur" class="section-name selfRef">Providing Guidance on Secure Implementation and Deployment</a>
+          </h4>
+<p id="section-4.2.5-1">To help ensure that the security definitions and threat models are
+effectively realized in practice, authors should provide guidance on
+secure implementation and deployment of the proposed algorithms and
+protocols.  This guidance may include best practices for avoiding
+common pitfalls, recommendations for cryptographic parameter
+selection, or considerations for securely integrating the
+specification into existing systems.<a href="#section-4.2.5-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.5-2">By clearly defining security definitions and threat models in
+cryptography specifications, authors can facilitate a better
+understanding of the security properties and limitations of the
+proposed algorithms and protocols among implementers, researchers,
+and protocol designers.<a href="#section-4.2.5-2" class="pilcrow">¶</a></p>
+<p id="section-4.2.5-3">Clear security definitions prevent cryptographic algorithms from being
+used in insecure contexts.<a href="#section-4.2.5-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.2.5-4.1">
+              <p id="section-4.2.5-4.1.1">Following these guidelines and recommendations from <span>[<a href="#RFC3552" class="cite xref">RFC3552</a>]</span> helps
+create robust security considerations sections<a href="#section-4.2.5-4.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-4.2.5-4.2">
+              <p id="section-4.2.5-4.2.1">Complete threat model discussions facilitate better understanding of
+security properties and limitations<a href="#section-4.2.5-4.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-4.2.5-4.3">
+              <p id="section-4.2.5-4.3.1">Proper security definitions enable accurate analysis by target
+audiences<a href="#section-4.2.5-4.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="catering-to-target-audiences">
+<section id="section-5">
+      <h2 id="name-catering-to-target-audience">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-catering-to-target-audience" class="section-name selfRef">Catering to Target Audiences</a>
+      </h2>
+<p id="section-5-1">When writing a specification, it is important to consider the needs of
+the three primary audiences: implementers, researchers, and protocol
+designers.  Each group has unique requirements and goals, and the
+specification should be written in a way that addresses their specific
+concerns.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<div id="catering-to-implementers">
+<section id="section-5.1">
+        <h3 id="name-catering-to-implementers">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-catering-to-implementers" class="section-name selfRef">Catering to Implementers</a>
+        </h3>
+<p id="section-5.1-1">Implementers require a clear, concise, and unambiguous specification
+to develop production-grade software.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">To cater to implementers:<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1-3.1">
+            <p id="section-5.1-3.1.1">Provide step-by-step instructions for implementing algorithms or
+processes, ensuring that all required inputs, outputs, and
+intermediate steps are defined.  Where exceptional cases occur,
+those should be noted and recommended error-handling steps should
+be given.  Include test vectors to help implementers verify the
+correctness of their implementations.<a href="#section-5.1-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.1-3.2">
+            <p id="section-5.1-3.2.1">Describe best practices for representing components of the
+specification in code, addressing exceptional cases and
+recommended error handling procedures, as well as aspects of the
+specification that are difficult to implement correctly (e.g.,
+where side-channel attacks might be possible).<a href="#section-5.1-3.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.1-3.3">
+            <p id="section-5.1-3.3.1">Clearly indicate any optional features, variations, or extensions,
+specifying their impact on interoperability and security.<a href="#section-5.1-3.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<div id="test-vectors">
+<section id="section-5.1.1">
+          <h4 id="name-test-vectors">
+<a href="#section-5.1.1" class="section-number selfRef">5.1.1. </a><a href="#name-test-vectors" class="section-name selfRef">Test vectors</a>
+          </h4>
+<p id="section-5.1.1-1">Test vectors ideally cover all branches of the specification, with
+reasonable exceptions, such as branches that occur with negligible
+probability and as such are computationally infeasible to reproduce.
+To facilitate writing tests, where possible, all functions should be
+written with determinism in mind.  In particular, this means that
+functions that produce random outputs, such as a function that
+produces random elements in a prime-order group, should accept
+randomness as input and test vectors should specify this randomness as
+an input to the function.  Specifications should minimize internal
+calls to PRNGs or similar and emphasize determinism.<a href="#section-5.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1.1-2">Finally, specifications should make the connection between
+specification and test vectors clear by including explicit
+reproducibility steps that describe how test vectors were derived for
+parts of the specification.  This might mean pointing to a reference
+implementation with instructions for how to run it, where the
+reference implementation is written in a way that is clearly
+consistent with the specification.<a href="#section-5.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.1.1-3">It's possible to include too many test vectors in a specification,
+which increases document length and decreases readability.  Authors
+should provide test vectors that cover:<a href="#section-5.1.1-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.1.1-4.1">
+              <p id="section-5.1.1-4.1.1">Typical test cases that exercise all logical pathways within an
+algorithm<a href="#section-5.1.1-4.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.1-4.2">
+              <p id="section-5.1.1-4.2.1">All valid but degenerate cases that result in error or early exit of
+an algorithm<a href="#section-5.1.1-4.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.1-4.3">
+              <p id="section-5.1.1-4.3.1">Exceptions that can be reached by attacker-controlled inputs<a href="#section-5.1.1-4.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-5.1.1-5">It is NOT necessary to include test vectors for cases that are
+statistically improbable to be triggered, even by attacker-controlled
+input, based on the underlying cryptographic assumptions.  For example,
+if an error case is only reachable when an intermediate data point
+matches the pre-image of a hash value that was randomly generated,
+finding a test vector to trigger that case would require the ability
+to compute a hash pre-image, which is deemed unfeasible for
+sufficiently strong hash functions.  Exceptional cases that don't have
+test vectors should be explicitly noted in the algorithm description.<a href="#section-5.1.1-5" class="pilcrow">¶</a></p>
+<p id="section-5.1.1-6">Lastly, specifications should provide references to machine-readable
+test vectors (e.g., in JSON format) that persist alongside the
+specification.  This helps avoid possibly error-prone parsing in
+translating test vectors from a textual specification to test code
+inputs.<a href="#section-5.1.1-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="catering-to-researchers">
+<section id="section-5.2">
+        <h3 id="name-catering-to-researchers">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-catering-to-researchers" class="section-name selfRef">Catering to Researchers</a>
+        </h3>
+<p id="section-5.2-1">Researchers need to understand the syntax and functionality of the
+cryptographic protocol or primitive to ensure its correctness and
+analyze its security properties.  To cater to researchers:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.2-2.1">
+            <p id="section-5.2-2.1.1">Clearly define the underlying mathematical concepts and notations
+used in the specification, ensuring that all symbols, functions, and
+variables are consistently and accurately represented as explained in
+the section Representing Mathematical Operations.<a href="#section-5.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-2.2">
+            <p id="section-5.2-2.2.1">Provide detailed security definitions, goals, and threat models,
+including the capabilities and limitations of adversaries and their
+impact on parameter selection.  In general, authors should make input
+requirements that are important for the security of the protocol or
+construction maximally clear.  See: Defining Security Definitions and
+Threat Models.<a href="#section-5.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-2.3">
+            <p id="section-5.2-2.3.1">Describe any assumptions made about the underlying primitives or
+protocols and the justifications for these assumptions.  Such
+assumptions should include references to external documents that
+describe these underlying primitives or protocols where appropriate,
+unless there are gaps between how the underlying primitive or protocol
+is used and how it is described externally.<a href="#section-5.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.2-2.4">
+            <p id="section-5.2-2.4.1">Clearly present any security proofs, analysis, or references to
+existing literature that support the security claims of the
+specification.  If there are gaps between the specification and formal
+security analysis, these gaps should be noted, along with rationale
+that justifies the gaps.<a href="#section-5.2-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="catering-to-protocol-designers">
+<section id="section-5.3">
+        <h3 id="name-catering-to-protocol-design">
+<a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-catering-to-protocol-design" class="section-name selfRef">Catering to Protocol Designers</a>
+        </h3>
+<p id="section-5.3-1">Protocol designers in the standards community use specifications to
+understand how to safely use the cryptographic protocol or primitive
+when designing a higher-level protocol that depends on it.  To cater to
+protocol designers:<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-5.3-2.1">
+            <p id="section-5.3-2.1.1">Clearly define the interfaces, APIs, or functions exposed by the
+protocol or primitive, indicating how they should be used and any
+potential risks associated with their misuse.  For example, for each
+input to the protocol, it should be made clear whether or not these
+are attacker controlled and, if so, describe what steps must be taken
+to validate that input.<a href="#section-5.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-2.2">
+            <p id="section-5.3-2.2.1">Describe any corner cases or situations that may impact security,
+providing guidance on how to avoid or mitigate potential risks.  This
+includes explicitly stating the probability of an algorithm failing
+due to invalid operations occurring (such as divide-by-zero) both in
+the typical case and under attacker-controlled inputs.<a href="#section-5.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-2.3">
+            <p id="section-5.3-2.3.1">Explain any dependencies or interactions with other protocols,
+primitives, or system components, highlighting potential compatibility
+or interoperability issues.<a href="#section-5.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-2.4">
+            <p id="section-5.3-2.4.1">Provide guidance on configuration, parameter selection, or deployment
+considerations that may affect the security or performance of the
+protocol in real-world scenarios.  This includes the impact of new
+discoveries that weaken the security assumptions of a primitive.<a href="#section-5.3-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-5.3-3">By addressing the specific needs of implementers, researchers, and
+protocol designers, a specification can be more effectively
+understood, implemented, and analyzed, leading to more secure and
+interoperable systems.<a href="#section-5.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="general-recommendations">
+<section id="section-6">
+      <h2 id="name-general-recommendations">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-general-recommendations" class="section-name selfRef">General Recommendations</a>
+      </h2>
+<p id="section-6-1">Developing effective cryptography specifications often requires
+collaboration between multiple stakeholders in the target audience,
+including engineers, researchers, and standardization organizations,
+and engaging in a collaborative process helps ensure that diverse
+perspectives and expertise are considered, resulting in more robust
+and widely applicable specifications.  This section discusses the
+importance of collaboration and compromise in specification development
+and offers recommendations for fostering a collaborative environment.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<div id="encourage-open-communication-and-feedback">
+<section id="section-6.1">
+        <h3 id="name-encourage-open-communicatio">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-encourage-open-communicatio" class="section-name selfRef">Encourage Open Communication and Feedback</a>
+        </h3>
+<p id="section-6.1-1">Effective collaboration relies on open communication and an ongoing
+exchange of ideas and feedback.  By creating channels for
+communication, such as mailing lists, pull request threads (as
+described in <span>[<a href="#RFC8874" class="cite xref">RFC8874</a>]</span>), or regular meetings, authors can facilitate
+discussions, address concerns, and gather valuable input from various
+stakeholders.  Encouraging an environment where feedback is welcomed
+and valued helps ensure that the specification benefits from diverse
+expertise and experiences.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="seek-external-expertise">
+<section id="section-6.2">
+        <h3 id="name-seek-external-expertise">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-seek-external-expertise" class="section-name selfRef">Seek External Expertise</a>
+        </h3>
+<p id="section-6.2-1">Involving external experts, such as researchers or engineers from
+different organizations, can help identify potential issues, uncover
+new insights, and provide a broader perspective on the specification.
+Engaging with experts such as those in the IRTF Crypto Review Panel
+who have different backgrounds or areas of expertise can also help
+identify potential gaps in the specification or highlight areas where
+further research or clarification is needed.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="recognize-and-address-conflicting-interests">
+<section id="section-6.3">
+        <h3 id="name-recognize-and-address-confl">
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-recognize-and-address-confl" class="section-name selfRef">Recognize and Address Conflicting Interests</a>
+        </h3>
+<p id="section-6.3-1">Collaboration often involves addressing conflicting interests or
+opinions among stakeholders.  It is essential to acknowledge these
+differences and work towards finding mutually agreeable solutions.
+This may require making compromises or revisiting previous decisions
+to ensure that the specification meets the needs of all involved
+parties.  By maintaining a flexible and open-minded approach, authors
+can:<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.3-2.1">
+            <p id="section-6.3-2.1.1">Build consensus among diverse stakeholders with varying priorities
+and technical perspectives.<a href="#section-6.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-6.3-2.2">
+            <p id="section-6.3-2.2.1">Develop a more robust specification that addresses real-world
+implementation and deployment challenges.<a href="#section-6.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="examples-of-well-written-specifications">
+<section id="section-7">
+      <h2 id="name-examples-of-well-written-sp">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-examples-of-well-written-sp" class="section-name selfRef">Examples of Well-Written Specifications</a>
+      </h2>
+<p id="section-7-1">To provide a better understanding of how to write high-quality
+cryptography specifications, we will analyze specific sections from a
+well-written example: ChaCha20 and Poly1305 for IETF Protocols
+(<span>[<a href="#RFC8439" class="cite xref">RFC8439</a>]</span>).<a href="#section-7-1" class="pilcrow">¶</a></p>
+<div id="chacha20-and-poly1305-for-ietf-protocols-rfc-8439">
+<section id="section-7.1">
+        <h3 id="name-chacha20-and-poly1305-for-i">
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-chacha20-and-poly1305-for-i" class="section-name selfRef">ChaCha20 and Poly1305 for IETF Protocols (RFC 8439)</a>
+        </h3>
+<p id="section-7.1-1"><span>[<a href="#RFC8439" class="cite xref">RFC8439</a>]</span> is a specification that describes the use of the ChaCha20
+stream cipher and the Poly1305 message authentication code for IETF
+protocols.  It demonstrates how to write a clear, comprehensive, and
+precise specification while catering to different audiences.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<div id="introduction-and-overview">
+<section id="section-7.1.1">
+          <h4 id="name-introduction-and-overview">
+<a href="#section-7.1.1" class="section-number selfRef">7.1.1. </a><a href="#name-introduction-and-overview" class="section-name selfRef">Introduction and Overview</a>
+          </h4>
+<p id="section-7.1.1-1">The introduction in <span>[<a href="#RFC8439" class="cite xref">RFC8439</a>]</span> clearly defines the purpose and
+motivation for the specification.  It provides context on the origins
+of ChaCha20 and Poly1305, and how they are used together to provide
+confidentiality and data integrity.  By presenting a concise and
+informative introduction, the specification sets the stage for the
+detailed technical descriptions that follow.<a href="#section-7.1.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="algorithm-descriptions">
+<section id="section-7.1.2">
+          <h4 id="name-algorithm-descriptions">
+<a href="#section-7.1.2" class="section-number selfRef">7.1.2. </a><a href="#name-algorithm-descriptions" class="section-name selfRef">Algorithm Descriptions</a>
+          </h4>
+<p id="section-7.1.2-1">The specification provides detailed and precise descriptions of the
+ChaCha20 and Poly1305 algorithms, including pseudocode, constants,
+and mathematical operations.  This section caters to implementers,
+ensuring that they have all the necessary information to create
+consistent and correct implementations.  The mathematical operations
+are expressed in a clear and unambiguous manner, which helps both
+implementers and researchers understand the algorithms better.<a href="#section-7.1.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="test-vectors-1">
+<section id="section-7.1.3">
+          <h4 id="name-test-vectors-2">
+<a href="#section-7.1.3" class="section-number selfRef">7.1.3. </a><a href="#name-test-vectors-2" class="section-name selfRef">Test Vectors</a>
+          </h4>
+<p id="section-7.1.3-1"><span>[<a href="#RFC8439" class="cite xref">RFC8439</a>]</span> includes test vectors for both ChaCha20 and Poly1305,
+providing concrete examples of inputs and expected outputs for the
+algorithms.  This section is invaluable for implementers, allowing them
+to verify that their implementations are correct and compatible with
+others.<a href="#section-7.1.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-7.1.4">
+          <h4 id="name-security-considerations">
+<a href="#section-7.1.4" class="section-number selfRef">7.1.4. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+          </h4>
+<p id="section-7.1.4-1">The specification dedicates an entire section to security
+considerations, catering to researchers and protocol designers.  It
+discusses potential attacks and their mitigations, recommendations for
+nonce usage, and the security properties of the algorithms.  This
+section also provides references to academic papers and other
+resources for further reading, enabling researchers to delve deeper
+into the security aspects of the specified algorithms.<a href="#section-7.1.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="iana-considerations-and-references">
+<section id="section-7.1.5">
+          <h4 id="name-iana-considerations-and-ref">
+<a href="#section-7.1.5" class="section-number selfRef">7.1.5. </a><a href="#name-iana-considerations-and-ref" class="section-name selfRef">IANA Considerations and References</a>
+          </h4>
+<p id="section-7.1.5-1"><span>[<a href="#RFC8439" class="cite xref">RFC8439</a>]</span> concludes with IANA considerations and a list of
+references, ensuring that the specification is well-integrated with
+existing IETF processes and standards.  The IANA considerations section
+is essential for protocol designers who need to register new values or
+coordinate with existing registries.<a href="#section-7.1.5-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="problematic-aspects">
+<section id="section-7.1.6">
+          <h4 id="name-problematic-aspects">
+<a href="#section-7.1.6" class="section-number selfRef">7.1.6. </a><a href="#name-problematic-aspects" class="section-name selfRef">Problematic Aspects</a>
+          </h4>
+<p id="section-7.1.6-1">A criticism of this document is that it does not cater enough to
+protocol designers in that it does not explicitly define a decryption
+algorithm.  Researchers familiar with the concept of a stream cipher
+understand that decryption and encryption are identical in stream
+cipher constructions, but this may not be clear to implementers.<a href="#section-7.1.6-1" class="pilcrow">¶</a></p>
+<p id="section-7.1.6-2">In summary, <span>[<a href="#RFC8439" class="cite xref">RFC8439</a>]</span> serves as an excellent example of a
+well-written cryptography specification, providing clear, precise, and
+comprehensive information for implementers, researchers, and protocol <br>
+designers alike.  By studying and emulating the structure and content
+of specifications like <span>[<a href="#RFC8439" class="cite xref">RFC8439</a>]</span>, authors can create high-quality
+specifications that cater to the diverse needs of their target
+audiences.<a href="#section-7.1.6-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="examples-of-specifications-that-could-be-improved">
+<section id="section-8">
+      <h2 id="name-examples-of-specifications-">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-examples-of-specifications-" class="section-name selfRef">Examples of Specifications That Could Be Improved</a>
+      </h2>
+<p id="section-8-1"><span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> is a specification that describes the Edwards-curve
+Digital Signature Algorithm (EdDSA).  This specification had several
+errata filed against it for corrections and has had documented
+criticisms published online.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<div id="test-vectors-2">
+<section id="section-8.1">
+        <h3 id="name-test-vectors-3">
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-test-vectors-3" class="section-name selfRef">Test Vectors</a>
+        </h3>
+<p id="section-8.1-1">The test vectors included in this document were not comprehensive and
+did not cover all the cases described in the algorithm, resulting in
+multiple incompatible implementations.  There were also issues with a
+"greater than" comparison which should have been a "greater than or
+equal to" which were not explicitly covered by the test vectors.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="unnecessary-branching">
+<section id="section-8.2">
+        <h3 id="name-unnecessary-branching">
+<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-unnecessary-branching" class="section-name selfRef">Unnecessary Branching</a>
+        </h3>
+<p id="section-8.2-1">Some parts of EdDSA permit more than one verification path, which can
+split implementations.  For Ed25519, <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> gives two options:
+8<em>S</em>B = 8<em>R + 8</em>k<em>A' (where * denotes scalar multiplication, '
+denotes a derived point, and = denotes equality) or S</em>B = R + k*A'
+(shortcut).  The shortcut saves cycles but lets libraries disagree on
+which signatures are valid.  Specs should avoid such optional
+branches—especially performance-only shortcuts—to keep implementations
+interoperable.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="compatibility-and-modularity">
+<section id="section-8.3">
+        <h3 id="name-compatibility-and-modularit">
+<a href="#section-8.3" class="section-number selfRef">8.3. </a><a href="#name-compatibility-and-modularit" class="section-name selfRef">Compatibility and Modularity</a>
+        </h3>
+<p id="section-8.3-1">EdDSA is a variant of the Schnorr signature scheme, but with some small
+variations that make it incompatible with other related Schnorr
+signature schemes.  This includes a "clamping" operation that makes
+EdDSA keys and operations incompatible with x25519 (<span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span>).  Many
+of the issues in the specification derive from the fact that the
+specification was written to match an existing implementation rather
+than define an algorithm.  This limited the authors from focusing on
+compatibility with other related standards and primitives, resulting
+in numerous issues.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="conclusion">
+<section id="section-9">
+      <h2 id="name-conclusion">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-conclusion" class="section-name selfRef">Conclusion</a>
+      </h2>
+<p id="section-9-1">Quality matters in cryptographic specification writing.  This document
+provides guidelines for writing effective cryptography specifications,
+emphasizing the importance of catering to different audiences, such as
+target audiences, with the end goal of enabling high-assurance
+cryptographic software.  By focusing on simplicity, precision,
+consistency, reusability, collaboration, and compromise, specification
+writers can create documents that are easier to understand, implement,
+and analyze.<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-2">We have also discussed the representation of mathematical operations
+and the importance of clearly defining security definitions and threat
+models.  These elements are critical in ensuring that specifications
+are not only technically accurate but also convey the necessary
+information to properly assess the security properties of cryptographic
+algorithms and protocols.<a href="#section-9-2" class="pilcrow">¶</a></p>
+<p id="section-9-3">Finally, we have examined a well-written example, <span>[<a href="#RFC8439" class="cite xref">RFC8439</a>]</span>, to
+demonstrate how these guidelines can be applied in practice, and by
+highlighting specific sections of this specification, we have shown
+how authors can create high-quality specifications that cater to the
+diverse needs of their target audiences.<a href="#section-9-3" class="pilcrow">¶</a></p>
+<p id="section-9-4">In conclusion, the process of writing cryptography specifications is
+both an art and a science.  The guidelines presented in this document
+should serve as a foundation for authors, but it is essential to
+remain open to feedback and collaboration with the broader community.
+By doing so, we can continue to develop and refine the specifications
+that underpin the secure and reliable communication systems of today
+and the future.<a href="#section-9-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="security-considerations-1">
+<section id="section-10">
+      <h2 id="name-security-considerations-2">
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-security-considerations-2" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-10-1">This document discusses best practices for writing and editing
+cryptography specifications.  It does not provide any guidance for the
+semantic contents of those specifications.<a href="#section-10-1" class="pilcrow">¶</a></p>
+<p id="section-10-2">Poor specification practices can lead to serious security
+vulnerabilities.  Ambiguous algorithm descriptions may result in
+incompatible implementations with different security properties.<a href="#section-10-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-11">
+      <h2 id="name-iana-considerations">
+<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<p id="section-11-1">This document has no IANA actions.<a href="#section-11-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sec-combined-references">
+<section id="section-12">
+      <h2 id="name-references">
+<a href="#section-12" class="section-number selfRef">12. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<div id="sec-normative-references">
+<section id="section-12.1">
+        <h3 id="name-normative-references">
+<a href="#section-12.1" class="section-number selfRef">12.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+      <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="sec-informative-references">
+<section id="section-12.2">
+        <h3 id="name-informative-references">
+<a href="#section-12.2" class="section-number selfRef">12.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC3552">[RFC3552]</dt>
+        <dd>
+<span class="refAuthor">Rescorla, E.</span> and <span class="refAuthor">B. Korver</span>, <span class="refTitle">"Guidelines for Writing RFC Text on Security Considerations"</span>, <span class="seriesInfo">BCP 72</span>, <span class="seriesInfo">RFC 3552</span>, <span class="seriesInfo">DOI 10.17487/RFC3552</span>, <time datetime="2003-07" class="refDate">July 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3552">https://www.rfc-editor.org/rfc/rfc3552</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7748">[RFC7748]</dt>
+        <dd>
+<span class="refAuthor">Langley, A.</span>, <span class="refAuthor">Hamburg, M.</span>, and <span class="refAuthor">S. Turner</span>, <span class="refTitle">"Elliptic Curves for Security"</span>, <span class="seriesInfo">RFC 7748</span>, <span class="seriesInfo">DOI 10.17487/RFC7748</span>, <time datetime="2016-01" class="refDate">January 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7748">https://www.rfc-editor.org/rfc/rfc7748</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8032">[RFC8032]</dt>
+        <dd>
+<span class="refAuthor">Josefsson, S.</span> and <span class="refAuthor">I. Liusvaara</span>, <span class="refTitle">"Edwards-Curve Digital Signature Algorithm (EdDSA)"</span>, <span class="seriesInfo">RFC 8032</span>, <span class="seriesInfo">DOI 10.17487/RFC8032</span>, <time datetime="2017-01" class="refDate">January 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8032">https://www.rfc-editor.org/rfc/rfc8032</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8439">[RFC8439]</dt>
+        <dd>
+<span class="refAuthor">Nir, Y.</span> and <span class="refAuthor">A. Langley</span>, <span class="refTitle">"ChaCha20 and Poly1305 for IETF Protocols"</span>, <span class="seriesInfo">RFC 8439</span>, <span class="seriesInfo">DOI 10.17487/RFC8439</span>, <time datetime="2018-06" class="refDate">June 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8439">https://www.rfc-editor.org/rfc/rfc8439</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8874">[RFC8874]</dt>
+      <dd>
+<span class="refAuthor">Thomson, M.</span> and <span class="refAuthor">B. Stark</span>, <span class="refTitle">"Working Group GitHub Usage Guidance"</span>, <span class="seriesInfo">RFC 8874</span>, <span class="seriesInfo">DOI 10.17487/RFC8874</span>, <time datetime="2020-08" class="refDate">August 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8874">https://www.rfc-editor.org/rfc/rfc8874</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</div>
+</section>
+</div>
+<div id="authors-addresses">
+<section id="appendix-A">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Nick Sullivan</span></div>
+<div dir="auto" class="left"><span class="org">Cryptography Consulting LLC</span></div>
+<div dir="auto" class="left">
+<span class="locality">San Francisco</span>,  </div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:nicholas.sullivan+ietf@gmail.com" class="email">nicholas.sullivan+ietf@gmail.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Christopher A. Wood</span></div>
+<div dir="auto" class="left"><span class="org">Cloudflare, Inc.</span></div>
+<div dir="auto" class="left"><span class="street-address">101 Townsend St</span></div>
+<div dir="auto" class="left">
+<span class="locality">San Francisco</span>,  </div>
+<div dir="auto" class="left"><span class="country-name">United States of America</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:caw@heapingbits.net" class="email">caw@heapingbits.net</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
