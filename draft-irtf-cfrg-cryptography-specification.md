@@ -364,7 +364,7 @@ Cryptographic specifications MUST use ASCII-only characters in all
 algorithm descriptions. Symbols that lack direct ASCII representation
 (for example, ⊕, ∥, ⋅, ∞) MAY appear in informative examples or figures,
 but every such symbol MUST be accompanied by an ASCII equivalent and be
-defined exactly once in a dedicated *Notation* section. Each operator or
+defined exactly once in a dedicated Notation section. Each operator or
 symbol has exactly one meaning; authors MUST NOT overload a glyph (for
 example, `^`) for multiple operations. Following these rules ensures the
 plain-text RFC renders unambiguously and prevents implementation errors
