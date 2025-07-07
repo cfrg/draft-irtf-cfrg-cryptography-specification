@@ -358,14 +358,29 @@ supplement the text; they do not replace it.
 3. Keep every label, variable name, and symbol in your figures
    consistent with the notation used in the surrounding text.
 
-Including non-ASCII math symbols
-* Type the symbol directly in UTF-8 where it belongs, e.g., ⊕.
-* At first use, put a plain-text name in parentheses: ⊕ (xor).
-* Use one glyph per concept and keep it consistent throughout.
-* Define new notation the first time it appears.
-* If you rely on several symbols, collect them in a small glossary.
+#### ASCII-safe Mathematical Notation
 
-Example: The operation ⊕ (xor) denotes byte-wise XOR.
+Cryptographic specifications MUST use ASCII-only characters in all
+algorithm descriptions. Symbols that lack direct ASCII representation
+(for example, ⊕, ∥, ⋅, ∞) MAY appear in informative examples or figures,
+but every such symbol MUST be accompanied by an ASCII equivalent and be
+defined exactly once in a dedicated *Notation* section. Each operator or
+symbol has exactly one meaning; authors MUST NOT overload a glyph (for
+example, `^`) for multiple operations. Following these rules ensures the
+plain-text RFC renders unambiguously and prevents implementation errors
+stemming from visual formatting differences across output formats.
+
+Checklist for authors:
+
+- Define a concise notation table covering every non-obvious operator
+  (`||`, `^`, `mod`, `XOR`, etc.).
+- Prefer `XOR` or `||` over Unicode ⊕ or ∥ in normative text.
+- Never reuse `^` for both XOR and exponentiation—spell out one of them
+  instead.
+- Verify all formulas in the generated **.txt** file; formatting must not
+  change semantics.
+- If Unicode appears in examples, provide the ASCII fallback inline,
+  for example: ⊕ (**XOR**).
 
 
 # Guidelines for Cryptography Specification Content
