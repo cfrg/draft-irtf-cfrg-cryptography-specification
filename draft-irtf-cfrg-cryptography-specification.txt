@@ -2,11 +2,11 @@
 
 
 
-Network Working Group                                        N. Sullivan
+Crypto Forum Research Group                                  N. Sullivan
 Internet-Draft                               Cryptography Consulting LLC
 Intended status: Informational                                C. A. Wood
-Expires: 10 May 2024                                    Cloudflare, Inc.
-                                                         7 November 2023
+Expires: 8 January 2026                                 Cloudflare, Inc.
+                                                             7 July 2025
 
 
            Guidelines for Writing Cryptography Specifications
@@ -23,16 +23,13 @@ Abstract
    representing mathematical operations, security definitions, and
    threat models.
 
-Discussion Venues
+IRTF
 
-   This note is to be removed before publishing as an RFC.
-
-   Discussion of this document takes place on the Crypto Forum Research
-   Group mailing list (cfrg@ietf.org), which is archived at
-   https://mailarchive.ietf.org/arch/search/?email_list=cfrg.
-
-   Source for this draft and an issue tracker can be found at
-   https://github.com/cfrg/draft-irtf-cfrg-cryptography-specification.
+   This document is a product of the Crypto Forum Research Group (CFRG)
+   in the IRTF.  This document may contain material that has not
+   received review from the research community.  The IRTF publishes the
+   results of research and development activities.  These results might
+   not be suitable for deployment.
 
 Status of This Memo
 
@@ -49,11 +46,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 May 2024.
+   This Internet-Draft will expire on 8 January 2026.
 
 Copyright Notice
 
-   Copyright (c) 2023 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -116,17 +113,15 @@ Table of Contents
 
 1.  Introduction
 
-   High-quality cryptography specifications are critical for the for
+   High-quality cryptography specifications are critical for the
    development and deployment of secure cryptographic protocols.  This
-   document provides guidelines for specification writers to follow to
-   help ensure that their specifications are of high quality and are
-   useful for their intended audience.  This document provides
-   guidelines for writing clear, precise, and consistent specifications
-   covering topics such as representing mathematical operations,
-   defining security definitions, and describing threat models.
-   Adhering to these guidelines helps ensure that specifications are
-   easier to understand, implement, and analyze, leading to high
-   assurance and interoperable systems.
+   document provides guidelines for specification writers.  The
+   guidelines cover mathematical operations, security definitions, and
+   threat models.  They help ensure that specifications are of high
+   quality and useful for their intended audience.  Adhering to these
+   guidelines helps ensure that specifications are easier to understand,
+   implement, and analyze, leading to high assurance and interoperable
+   systems.
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -139,6 +134,7 @@ Table of Contents
    The primary goal of these guidelines is to help guide the authorship
    of cryptographic specifications so that they are as useful as
    possible when creating high-assurance cryptographic software.
+
    Specifications that follow these guidelines should be able to be
    easily understood, implemented, and analyzed by different audiences,
    including the engineering community, research community, and
@@ -163,37 +159,33 @@ Table of Contents
    Each of these stakeholder groups contributes something different to
    the overall process of deploying software:
 
-   1.  Engineering community: This community identifies technical
-       problems to be solved and have the skills and resources necessary
-       to build solutions using computing tools.  Engineers focus on why
-       certain problems should be addressed, producing requirements that
-       define the problem and solutions that meet those requirements.
-       Their ultimate goal is to implement and ship software or hardware
-       that effectively tackles these challenges.
+   1.  Engineering community: Engineers identify technical problems and
+       build solutions using computing tools.  They focus on why
+       problems should be addressed, producing requirements that define
+       the problem and solutions that meet those requirements.  Their
+       ultimate goal is to implement and ship software or hardware that
+       effectively tackles these challenges.
 
-   2.  Research community: Researchers are experts who explore the
-       design space of different subject areas and evaluate potential
-       solutions to problems with the goal of better understanding a
-       topic.  This group develops methods for designing tools and
-       performing experiments to validate hypotheses.  The research
-       community concentrates on how problems should be solved, creating
-       artifacts that help describe solutions.  These may include
-       academic, peer-reviewed papers or software that studies or
-       supports the shipping of software.
+   2.  Research community: Researchers explore the design space of
+       different subject areas and evaluate potential solutions.  They
+       develop methods for designing tools and performing experiments to
+       validate hypotheses.  This work concentrates on how problems
+       should be solved, creating artifacts that help describe
+       solutions.  These may include academic, peer-reviewed papers or
+       software that studies or supports the shipping of software.
 
-   3.  Standardization community: This group is responsible for
-       developing technical specifications of protocols that others can
-       implement, analyze, and verify.  The standardization community
-       produces technical specifications that capture the details of a
-       solution.  These specifications serve as a foundation for
-       creating interoperable systems and ensuring the correct
-       implementation of cryptographic algorithms and protocols.
+   3.  Standardization community: This group develops technical
+       specifications of protocols that others can implement, analyze,
+       and verify.  The specifications capture the details of a solution
+       and serve as a foundation for creating interoperable systems.
+       They ensure the correct implementation of cryptographic
+       algorithms and protocols.
 
    By following these guidelines and addressing the distinct needs of
-   each stakeholder group, specification authors can create well-
-   structured, informative specfications documents that facilitate the
-   development, analysis, and implementation of high assurance
-   cryptographic solutions.
+   each stakeholder group, authors can create well-structured,
+   informative specifications documents that facilitate the development,
+   analysis, and implementation of high assurance cryptographic
+   solutions.
 
 3.  Guidelines for Cryptographic Specification Presentation
 
@@ -211,44 +203,36 @@ Table of Contents
    Complexity is one of the main causes of software bugs.  The opposite
    of complexity is simplicity, which is a key aspect of creating
    effective cryptography specifications.  By striving for simplicity in
-   problem statements, technical content, and presentation,
-   specification authors can make their documents more accessible to a
-   wider audience, including implementers, researchers, and protocol
-   designers.  Simplicity reduces the cognitive load required to
-   understand the specification and minimizes the risk of
-   misinterpretation, which can lead to incorrect implementations and
-   security vulnerabilities.
+   problem statements, technical content, and presentation, authors can
+   make their documents more accessible to a wider audience, including
+   implementers, researchers, and protocol designers.  Simplicity
+   reduces the cognitive load required to understand the specification
+   and minimizes the risk of misinterpretation, which can lead to
+   incorrect implementations and security vulnerabilities.
 
-   To achieve simplicity, specification authors should focus on:
+   To achieve simplicity, authors should focus on:
 
-   *  Clearly defining the problem: Start by presenting a concise and
-      easily comprehensible description of the problem that the
-      specification aims to solve.  Avoid unnecessary jargon and strive
-      to make the problem statement accessible to readers with varying
-      levels of expertise in the field.  Ideally, each specification
-      addresses precisely one clearly defined problem.
+   Problem Definition  Start by presenting a concise and easily
+      comprehensible description of the problem that the specification
+      aims to solve.  Avoid unnecessary jargon and strive to make the
+      problem statement accessible to readers with varying levels of
+      expertise in the field.
 
-   *  Reducing complex concepts to component parts: When explaing with
-      multi-step cryptographic algorithms or concepts, break them down
-      into smaller, more manageable components.  This will make it
-      easier for readers to understand the individual parts and their
-      relationships to one another.
+   Component Breakdown  When explaining multi-step cryptographic
+      algorithms or concepts, break them down into smaller, more
+      manageable components.  This will make it easier for readers to
+      understand the individual parts and their relationships to one
+      another.
 
-   *  Using straightforward language and terminology: Write the
-      specification using clear, concise language, and consistent and
-      broadly understood terminology.
+   Clear Language  Write the specification using clear, concise
+      language, and consistent and broadly understood terminology.
+      Avoid overly technical jargon, and define any terms that may be
+      unfamiliar to some readers.
 
-   *  Avoid overly technical jargon, and define any terms that may be
-      unfamiliar to some readers.  Limiting scope: Keep the
-      specification focused on the primary problem or use case, i.e.,
-      avoid feature creep.  Avoid introducing unrelated or peripheral
-      topics, as this can create confusion and detract from the primary
-      focus.
-
-   *  Providing clear examples and diagrams: Include examples and visual
-      aids, such as diagrams or visualizations, to help illustrate
-      complex concepts or processes.  These tools can greatly improve
-      the readability and understanding of the specification.
+   Focused Scope  Keep the specification focused on the primary problem
+      or use case, i.e., avoid feature creep.  Avoid introducing
+      unrelated or peripheral topics, as this can create confusion and
+      detract from the primary focus.
 
    By focusing on simplicity in document structure and prose in the
    specification writing process, authors can create documents that are
@@ -260,55 +244,49 @@ Table of Contents
 
 3.2.  Precision
 
-   Precision is a crucial aspect of writing high-quality specifications,
-   particularly for cryptography, where small deviations or ambiguities
-   can lead to severe security vulnerabilities.  A precise specification
-   ensures that resulting implementations are consistent and correct,
-   and that any analysis done matches the specification.
+   Precision is essential in cryptographic specifications, as small
+   deviations or ambiguities can lead to severe security
+   vulnerabilities.  A precise specification ensures consistent and
+   correct implementations while enabling accurate security analysis.
 
-   To achieve precision in your specifications, consider the following
-   recommendations:
+   The following recommendations help achieve precision:
 
-   1.  Use clear and concise language: Write your specification using
-       straightforward and unambiguous language.  Avoid jargon or
-       colloquialisms that may lead to misinterpretation.  When
-       introducing technical terms or concepts, provide clear
-       definitions or explanations to ensure that all readers are on the
-       same page.
+   1.  Use clear and concise language, avoiding jargon or colloquialisms
+       that may lead to misinterpretation.  When introducing technical
+       terms or concepts, provide clear definitions or explanations to
+       ensure that all readers are on the same page.
 
-   2.  Provide explicit instructions and avoid undefined behavior: When
-       describing algorithms, protocols, or procedures, provide step-by-
-       step instructions that can be easily followed by implementers
-       with minimal or zero risk of misinterpretation.  This will help
-       ensure that all implementations are consistent with the intended
-       design and minimize the risk of errors or vulnerabilities.
+   2.  Provide explicit instructions and avoid undefined behavior,
+       ensuring implementers can follow step-by-step instructions with
+       minimal or zero risk of misinterpretation.  This helps ensure
+       that all implementations are consistent with the intended design
+       and minimizes the risk of errors or vulnerabilities.
 
-   3.  Provide test vectors.  Test vectors help check for correctness of
-       all behavior in the specification, especially those near edge
-       cases.  For example, if a specification involves a branch or
-       condition, then test cases should ideally be written to exercise
-       both paths of the branch.  Sometimes this is infeasible, e.g., if
-       probability of a particular branch happening is negligible,
-       though more often than not branches can be adequately covered.
+   3.  Provide test vectors that check for correctness of all behavior
+       in the specification, especially those near edge cases.  For
+       example, if a specification involves a branch or condition, then
+       test cases should ideally be written to exercise both paths of
+       the branch.  Sometimes this is infeasible, e.g., if probability
+       of a particular branch happening is negligible, though more often
+       than not branches can be adequately covered.
 
-   4.  Employ formal notation or pseudocode: Using formal notation or
-       pseudocode can help provide a precise description of algorithms,
-       data structures, and protocols.  This will ensure that
-       implementers, researchers, and protocol designers can accurately
-       understand the intended behavior and interactions of the
-       components within the specification.
+   4.  Employ formal notation or pseudocode to provide a precise
+       description of algorithms, data structures, and protocols.  This
+       ensures that implementers, researchers, and protocol designers
+       can accurately understand the intended behavior and interactions
+       of the components within the specification.
 
-   5.  Specify data formats and encodings: Clearly define data formats,
+   5.  Specify data formats and encodings, clearly defining formats,
        encoding schemes, and serialization methods for all data types
-       used in the specification.  This will help ensure that different
-       implementations can interoperate seamlessly and reduce the
+       used in the specification.  This helps ensure that different
+       implementations can interoperate seamlessly and reduces the
        likelihood of incompatibilities or communication errors.
 
-   6.  Document assumptions and dependencies: Clearly state any
+   6.  Document assumptions and dependencies, clearly stating any
        assumptions or dependencies on external components, including
        other specifications or protocol descriptions.  This includes
        common dependencies like that of a random number generator.  This
-       will help implementers and researchers understand the context in
+       helps implementers and researchers understand the context in
        which your specification operates and any potential limitations
        or risks.
 
@@ -317,13 +295,14 @@ Table of Contents
 
 3.3.  Consistency
 
-   When a document is self-consistent and consistent with the
-   expectations of documents of its type, it helps reduce ambiguity and
-   is easier to consume.  Ensuring consistency across concepts,
-   vocabulary, language, and presentation helps lower the cognitive load
-   necessary for readers to understand and work with the specification.
-   To achieve consistency in your specifications, consider the following
-   recommendations:
+   A specification must be internally consistent.  It should also align
+   with the conventions of similar documents.
+
+   Consistent use of concepts, vocabulary, language, and presentation
+   reduces ambiguity.  This clarity makes the specification easier to
+   understand and implement.
+
+   The following recommendations help achieve consistency:
 
    1.  Establish a consistent terminology: Develop a clear and
        consistent set of terms and definitions that will be used
@@ -386,13 +365,16 @@ Table of Contents
 
 3.3.1.  Representing Mathematical Operations
 
-   Mathematical operations are fundamental to cryptographic algorithms
-   and protocols, and their clear and precise representation in
-   specifications is crucial for correct implementation and analysis.
-   This section provides guidelines for representing mathematical
-   operations in cryptography specifications in a way that is both
-   comprehensible and unambiguous to the target audiences, including
-   implementers, researchers, and protocol designers.
+   Cryptographic protocols rely on mathematical operations.  These
+   operations require precise and clear representation in
+   specifications.
+
+   Ambiguous or inconsistent mathematical notation leads directly to
+   implementation errors and interoperability failures.
+
+   [RFC7748] demonstrates effective mathematical representation through
+   clear introduction of scalar multiplication notation, consistent
+   usage throughout, and concrete examples.
 
 3.3.1.1.  Notation Consistency
 
@@ -400,54 +382,172 @@ Table of Contents
    is essential for avoiding confusion and ensuring that the
    specification is easy to understand.  Specification authors should
    establish a clear notation system from the beginning and use it
-   consistently throughout the document.  This notation should be
-   introduced with a comprehensive description or a reference to a well-
-   known notation system to ensure that readers can easily follow the
-   mathematical expressions.  For example, exponentiation can be
-   represented by superscript or by a carat, but not by both.
+   consistently throughout the document.
+
+   This notation should be introduced with a comprehensive description
+   or a reference to a well-known notation system to ensure that readers
+   can easily follow the mathematical expressions.  For example,
+   exponentiation can be represented by superscript or by a carat, but
+   not by both.
 
 3.3.1.2.  Use of Standard Mathematical Symbols
 
-   Specification authors should use standard mathematical symbols to
-   represent mathematical operations whenever possible.  This approach
-   promotes clarity and reduces the risk of misinterpretation.  It is
-   important to remember that some symbols may have different meanings
-   in different contexts or disciplines.  In such cases, specification
-   authors should clarify the intended meaning of a symbol within the
-   context of the specification.  For example, when describing group
-   operations using multiplicative notation, the multiplication symbol *
-   should be used instead of the x symbol.
+   Widely recognized mathematical symbols promote clarity and reduce the
+   risk of misinterpretation.  However, some symbols have different
+   meanings across contexts or disciplines.  The specification should
+   clarify the intended meaning of such symbols.  For instance, group
+   operations in multiplicative notation use the * multiplication symbol
+   rather than the x symbol to avoid confusion.
 
 3.3.1.3.  Explicitly Defining Custom Operations
 
-   When a specification requires custom mathematical operations or
-   notation, these should be explicitly defined and accompanied by clear
-   explanations and examples.  Specification authors should take care to
-   minimize the use of custom operations to avoid creating unnecessary
-   complexity and potential confusion.  When using custom operations, it
-   is essential to ensure their definitions are unambiguous and easily
-   understandable to the target audiences.  A glossary of terms MAY be
-   useful when there are multiple custom or uncommon operations
-   introduced in the specification.
+   Mathematical operations and notation that extend beyond standard
+   conventions require explicit definitions with clear explanations and
+   examples.
+
+   Key aspects of defining custom operations: - Provide clear
+   explanations and examples. - Keep new notation minimal to avoid
+   confusion. - Consider including a glossary for multiple non-standard
+   operations.
 
 3.3.1.4.  Pseudocode and Algorithmic Descriptions
 
-   Providing algorithmic descriptions or pseudocode alongside
-   mathematical expressions can greatly improve the clarity of a
-   specification, particularly for implementers.  Pseudocode should be
-   clear, concise, and closely resemble the structure of actual
-   programming languages.  Including comments and explanations within
-   the pseudocode can further enhance its readability and ease of
-   understanding.  Consistent notation for describing loops or if/then
-   statements should be used throughout the document.
+   Mathematical expressions often need to be supplemented with
+   pseudocode or algorithmic descriptions to bridge the gap between
+   theory and implementation.  Pseudocode should be written in a style
+   that resembles real programming languages.  Comments clarify the
+   logic.  Control structures such as loops and conditionals should use
+   consistent notation throughout the document.
 
 3.3.1.5.  Visual Representations
 
-   Visual representations, such as diagrams, tables or visualizations,
-   can be a valuable tool for conveying complex mathematical concepts or
-   relationships in a more digestible form.  When including visual
-   representations, specification authors should ensure they are clear,
-   accurately labeled, and consistent with the overall notation system.
+   Diagrams and other visual aids help convey complex mathematical
+   concepts.  These elements must be clear, properly labeled, and
+   consistent with the notation system.  Visual representations
+   supplement the text; they do not replace it.
+
+   1.  Ensure that diagrams remain legible in all output formats,
+       including TXT, HTML, and PDF.
+
+   2.  For simple state machines or data flows, use ASCII diagrams that
+       display clearly in all output formats.
+
+   3.  Keep every label, variable name, and symbol in your figures
+       consistent with the notation used in the surrounding text.
+
+3.3.1.6.  ASCII-safe Mathematical Notation
+
+   Cryptographic specifications MUST use ASCII-only characters in all
+   algorithm descriptions.  Symbols that lack direct ASCII
+   representation (for example, ⊕, ∥, ⋅, ∞) MAY appear in informative
+   examples or figures, but every such symbol MUST be accompanied by an
+   ASCII equivalent and be defined exactly once in a dedicated Notation
+   section.  Each operator or symbol has exactly one meaning; authors
+   MUST NOT overload a glyph (for example, ^) for multiple operations.
+   Following these rules ensures the plain-text RFC renders
+   unambiguously and prevents implementation errors stemming from visual
+   formatting differences across output formats.
+
+   Checklist for authors:
+
+   *  Define a concise notation table covering every non-obvious
+      operator (||, ^, mod, XOR, etc.).
+
+   *  Prefer XOR or || over Unicode ⊕ or ∥ in normative text.
+
+   *  Never reuse ^ for both XOR and exponentiation—spell out one of
+      them instead.
+
+   *  Verify all formulas in the generated *.txt* file; formatting must
+      not change semantics.
+
+   *  If Unicode appears in examples, provide the ASCII fallback inline,
+      for example: ⊕ (*XOR*).
+
+   Rendering considerations (HTML/PDF only):
+
+   *  Authors MAY use <sup> (or Markdown ^) markup so the ASCII ^
+      exponent indicator renders as a superscript in HTML or PDF
+      outputs.  The plain-text RFC MUST still display the caret
+      character.
+
+   *  It is acceptable for the rendered HTML/PDF to substitute Unicode
+      symbols for clarity—e.g., ⊕ (U+2295) for XOR or ⋅ (U+22C5 or
+      U+00B7) for multiplication—provided that the canonical text uses
+      the ASCII equivalents (XOR, *) and the symbol meanings are listed
+      in the Notation table.
+
+   *  Such styling MUST NOT alter the normative meaning, and the ASCII
+      representation MUST remain authoritative.
+
+3.3.1.6.1.  Two-layer rule
+
+   Normative layer (canonical text): - Limited to printable ASCII plus
+   SP and LF. - Only the operator glyphs in the table below are
+   permitted.
+
+   Rendered layer (HTML/PDF): - Generated automatically by build tools
+   (kramdown-RFC, Sphinx, or similar tooling). - May substitute
+   typographical symbols (for example, *→⋅, XOR→⊕, ^→superscript). -
+   Substitutions are stylistic only; the ASCII source remains
+   authoritative.
+
+   Mandatory operator set
+
+   +================+==========+=========+============================+
+   | Concept        | ASCII    | Example | Notes                      |
+   |                | glyph(s) |         |                            |
+   +================+==========+=========+============================+
+   | Addition /     | +, -     | a + b   |                            |
+   | subtraction    |          |         |                            |
+   +----------------+----------+---------+----------------------------+
+   | Multiplication | *        | x * y   | Define early that * is     |
+   |                |          |         | group/field multiplication |
+   +----------------+----------+---------+----------------------------+
+   | Exponentiation | ^ or **  | g^k,    | Choose one symbol and use  |
+   |                |          | 2**255  | it consistently            |
+   |                |          | - 19    |                            |
+   +----------------+----------+---------+----------------------------+
+   | XOR            | XOR      | a XOR b | Avoids clash with ^; all-  |
+   |                |          |         | caps stands out            |
+   +----------------+----------+---------+----------------------------+
+   | Concatenation  | ||       | M1 ||   | Define in glossary         |
+   |                |          | M2      |                            |
+   +----------------+----------+---------+----------------------------+
+   | Equality /     | = / <-   | x <- y  | <- optional but must be    |
+   | assignment     |          |         | defined                    |
+   +----------------+----------+---------+----------------------------+
+
+                                 Table 1
+
+3.3.1.6.2.  Operator glossary and constant-time annotations
+
+   Immediately after the terminology section, include a short table
+   “Mathematical Operators and Symbols”.  Each entry MUST provide: 1.
+   ASCII glyph(s) 2.  Description of the operation 3.  Comment on
+   constant-time versus variable-time expectations.
+
+   When pseudocode requires constant-time behavior, mark the line with
+   the CONST tag, for example:
+
+   z <- CMOV(x, y, e) # CONST: branch-free
+
+   Style checklist for authors
+
+   *  If a glyph could be ambiguous (e.g., ^), add an inline reminder
+      the first time it appears: ^ (exponentiation).
+
+   *  Never overload the same glyph for two different operations within
+      the same specification.
+
+   *  Prefer italic variables in rendered formats; keep them plain in
+      ASCII.
+
+   *  Provide at least one worked example that exercises every operator.
+
+   *  If an uncommon Unicode symbol is truly necessary (e.g., ⟂ for
+      "perp"), include it only inside <artwork type="html"> with an
+      ASCII fallback in canonical text.
 
 4.  Guidelines for Cryptography Specification Content
 
@@ -478,19 +578,20 @@ Table of Contents
 
    When developing a cryptography specification, it is advantageous to
    build upon existing, well-established specifications, protocols, and
-   primitives where possible.  By doing so, specification authors can
-   capitalize on the collective expertise of the community, as well as
-   existing security analyses, implementation experiences, and best
-   practices.  This approach reduces the potential for introducing new
-   vulnerabilities and inconsistencies while promoting interoperability
-   between different systems.
+   primitives where possible.
+
+   By doing so, authors can capitalize on the collective expertise of
+   the community, as well as existing security analyses, implementation
+   experiences, and best practices.  This approach reduces the potential
+   for introducing new vulnerabilities and inconsistencies while
+   promoting interoperability between different systems.
 
 4.1.2.  Modular Design
 
    Emphasizing modularity in the design of cryptography specifications
    allows for greater flexibility and reusability.  By breaking down
    complex algorithms into smaller, self-contained components or
-   modules, specification authors facilitate the reuse of these
+   modules, specification writers facilitate the reuse of these
    components in different contexts or applications.  A modular design
    also simplifies the process of updating or replacing specific
    components without affecting the overall system, making it easier to
@@ -498,22 +599,27 @@ Table of Contents
    example of a modular design is the prime-order group abstraction.
    Algorithms that use this abstraction admit a modular design where the
    group implementation is described in a separate document dedicated to
-   the details of the implementation of the group.
+   the details of the implementation of the group.  This approach
+   simplifies both implementation and security analysis.
 
 4.1.3.  Clear Interfaces and Abstractions
 
    To promote misuse resistance and elegant higher-level designs,
    cryptography specifications should provide clear interfaces and
-   abstractions for the components and primitives they describe.  Well-
-   defined interfaces enable developers to understand and interact with
-   a component without needing to know the details of its internal
-   implementation.  This approach allows for the replacement or
-   modification of components with minimal impact on the overall system
-   and encourages the development of interchangeable components that can
-   be reused across different applications and within protocols.
+   abstractions for the components and primitives they describe.
+
+   Well-defined interfaces enable developers to understand and interact
+   with a component without needing to know the details of its internal
+   implementation.
+
+   This approach allows for the replacement or modification of
+   components with minimal impact on the overall system and encourages
+   the development of interchangeable components that can be reused
+   across different applications and within protocols.
+
    Cryptographic objects typically have a set of functions associated
-   with them that make up the interface.  Structuring the functions to
-   fit well-understood and existing abstractions help make the job of
+   with them that make up the interface; structuring the functions to
+   fit well-understood and existing abstractions helps make the job of
    using the object in higher-level algorithms easier and less prone to
    code duplication.
 
@@ -521,14 +627,24 @@ Table of Contents
 
    The operations defined in a cryptography specification should be
    complete, with defined behavior on all inputs.  This includes error
-   handing, and edge cases which would otherwise not impact the
-   algorithm's cryptographic properties.  In particular, when
-   deserializing a byte string, the behavior on all byte strings should
-   be defined, including cases which would not be valid outputs of the
-   corresponding serialization function.  A complete specification help
-   avoids implementation variations.  These variations can lead to
-   interoperability failures, gaps between formal analysis and real-
-   world practice, or security vulnerabilities.
+   handling and edge cases which would otherwise not impact the
+   algorithm's cryptographic properties.
+
+   In particular, when deserializing a byte string, the behavior on all
+   byte strings should be defined, including cases which would not be
+   valid outputs of the corresponding serialization function.  A
+   complete specification helps avoid implementation variations.  These
+   variations can lead to interoperability failures, gaps between formal
+   analysis and real-world practice, or security vulnerabilities.
+
+   *  Define behavior for all inputs: Ensure that every possible input
+      scenario is accounted for, including edge cases.
+
+   *  Error handling: Clearly specify how errors should be managed to
+      prevent unexpected behavior.
+
+   *  Avoid multiple valid behaviors: Consistency is key; avoid leaving
+      multiple implementation options open.
 
    Avoid defining multiple implementation behaviors as valid.  Leaving
    multiple options to implementators leads to compounding complexity:
@@ -546,6 +662,9 @@ Table of Contents
    components can be combined or applied in various scenarios further
    clarifies their usage and encourages their reuse in different
    contexts.
+
+   Documentation Tips: - Use clear, concise language - Include
+   illustrative examples - Highlight use cases and scenarios
 
    By focusing on reusability in cryptography specifications, authors
    can help create secure, efficient, and adaptable cryptographic
@@ -573,10 +692,15 @@ Table of Contents
    should be comprehensive, covering all relevant aspects, such as
    confidentiality, integrity, authentication, non-repudiation, and
    availability as well as resistance to implementation flaws such as
-   side-channels.  Furthermore, authors should clarify any trade-offs or
-   limitations associated with the security goals, ensuring that the
-   target audiences understand the intended balance between security and
-   other factors, such as performance or ease of implementation.
+   side-channels.
+
+   Furthermore, authors should clarify any trade-offs or limitations
+   associated with the security goals, ensuring that the target
+   audiences understand the intended balance between security and other
+   factors, such as performance or ease of implementation.
+
+   Common Security Goals: - Confidentiality - Integrity - Authentication
+   - Non-repudiation - Availability - Resistance to side-channels
 
 4.2.2.  Formalizing Security Definitions
 
@@ -584,10 +708,13 @@ Table of Contents
    rigorously analyze the algorithms and protocols described in the
    specification.  Specification authors should strive to express
    security definitions in a formal language, using consistent notation
-   and terminology.  The formal definitions should be accompanied by
+   and terminology.  Authors should accompany formal definitions with
    clear explanations and examples to make them more accessible to
    implementers and protocol designers who may not be familiar with
    formal methods.
+
+   Steps to Formalize Security Definitions: - Choose a formal language -
+   Ensure consistent notation - Provide clear examples
 
 4.2.3.  Describing the Threat Model
 
@@ -598,7 +725,11 @@ Table of Contents
    adversaries.  Additionally, authors should identify any assumptions
    made about the adversarial model and explicitly state them to help
    the target audiences understand the intended scope and limitations of
-   the specification's security guarantees.
+   the specification's security guarantees.  Clear threat models help
+   prevent misuse in inappropriate contexts.
+
+   Key Components of a Threat Model: - Adversary capabilities -
+   Resources - Motivations - Assumptions about adversarial models
 
 4.2.4.  Addressing Known Vulnerabilities and Attacks
 
@@ -614,22 +745,30 @@ Table of Contents
 4.2.5.  Providing Guidance on Secure Implementation and Deployment
 
    To help ensure that the security definitions and threat models are
-   effectively realized in practice, specification authors should
-   provide guidance on secure implementation and deployment of the
-   proposed algorithms and protocols.  This guidance may include best
-   practices for avoiding common pitfalls, recommendations for
-   cryptographic parameter selection, or considerations for securely
-   integrating the specification into existing systems.
+   effectively realized in practice, authors should provide guidance on
+   secure implementation and deployment of the proposed algorithms and
+   protocols.  This guidance may include best practices for avoiding
+   common pitfalls, recommendations for cryptographic parameter
+   selection, or considerations for securely integrating the
+   specification into existing systems.
 
    By clearly defining security definitions and threat models in
    cryptography specifications, authors can facilitate a better
    understanding of the security properties and limitations of the
    proposed algorithms and protocols among implementers, researchers,
-   and protocol designers.  Following these guidelines and the
-   recommendations from [RFC3552] help make for a robust security
-   considerations section for the specification.  Having a complete
-   discussion of the threat model and security definitions helps prevent
-   the use of cryptographic algorithms in insecure contexts.
+   and protocol designers.
+
+   Clear security definitions prevent cryptographic algorithms from
+   being used in insecure contexts.
+
+   *  Following these guidelines and recommendations from [RFC3552]
+      helps create robust security considerations sections
+
+   *  Complete threat model discussions facilitate better understanding
+      of security properties and limitations
+
+   *  Proper security definitions enable accurate analysis by target
+      audiences
 
 5.  Catering to Target Audiences
 
@@ -642,7 +781,9 @@ Table of Contents
 5.1.  Catering to Implementers
 
    Implementers require a clear, concise, and unambiguous specification
-   to develop production-grade software.  To cater to implementers:
+   to develop production-grade software.
+
+   To cater to implementers:
 
    *  Provide step-by-step instructions for implementing algorithms or
       processes, ensuring that all required inputs, outputs, and
@@ -781,8 +922,8 @@ Table of Contents
 
    Developing effective cryptography specifications often requires
    collaboration between multiple stakeholders in the target audience,
-   including engineers, researchers, and standardization organizations.
-   Engaging in a collaborative process helps ensure that diverse
+   including engineers, researchers, and standardization organizations,
+   and engaging in a collaborative process helps ensure that diverse
    perspectives and expertise are considered, resulting in more robust
    and widely applicable specifications.  This section discusses the
    importance of collaboration and compromise in specification
@@ -794,11 +935,11 @@ Table of Contents
    Effective collaboration relies on open communication and an ongoing
    exchange of ideas and feedback.  By creating channels for
    communication, such as mailing lists, pull request threads (as
-   described in [RFC8874]), or regular meetings, specification authors
-   can facilitate discussions, address concerns, and gather valuable
-   input from various stakeholders.  Encouraging an environment where
-   feedback is welcomed and valued helps ensure that the specification
-   benefits from diverse expertise and experiences.
+   described in [RFC8874]), or regular meetings, authors can facilitate
+   discussions, address concerns, and gather valuable input from various
+   stakeholders.  Encouraging an environment where feedback is welcomed
+   and valued helps ensure that the specification benefits from diverse
+   expertise and experiences.
 
 6.2.  Seek External Expertise
 
@@ -817,9 +958,14 @@ Table of Contents
    differences and work towards finding mutually agreeable solutions.
    This may require making compromises or revisiting previous decisions
    to ensure that the specification meets the needs of all involved
-   parties.  By maintaining a flexible and open-minded approach,
-   specification authors can build consensus and develop a more robust
-   specification.
+   parties.  By maintaining a flexible and open-minded approach, authors
+   can:
+
+   *  Build consensus among diverse stakeholders with varying priorities
+      and technical perspectives.
+
+   *  Develop a more robust specification that addresses real-world
+      implementation and deployment challenges.
 
 7.  Examples of Well-Written Specifications
 
@@ -913,16 +1059,14 @@ Table of Contents
 
 8.2.  Unnecessary Branching
 
-   Some components of the cryptographic algorithms in EdDSA had branches
-   that sometimes led to different implementation behavior.  In
-   particular, in the verification step for Ed25519, the following text
-   exists: "Check the group equation [8][S]B = [8]R + [8][k]A'.  It's
-   sufficient, but not required, to instead check [S]B = R + [k]A'."
-   This alternative branch has led to disagreement between what
-   signatures are valid or not, which has a profound effect on
-   applications.  Minimizing and removing similar branches - especially
-   those that exist in the name of performance - should be a goal of all
-   cryptographic specifications.
+   Some parts of EdDSA permit more than one verification path, which can
+   split implementations.  For Ed25519, [RFC8032] gives two options:
+   8_S_B = 8_R + 8_k_A' (where * denotes scalar multiplication, '
+   denotes a derived point, and = denotes equality) or S_B = R + k*A'
+   (shortcut).  The shortcut saves cycles but lets libraries disagree on
+   which signatures are valid.  Specs should avoid such optional
+   branches—especially performance-only shortcuts—to keep
+   implementations interoperable.
 
 8.3.  Compatibility and Modularity
 
@@ -938,13 +1082,14 @@ Table of Contents
 
 9.  Conclusion
 
-   This document provides guidelines for writing effective cryptography
+   Quality matters in cryptographic specification writing.  This
+   document provides guidelines for writing effective cryptography
    specifications, emphasizing the importance of catering to different
-   audiences, such as implementers, researchers, and protocol designers,
-   with the end goal of enabling high-assurance cryptographic software.
-   By focusing on simplicity, precision, consistency, reusability,
-   collaboration, and compromise, specification authors can create
-   documents that are easier to understand, implement, and analyze.
+   audiences, such as target audiences, with the end goal of enabling
+   high-assurance cryptographic software.  By focusing on simplicity,
+   precision, consistency, reusability, collaboration, and compromise,
+   specification writers can create documents that are easier to
+   understand, implement, and analyze.
 
    We have also discussed the representation of mathematical operations
    and the importance of clearly defining security definitions and
@@ -954,7 +1099,7 @@ Table of Contents
    cryptographic algorithms and protocols.
 
    Finally, we have examined a well-written example, [RFC8439], to
-   demonstrate how these guidelines can be applied in practice.  By
+   demonstrate how these guidelines can be applied in practice, and by
    highlighting specific sections of this specification, we have shown
    how authors can create high-quality specifications that cater to the
    diverse needs of their target audiences.
@@ -972,6 +1117,10 @@ Table of Contents
    This document discusses best practices for writing and editing
    cryptography specifications.  It does not provide any guidance for
    the semantic contents of those specifications.
+
+   Poor specification practices can lead to serious security
+   vulnerabilities.  Ambiguous algorithm descriptions may result in
+   incompatible implementations with different security properties.
 
 11.  IANA Considerations
 
