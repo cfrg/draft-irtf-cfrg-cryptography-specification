@@ -382,6 +382,72 @@ Checklist for authors:
 - If Unicode appears in examples, provide the ASCII fallback inline,
   for example: ⊕ (**XOR**).
 
+Rendering considerations (HTML/PDF only):
+
+* Authors MAY use `<sup>` (or Markdown `^`) markup so the ASCII `^`
+  exponent indicator renders as a superscript in HTML or PDF outputs.
+  The plain-text RFC MUST still display the caret character.
+* It is acceptable for the rendered HTML/PDF to substitute Unicode
+  symbols for clarity—e.g., ⊕ (U+2295) for XOR or ⋅ (U+22C5 or U+00B7)
+  for multiplication—provided that the canonical text uses the ASCII
+  equivalents (`XOR`, `*`) and the symbol meanings are listed in the
+  Notation table.
+* Such styling MUST NOT alter the normative meaning, and the ASCII
+  representation MUST remain authoritative.
+
+##### Two-layer rule
+
+Normative layer (canonical text):
+- Limited to printable ASCII plus SP and LF.
+- Only the operator glyphs in the table below are
+  permitted.
+
+Rendered layer (HTML/PDF):
+- Generated automatically by build tools (kramdown-RFC, Sphinx,
+  or similar tooling).
+- May substitute typographical symbols (for example, *→⋅,
+  XOR→⊕, `^`→superscript).
+- Substitutions are stylistic only; the ASCII source remains
+  authoritative.
+
+Mandatory operator set
+
+| Concept | ASCII glyph(s) | Example | Notes |
+| ------- | -------------- | ------- | ----- |
+| Addition / subtraction | `+`, `-` | `a + b` | |
+| Multiplication         | `*` | `x * y` | Define early that `*` is group/field multiplication |
+| Exponentiation         | `^` or `**` | `g^k`, `2**255 - 19` | Choose one symbol and use it consistently |
+| XOR | `XOR` | `a XOR b` | Avoids clash with `^`; all-caps stands out |
+| Concatenation | `||` | `M1 || M2` | Define in glossary |
+| Equality / assignment | `=` / `<-` | `x <- y` | `<-` optional but must be defined |
+
+##### Operator glossary and constant-time annotations
+
+Immediately after the terminology section, include a short table
+“Mathematical Operators and Symbols”.  Each entry MUST provide:
+1. ASCII glyph(s)
+2. Description of the operation
+3. Comment on constant-time versus variable-time expectations.
+
+When pseudocode requires constant-time behavior, mark the line with the
+`CONST` tag, for example:
+
+```
+z <- CMOV(x, y, e)  # CONST: branch-free
+```
+
+Style checklist for authors
+
+- If a glyph could be ambiguous (e.g., `^`), add an inline reminder the
+  first time it appears: `^` (exponentiation).
+- Never overload the same glyph for two different operations within the
+  same specification.
+- Prefer italic variables in rendered formats; keep them plain in ASCII.
+- Provide at least one worked example that exercises every operator.
+- If an uncommon Unicode symbol is truly necessary (e.g., ⟂ for "perp"),
+  include it only inside `<artwork type="html">` with an ASCII fallback
+  in canonical text.
+
 
 # Guidelines for Cryptography Specification Content
 
@@ -918,8 +984,8 @@ equal to" which were not explicitly covered by the test vectors.
 
 Some parts of EdDSA permit more than one verification path, which can
 split implementations.  For Ed25519, {{RFC8032}} gives two options:
-8·S·B = 8·R + 8·k·A′ (where · denotes scalar multiplication, ′
-denotes a derived point, and = denotes equality) or S·B = R + k·A′
+8*S*B = 8*R + 8*k*A' (where * denotes scalar multiplication, '
+denotes a derived point, and = denotes equality) or S*B = R + k*A'
 (shortcut).  The shortcut saves cycles but lets libraries disagree on
 which signatures are valid.  Specs should avoid such optional
 branches—especially performance-only shortcuts—to keep implementations
