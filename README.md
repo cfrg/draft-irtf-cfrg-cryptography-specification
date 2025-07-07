@@ -1,3 +1,5 @@
+<!-- regenerate: on (set to off if you edit this file) -->
+
 # Guidelines for Writing Cryptography Specifications
 
 This is the working area for the individual Internet-Draft, "Guidelines for Writing Cryptography Specifications".
