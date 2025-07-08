@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-01-30T00:51:56.377451+00:00",
+  "timestamp": "2025-07-08T00:53:31.280787+00:00",
   "repo": "cfrg/draft-irtf-cfrg-cryptography-specification",
   "labels": [
     {
@@ -49,7 +49,24 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 2,
+      "id": "I_kwDOJ5_kp864ohg7",
+      "title": "Track and resolve recommendations for special characters and mathematics",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cryptography-specification/issues/2",
+      "state": "OPEN",
+      "author": "grittygrease",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-05-28T14:41:51Z",
+      "updatedAt": "2025-05-28T14:41:51Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": [
     {
       "number": 1,
@@ -92,6 +109,34 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOJ5_kp86YCGU5",
+      "title": "Nick/may25 minor",
+      "url": "https://github.com/cfrg/draft-irtf-cfrg-cryptography-specification/pull/3",
+      "state": "MERGED",
+      "author": "grittygrease",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Minor cleanups in preparation for renewing the document.",
+      "createdAt": "2025-05-28T21:53:24Z",
+      "updatedAt": "2025-07-07T19:44:26Z",
+      "baseRepository": "cfrg/draft-irtf-cfrg-cryptography-specification",
+      "baseRefName": "main",
+      "baseRefOid": "943a06f584400f68d5245ea2443430372ffb1b13",
+      "headRepository": "cfrg/draft-irtf-cfrg-cryptography-specification",
+      "headRefName": "nick/may25-minor",
+      "headRefOid": "e34e6bb569ce78f2acbfc5d881f5c17bc79682d3",
+      "closedAt": "2025-07-07T19:44:25Z",
+      "mergedAt": "2025-07-07T19:44:25Z",
+      "mergedBy": "grittygrease",
+      "mergeCommit": {
+        "oid": "d72364e5680822fdab5d44529ec628035d5386de"
+      },
+      "comments": [],
+      "reviews": []
     }
   ]
 }
