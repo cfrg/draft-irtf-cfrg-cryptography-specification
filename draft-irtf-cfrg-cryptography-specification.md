@@ -63,7 +63,7 @@ cover mathematical operations, security definitions, and threat models.
 They help ensure that specifications are of high quality and useful for
 their intended audience.  Adhering to these guidelines helps ensure
 that specifications are easier to understand, implement, and analyze,
-leading to high assurance and interoperable systems.
+leading to high-assurance and interoperable systems.
 
 {::boilerplate bcp14-tagged}
 
@@ -73,11 +73,11 @@ The primary goal of these guidelines is to help guide the authorship
 of cryptographic specifications so that they are as useful as possible
 when creating high-assurance cryptographic software.
 
-Specifications that follow these guidelines should be able to be
-easily understood, implemented, and analyzed by different audiences,
-including the engineering community, research community, and
-standardization community.  By addressing the unique needs and
-expectations of each group, these guidelines aim to:
+Specifications that follow these guidelines should be easy to
+understand, implement, and analyze for different audiences, including
+the engineering community, research community, and standardization
+community.  By addressing the unique needs and expectations of each
+group, these guidelines aim to:
 
 * Minimize ambiguity and misinterpretations, leading to clearer
 specifications and more accurate implementations.
@@ -114,22 +114,21 @@ serve as a foundation for creating interoperable systems.  They ensure
 the correct implementation of cryptographic algorithms and protocols.
 
 By following these guidelines and addressing the distinct needs of each
-stakeholder group, authors can create well-structured,
-informative specifications documents that facilitate the development,
-analysis, and implementation of high assurance cryptographic
-solutions.
+stakeholder group, authors can create well-structured, informative
+specification documents that facilitate the development, analysis, and
+implementation of high-assurance cryptographic solutions.
 
 
 # Guidelines for Cryptographic Specification Presentation
 
 Technical specifications do not stand on their own.  Their value is
 derived from their usefulness to the various communities that rely on
-them.  A specification can have amazing content but without the
+them.  A specification can have excellent content but without the
 appropriate presentation, it may not be as useful as intended.  The
 guidelines in this section are a baseline set of recommendations for
-authors to consider when writing a cryptographic specification and are
-applicable beyond just cryptographic standards and are general good
-practices for specification writers.
+authors to consider when writing a cryptographic specification.  They
+apply beyond cryptographic standards and are general good practices for
+specification writers.
 
 
 ## Simplicity
@@ -190,7 +189,7 @@ The following recommendations help achieve precision:
 1. Use clear and concise language, avoiding jargon or colloquialisms
    that may lead to misinterpretation.  When introducing technical
    terms or concepts, provide clear definitions or explanations to
-   ensure that all readers are on the same page.
+   ensure that all readers share the same understanding.
 2. Provide explicit instructions and avoid undefined behavior,
    ensuring implementers can follow step-by-step instructions with
    minimal or zero risk of misinterpretation.  This helps ensure that
@@ -358,29 +357,30 @@ supplement the text; they do not replace it.
 3. Keep every label, variable name, and symbol in your figures
    consistent with the notation used in the surrounding text.
 
-#### ASCII-safe Mathematical Notation
+#### ASCII-Safe Mathematical Notation
 
 Cryptographic specifications MUST use ASCII-only characters in all
-algorithm descriptions. Symbols that lack direct ASCII representation
-(for example, ⊕, ∥, ⋅, ∞) MAY appear in informative examples or figures,
-but every such symbol MUST be accompanied by an ASCII equivalent and be
-defined exactly once in a dedicated Notation section. Each operator or
-symbol has exactly one meaning; authors MUST NOT overload a glyph (for
-example, `^`) for multiple operations. Following these rules ensures the
-plain-text RFC renders unambiguously and prevents implementation errors
-stemming from visual formatting differences across output formats.
+algorithm descriptions.  Symbols that lack direct ASCII representation
+(for example, ⊕, ∥, ⋅, ∞) MAY appear in informative examples or
+figures, but every such symbol MUST be accompanied by an ASCII
+equivalent and be defined exactly once in a dedicated Notation section.
+Each operator or symbol has exactly one meaning; authors MUST NOT
+overload a glyph (for example, `^`) for multiple operations.  Following
+these rules ensures the plain-text RFC renders unambiguously and
+prevents implementation errors stemming from visual formatting
+differences across output formats.
 
 Checklist for authors:
 
 - Define a concise notation table covering every non-obvious operator
   (`||`, `^`, `mod`, `XOR`, etc.).
 - Prefer `XOR` or `||` over Unicode ⊕ or ∥ in normative text.
-- Never reuse `^` for both XOR and exponentiation—spell out one of them
-  instead.
-- Verify all formulas in the generated **.txt** file; formatting must not
+- Never reuse `^` for both XOR and exponentiation; spell out one of
+  them instead.
+- Verify all formulas in the generated .txt file; formatting must not
   change semantics.
 - If Unicode appears in examples, provide the ASCII fallback inline,
-  for example: ⊕ (**XOR**).
+  for example: ⊕ (XOR).
 
 Rendering considerations (HTML/PDF only):
 
@@ -388,19 +388,19 @@ Rendering considerations (HTML/PDF only):
   exponent indicator renders as a superscript in HTML or PDF outputs.
   The plain-text RFC MUST still display the caret character.
 * It is acceptable for the rendered HTML/PDF to substitute Unicode
-  symbols for clarity—e.g., ⊕ (U+2295) for XOR or ⋅ (U+22C5 or U+00B7)
-  for multiplication—provided that the canonical text uses the ASCII
-  equivalents (`XOR`, `*`) and the symbol meanings are listed in the
-  Notation table.
+  symbols for clarity, e.g., ⊕ (U+2295) for XOR or ⋅ (U+22C5 or
+  U+00B7) for multiplication, provided that the canonical text uses
+  the ASCII equivalents (`XOR`, `*`) and the symbol meanings are
+  listed in the Notation table.
 * Such styling MUST NOT alter the normative meaning, and the ASCII
   representation MUST remain authoritative.
 
-##### Two-layer rule
+##### Two-Layer Rule
 
 Normative layer (canonical text):
 - Limited to printable ASCII plus SP and LF.
-- Only the operator glyphs in the table below are
-  permitted.
+- Operator glyphs are drawn from the table below; any additional
+  operator MUST be defined in the Notation table before first use.
 
 Rendered layer (HTML/PDF):
 - Generated automatically by build tools (kramdown-RFC, Sphinx,
@@ -410,31 +410,41 @@ Rendered layer (HTML/PDF):
 - Substitutions are stylistic only; the ASCII source remains
   authoritative.
 
-Mandatory operator set
+Baseline operator set
 
 | Concept | ASCII glyph(s) | Example | Notes |
 | ------- | -------------- | ------- | ----- |
 | Addition / subtraction | `+`, `-` | `a + b` | |
 | Multiplication         | `*` | `x * y` | Define early that `*` is group/field multiplication |
-| Exponentiation         | `^` or `**` | `g^k`, `2**255 - 19` | Choose one symbol and use it consistently |
+| Exponentiation         | `^` or `**` | `g^k`, `2**255 - 19` | Choose one symbol and use it consistently; note `^` is XOR in C-family languages |
+| Modular reduction | `mod` | `x mod L` | State the modulus and the range of the result |
 | XOR | `XOR` | `a XOR b` | Avoids clash with `^`; all-caps stands out |
 | Concatenation | `||` | `M1 || M2` | Define in glossary |
-| Equality / assignment | `=` / `<-` | `x <- y` | `<-` optional but must be defined |
+| Comparison | `<`, `<=`, `>=`, `>` | `s >= L` | Make boundary conditions exact |
+| Shift / rotate | `<<`, `>>`, `ROTL` | `x ROTL 16` | Define operand width and wrapping |
+| Equality | `=` | `x = y` | |
+| Assignment | `<-` | `x <- y` | MUST be distinct from the equality glyph |
 
-##### Operator glossary and constant-time annotations
+##### Operator Glossary and Constant-Time Annotations
 
 Immediately after the terminology section, include a short table
-“Mathematical Operators and Symbols”.  Each entry MUST provide:
+"Mathematical Operators and Symbols".  Each entry MUST provide:
 1. ASCII glyph(s)
 2. Description of the operation
 3. Comment on constant-time versus variable-time expectations.
 
-When pseudocode requires constant-time behavior, mark the line with the
-`CONST` tag, for example:
+When pseudocode requires constant-time behavior, mark the line with
+the `CONST` tag.  For example, with CMOV(x, y, e) defined to return y
+when e = 1 and x when e = 0:
 
-```
+~~~~
 z <- CMOV(x, y, e)  # CONST: branch-free
-```
+~~~~
+
+Such annotations state intent; they do not by themselves make an
+implementation constant-time.  Specifications should also identify
+which values are secret, so that implementations avoid branching on,
+or indexing memory by, secret-derived values.
 
 Style checklist for authors
 
@@ -444,9 +454,9 @@ Style checklist for authors
   same specification.
 - Prefer italic variables in rendered formats; keep them plain in ASCII.
 - Provide at least one worked example that exercises every operator.
-- If an uncommon Unicode symbol is truly necessary (e.g., ⟂ for "perp"),
-  include it only inside `<artwork type="html">` with an ASCII fallback
-  in canonical text.
+- If an uncommon Unicode symbol is truly necessary (e.g., ⟂ for
+  "perp"), include it only inside `<artwork type="html">` with an
+  ASCII fallback in canonical text.
 
 
 # Guidelines for Cryptography Specification Content
@@ -516,10 +526,10 @@ Well-defined interfaces enable developers to understand and interact
 with a component without needing to know the details of its internal
 implementation.
 
-This approach allows for the replacement or
-modification of components with minimal impact on the overall system
-and encourages the development of interchangeable components that can
-be reused across different applications and within protocols.
+This approach allows for the replacement or modification of components
+with minimal impact on the overall system and encourages the development
+of interchangeable components that can be reused across different
+applications and within protocols.
 
 Cryptographic objects typically have a set of functions associated
 with them that make up the interface; structuring the functions to
@@ -535,26 +545,27 @@ complete, with defined behavior on all inputs.  This includes error
 handling and edge cases which would otherwise not impact the
 algorithm's cryptographic properties.
 
-In particular, when
-deserializing a byte string, the behavior on all byte strings should
-be defined, including cases which would not be valid outputs of the
-corresponding serialization function.  A complete specification helps
-avoid implementation variations.  These variations can lead to
-interoperability failures, gaps between formal analysis and real-world
-practice, or security vulnerabilities.
+In particular, when deserializing a byte string, the behavior on all
+byte strings should be defined, including cases which would not be valid
+outputs of the corresponding serialization function.  A complete
+specification helps avoid implementation variations.  These variations
+can lead to interoperability failures, gaps between formal analysis and
+real-world practice, or security vulnerabilities.
 
 - Define behavior for all inputs: Ensure that every possible input
   scenario is accounted for, including edge cases.
-- Error handling: Clearly specify how errors should be managed to
-  prevent unexpected behavior.
+- Error handling: Enumerate the error conditions of each operation,
+  state whether distinct failures are distinguishable to callers or
+  peers (distinguishable failures invite oracle attacks), and define
+  post-failure behavior, such as whether partial output is released.
 - Avoid multiple valid behaviors: Consistency is key; avoid leaving
   multiple implementation options open.
 
 Avoid defining multiple implementation behaviors as valid.  Leaving
-multiple options to implementators leads to compounding complexity:
-downstream specifications may need to profile the algorithm to pick
-the preferred option, and validation tools must be configurable to
-assert either case.
+multiple options to implementers leads to compounding complexity:
+downstream specifications may need to profile the algorithm to pick the
+preferred option, and validation tools must be configurable to assert
+either case.
 
 
 ### Documentation and Examples
@@ -582,16 +593,16 @@ in more robust and widely adopted solutions.
 ## Defining Security Definitions and Threat Models
 
 Cryptographic protocols are always used within a context of a broader
-system whose security relies on an understanding capabilities of
+system whose security relies on an understanding of the capabilities of
 potential attackers.  An incorrect definition or assumption about the
 threat models to a protocol can make a protocol that is safe in one
 context unsafe in a different context.  Precise definitions help
 researchers assess the security of the proposed algorithms and
 protocols, while comprehensible threat models enable implementers and
-protocol designers to understand the potential risks and limitations
-of the specification.  This section provides guidelines for defining
-security definitions and threat models in a way that caters to the
-needs of all target audiences.
+protocol designers to understand the potential risks and limitations of
+the specification.  This section provides guidelines for defining
+security definitions and threat models in a way that caters to the needs
+of all target audiences.
 
 
 ### Defining Security Goals
@@ -603,10 +614,19 @@ confidentiality, integrity, authentication, non-repudiation, and
 availability as well as resistance to implementation flaws such as
 side-channels.
 
-Furthermore, authors should clarify any trade-offs or
-limitations associated with the security goals, ensuring that the
-target audiences understand the intended balance between security and
-other factors, such as performance or ease of implementation.
+Furthermore, authors should clarify any trade-offs or limitations
+associated with the security goals, ensuring that the target audiences
+understand the intended balance between security and other factors,
+such as performance or ease of implementation.
+
+Authors should also enumerate relevant security properties that the
+construction does not provide whenever a target audience might plausibly
+assume them, such as an AEAD that is not key-committing or a signature
+scheme that does not guarantee non-malleability; higher-level designs
+fail most often by relying on absent properties.  Some goals are
+context-dependent: non-repudiation is an explicit anti-goal of deniable
+protocols, and availability is typically a property of the surrounding
+system rather than of a cryptographic construction.
 
 Common Security Goals:
   - Confidentiality
@@ -720,7 +740,7 @@ To cater to implementers:
 * Clearly indicate any optional features, variations, or extensions,
   specifying their impact on interoperability and security.
 
-### Test vectors
+### Test Vectors
 
 Test vectors ideally cover all branches of the specification, with
 reasonable exceptions, such as branches that occur with negligible
@@ -729,9 +749,10 @@ To facilitate writing tests, where possible, all functions should be
 written with determinism in mind.  In particular, this means that
 functions that produce random outputs, such as a function that
 produces random elements in a prime-order group, should accept
-randomness as input and test vectors should specify this randomness as
-an input to the function.  Specifications should minimize internal
-calls to PRNGs or similar and emphasize determinism.
+randomness as input and test vectors should specify this randomness
+as an input to the function.  Specifications should minimize
+internal calls to pseudorandom number generators (PRNGs) or similar
+and emphasize determinism.
 
 Finally, specifications should make the connection between
 specification and test vectors clear by including explicit
@@ -741,7 +762,7 @@ implementation with instructions for how to run it, where the
 reference implementation is written in a way that is clearly
 consistent with the specification.
 
-It's possible to include too many test vectors in a specification,
+It is possible to include too many test vectors in a specification,
 which increases document length and decreases readability.  Authors
 should provide test vectors that cover:
 
@@ -750,16 +771,26 @@ should provide test vectors that cover:
 * All valid but degenerate cases that result in error or early exit of
   an algorithm
 * Exceptions that can be reached by attacker-controlled inputs
+* Invalid inputs that implementations are required to reject, such as
+  non-canonical encodings, invalid points or group elements, and
+  modified authenticators, each labeled with the expected error result
+* Boundary values for every comparison or range check in the
+  specification, together with values immediately adjacent to the
+  boundary
 
-It is NOT necessary to include test vectors for cases that are
+For multi-step algorithms, at least one test vector should include
+intermediate values, such as per-round state or derived subkeys, so
+that implementers can localize divergence rather than only detect it.
+
+It is not necessary to include test vectors for cases that are
 statistically improbable to be triggered, even by attacker-controlled
 input, based on the underlying cryptographic assumptions.  For example,
 if an error case is only reachable when an intermediate data point
 matches the pre-image of a hash value that was randomly generated,
-finding a test vector to trigger that case would require the ability
-to compute a hash pre-image, which is deemed unfeasible for
-sufficiently strong hash functions.  Exceptional cases that don't have
-test vectors should be explicitly noted in the algorithm description.
+finding a test vector to trigger that case would require the ability to
+compute a hash pre-image, which is deemed unfeasible for sufficiently
+strong hash functions.  Exceptional cases that do not have test vectors
+should be explicitly noted in the algorithm description.
 
 Lastly, specifications should provide references to machine-readable
 test vectors (e.g., in JSON format) that persist alongside the
@@ -806,10 +837,12 @@ protocol designers:
 
 * Clearly define the interfaces, APIs, or functions exposed by the
 protocol or primitive, indicating how they should be used and any
-potential risks associated with their misuse.  For example, for each
-input to the protocol, it should be made clear whether or not these
-are attacker controlled and, if so, describe what steps must be taken
-to validate that input.
+potential risks associated with their misuse.  For each input, state
+the requirements it must satisfy for security to hold, such as secrecy,
+uniqueness, or uniform randomness, whether security is retained when
+that input is adversarially chosen, and what validation is required
+before use; the consuming protocol determines which inputs are attacker
+controlled in its own deployment.
 * Describe any corner cases or situations that may impact security,
 providing guidance on how to avoid or mitigate potential risks.  This
 includes explicitly stating the probability of an algorithm failing
@@ -822,6 +855,15 @@ or interoperability issues.
 considerations that may affect the security or performance of the
 protocol in real-world scenarios.  This includes the impact of new
 discoveries that weaken the security assumptions of a primitive.
+* State concrete usage limits derived from the security analysis, such
+as the maximum amount of data or number of invocations per key and when
+rekeying is required, in operational units that a consuming protocol
+can budget against.
+* Identify the context-binding inputs the construction exposes, such as
+associated data, info strings, salts, and labels; state what a
+consuming protocol is expected to bind into them to achieve domain
+separation; and state whether keys may safely be reused across the
+construction's operations or with other algorithms.
 
 By addressing the specific needs of implementers, researchers, and
 protocol designers, a specification can be more effectively
@@ -921,9 +963,11 @@ implementers and researchers understand the algorithms better.
 
 {{RFC8439}} includes test vectors for both ChaCha20 and Poly1305,
 providing concrete examples of inputs and expected outputs for the
-algorithms.  This section is invaluable for implementers, allowing them
-to verify that their implementations are correct and compatible with
-others.
+algorithms.  Notably, the vectors include intermediate values, such as
+the ChaCha state after 20 rounds, allowing implementers to localize a
+divergence rather than only detect it.  This section is invaluable for
+implementers, allowing them to verify that their implementations are
+correct and compatible with others.
 
 
 ### Security Considerations
@@ -949,18 +993,21 @@ coordinate with existing registries.
 ### Problematic Aspects
 
 A criticism of this document is that it does not cater enough to
-protocol designers in that it does not explicitly define a decryption
-algorithm.  Researchers familiar with the concept of a stream cipher
-understand that decryption and encryption are identical in stream
-cipher constructions, but this may not be clear to implementers.
+implementers in that it does not define decryption as a standalone
+algorithm; {{Section 2.8 of RFC8439}} describes decryption only as a set
+of differences relative to encryption.  Researchers familiar with the
+concept of a stream cipher understand that decryption and encryption are
+identical in stream cipher constructions, but this may not be clear to
+implementers.  The identity also holds only for the stream cipher core:
+AEAD decryption must additionally verify the authentication tag before
+releasing any plaintext, so it is not symmetric with encryption.
 
-In summary, {{RFC8439}} serves as an excellent example of a
-well-written cryptography specification, providing clear, precise, and
-comprehensive information for implementers, researchers, and protocol	
-designers alike.  By studying and emulating the structure and content
-of specifications like {{RFC8439}}, authors can create high-quality
-specifications that cater to the diverse needs of their target
-audiences.
+In summary, {{RFC8439}} serves as an excellent example of a well-written
+cryptography specification, providing clear, precise, and comprehensive
+information for implementers, researchers, and protocol designers alike.
+By studying and emulating the structure and content of specifications
+like {{RFC8439}}, authors can create high-quality specifications that
+cater to the diverse needs of their target audiences.
 
 
 # Examples of Specifications That Could Be Improved
@@ -973,48 +1020,54 @@ criticisms published online.
 
 ## Test Vectors
 
-The test vectors included in this document were not comprehensive and
-did not cover all the cases described in the algorithm, resulting in
+The test vectors included in {{RFC8032}} were not comprehensive and did
+not cover all the cases described in the algorithm, resulting in
 multiple incompatible implementations.  There were also issues with a
-"greater than" comparison which should have been a "greater than or
-equal to" which were not explicitly covered by the test vectors.
+boundary comparison on the signature scalar, a "greater than" that
+should have been a "greater than or equal to" (RFC 8032 Errata ID 5968),
+a case the test vectors did not exercise.
 
 
 ## Unnecessary Branching
 
 Some parts of EdDSA permit more than one verification path, which can
 split implementations.  For Ed25519, {{RFC8032}} gives two options:
-8*S*B = 8*R + 8*k*A' (where * denotes scalar multiplication, '
-denotes a derived point, and = denotes equality) or S*B = R + k*A'
-(shortcut).  The shortcut saves cycles but lets libraries disagree on
-which signatures are valid.  Specs should avoid such optional
-branches—especially performance-only shortcuts—to keep implementations
-interoperable.
+8*S*B = 8*R + 8*k*A' (where * denotes scalar multiplication, ' denotes a
+derived point, and = denotes equality) or S*B = R + k*A'.  These
+equations are not equivalent:  they disagree on signatures containing
+low-order components, so libraries that choose different equations
+disagree on which signatures are valid.  Specifications should avoid
+such optional branches and instead mandate a single verification path to
+keep implementations interoperable.
 
 
 ## Compatibility and Modularity
 
 EdDSA is a variant of the Schnorr signature scheme, but with some small
 variations that make it incompatible with other related Schnorr
-signature schemes.  This includes a "clamping" operation that makes
-EdDSA keys and operations incompatible with x25519 ({{RFC7748}}).  Many
-of the issues in the specification derive from the fact that the
-specification was written to match an existing implementation rather
-than define an algorithm.  This limited the authors from focusing on
-compatibility with other related standards and primitives, resulting
-in numerous issues.
+signature schemes.  This includes a "clamping" operation on private
+scalars that produces non-uniform scalars, complicating compositions
+that require uniformly random scalars, such as threshold signing, key
+blinding, and hierarchical key derivation.  The often-cited
+incompatibility between Ed25519 and X25519 ({{RFC7748}}) keys stems not
+from clamping, which both apply, but from EdDSA deriving its signing
+scalar by hashing the private seed.  Many of the issues in the
+specification derive from the fact that the specification was written to
+match an existing implementation rather than define an algorithm.  This
+limited the authors from focusing on compatibility with other related
+standards and primitives, resulting in numerous issues.
 
 
 # Conclusion
 
 Quality matters in cryptographic specification writing.  This document
 provides guidelines for writing effective cryptography specifications,
-emphasizing the importance of catering to different audiences, such as
-target audiences, with the end goal of enabling high-assurance
-cryptographic software.  By focusing on simplicity, precision,
-consistency, reusability, collaboration, and compromise, specification
-writers can create documents that are easier to understand, implement,
-and analyze.
+emphasizing the importance of catering to different audiences, including
+implementers, researchers, and protocol designers, with the end goal of
+enabling high-assurance cryptographic software.  By focusing on
+simplicity, precision, consistency, reusability, collaboration, and
+compromise, specification writers can create documents that are easier
+to understand, implement, and analyze.
 
 We have also discussed the representation of mathematical operations
 and the importance of clearly defining security definitions and threat
