@@ -17,22 +17,22 @@ that cater to the needs of each community, including guidance on
 representing mathematical operations, security definitions, and
 threat models. 
     " name="description">
-<meta content="xml2rfc 3.29.0" name="generator">
+<meta content="xml2rfc 3.34.0" name="generator">
 <meta content="draft-irtf-cfrg-cryptography-specification-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.29.0
-    Python 3.12.11
-    ConfigArgParse 1.7
+  xml2rfc 3.34.0
+    Python 3.14.5
+    ConfigArgParse 1.7.5
     google-i18n-address 3.1.1
-    intervaltree 3.1.0
+    intervaltree 3.2.1
     Jinja2 3.1.6
-    lxml 5.3.1
-    platformdirs 4.3.8
+    lxml 6.1.1
+    natsort 8.4.0
+    platformdirs 4.10.0
     pycountry 24.6.1
-    PyYAML 6.0.2
-    requests 2.32.4
-    setuptools 80.9.0
-    wcwidth 0.2.13
+    PyYAML 6.0.3
+    requests 2.33.1
+    wcwidth 0.8.2
 -->
 <link href="draft-irtf-cfrg-cryptography-specification.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -173,7 +173,7 @@ threat models.
   font-weight: 400;
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin-ext.woff2') format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
   font-family: 'Oxygen Mono';
@@ -181,7 +181,8 @@ threat models.
   font-weight: 400;
   font-display: swap;
   src: local('Oxygen Mono'), local('OxygenMono-Regular'), url('https://martinthomson.github.io/rfc-css/fonts/oxygenmono-regular-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 }
 
 @font-face {
@@ -298,16 +299,19 @@ h1, h2, h3, h4, h5, h6 {
   font-size-adjust: 0.5;
   color: var(--title-color);
 }
-h1#title {
-  font-size: 32px;
-  line-height: 40px;
-  clear: both;
-}
-h1#title, h1#rfcnum {
-  margin: 1.5em 0 0.2em;
-}
-h1#rfcnum + h1#title {
-  margin: 0.2em 0;
+h1 {
+  &#title {
+    font-size: 32px;
+    line-height: 40px;
+    clear: both;
+    margin: 1.5em 0 0.2em;
+  }
+  &#rfcnum {
+    margin: 1.5em 0 0.2em;
+    & + h1#title {
+      margin: 0.2em 0;
+    }
+  }
 }
 
 h1, h2, h3 {
@@ -327,10 +331,10 @@ h4, h5, h6 {
 #abstract+p {
   font-size: 18px;
   line-height: 24px;
-}
-#abstract+p code, #abstract+p samp, #abstract+p tt {
-  font-size: 16px;
-  line-height: 0;
+  & code, & samp, & tt {
+    font-size: 16px;
+    line-height: 0;
+  }
 }
 
 p {
@@ -341,59 +345,59 @@ p {
 div {
   margin: 0;
 }
-.alignRight.art-text {
-  background-color: var(--highlight-color);
-  border: 1px solid var(--line-color);
-  border-radius: 3px;
-  padding: 0.5em 1em 0;
-  margin-bottom: 0.5em;
-}
-.alignRight.art-text pre {
-  padding: 0;
-  width: auto;
-}
 .alignRight {
   margin: 1em 0;
-}
-.alignRight > *:first-child {
-  border: none;
-  margin: 0;
-  float: right;
-  clear: both;
-}
-.alignRight > *:nth-child(2) {
-  clear: both;
-  display: block;
-  border: none;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    margin: 0;
+    float: right;
+    clear: both;
+  }
+  & > *:nth-child(2) {
+    clear: both;
+    display: block;
+    border: none;
+  }
 }
 svg {
   display: block;
-}
-/* font-family isn't space-separated, but =~ will have to do */
-svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
-  font-family: var(--font-mono);
-}
-.alignCenter.art-text {
-  background-color: var(--highlight-color);
-  border: 1px solid var(--line-color);
-  border-radius: 3px;
-  padding: 0.5em 1em 0;
-  margin-bottom: 0.5em;
-}
-.alignCenter.art-text pre {
-  padding: 0;
-  width: auto;
+  /* font-family isn't space-separated, but =~ will have to do */
+  &[font-family~="monospace" i], & [font-family~="monospace" i] {
+    font-family: var(--font-mono);
+  }
 }
 .alignCenter {
   margin: 1em 0;
-}
-.alignCenter > *:first-child {
-  border: none;
-  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
-     support flexbox yet.
-  */
-  display: table;
-  margin: 0 auto;
+  &.art-text {
+    background-color: var(--highlight-color);
+    border: 1px solid var(--line-color);
+    border-radius: 3px;
+    padding: 0.5em 1em 0;
+    margin-bottom: 0.5em;
+    & pre {
+      padding: 0;
+      width: auto;
+    }
+  }
+  & > *:first-child {
+    border: none;
+    /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+       support flexbox yet.
+    */
+    display: table;
+    margin: 0 auto;
+  }
 }
 
 /* lists */
@@ -431,26 +435,25 @@ dl {
     --indent: 5ch;
     & > dt {
       min-width: calc(var(--indent) - 2ch);
+      float: none;
     }
-  }
-  &.olPercent > dt {
-    float: none;
   }
 
   dl > dd > & {
     margin-top: 0.5em;
     margin-bottom: 0;
   }
-}
-dl:not(.dlNewline) > dt {
-  float: left;
-  margin-right: 2ch;
-  min-width: 8ch;
-}
-dl > dd {
-  margin-bottom: .8em;
-  margin-left: var(--indent) !important; /* stupid element overrides */
-  min-height: 2ex;
+
+  &:not(.dlNewline) > dt {
+    float: left;
+    margin-right: 2ch;
+    min-width: 8ch;
+  }
+  & > dd {
+    margin-bottom: .8em;
+    margin-left: var(--indent) !important; /* stupid element overrides */
+    min-height: 2ex;
+  }
 }
 :is(dl.compact, .dlCompact) > dd {
   margin-bottom: 0;
@@ -466,20 +469,22 @@ dl > dd {
 }
 
 /* links */
-a, a[href].selfRef:hover {
+a {
   text-decoration: none;
+  &[href] {
+    color: var(--link-color);
+    &:hover { text-decoration: underline; }
+    &.selfRef {
+      color: var(--text-color);
+      &:hover {
+        text-decoration: none;
+        background-color: var(--highlight-color);
+      }
+    }
+  }
 }
-a[href] {
-  color: var(--link-color);
-}
-a[href].selfRef, .iref + a[href].internal {
+.iref + a[href].internal {
   color: var(--text-color);
-}
-a[href]:hover {
-  text-decoration: underline;
-}
-a[href].selfRef:hover {
-  background-color: var(--highlight-color);
 }
 a.xref:is(.cite, .auto), :is(#status-of-memo, #copyright) a {
   white-space: nowrap;
@@ -515,9 +520,9 @@ img {
 figure {
   margin: 0.5em 0;
   padding: 0;
-}
-figure blockquote {
-  margin: 0.8em 0.4em 0.4em;
+  & blockquote {
+    margin: 0.8em 0.4em 0.4em;
+  }
 }
 figcaption, caption {
   font-style: italic;
@@ -527,17 +532,19 @@ figcaption, caption {
 }
 @media screen {
   /* Auto-collapse boilerplate. */
-  :is(#status-of-memo, #copyright) p {
-    margin: -2px 0;
-    max-height: 0;
-    transition: max-height 2s ease, margin 0.5s ease 0.5s;
-    overflow: hidden;
-  }
-  :is(#status-of-memo, #copyright):hover p,
-  :is(#status-of-memo, #copyright) h2:target ~ p {
-    margin: 0.5em 0;
-    max-height: 500px;
-    overflow: auto;
+  :is(#status-of-memo, #copyright) {
+    & p {
+      margin: -2px 0;
+      max-height: 0;
+      transition: max-height 2s ease, margin 0.5s ease 0.5s;
+      overflow: hidden;
+    }
+    &:hover p,
+    & h2:target ~ p {
+      margin: 0.5em 0;
+      max-height: 500px;
+      overflow: auto;
+    }
   }
   pre, svg {
     display: inline-block;
@@ -573,6 +580,7 @@ aside, blockquote {
 }
 blockquote {
   margin: 1em 0;
+  border-left: 2px var(--pilcrow-strong) solid;
 }
 cite {
   display: block;
@@ -586,25 +594,17 @@ table {
   max-width: 100%;
   margin: 0 0 1em;
   border-collapse: collapse;
-}
-table.right {
-  margin-left: auto;
-}
-table.center {
-  margin-left: auto;
-  margin-right: auto;
-}
-table.left {
-  margin-right: auto;
-}
-table .text-left {
-  text-align: left;
-}
-table .text-center {
-  text-align: center;
-}
-table .text-right {
-  text-align: right;
+  &.right { margin-left: auto; }
+  &.center { margin-left: auto; margin-right: auto; }
+  &.left { margin-right: auto; }
+  & .text-left { text-align: left; }
+  & .text-center { text-align: center; }
+  & .text-right { text-align: right; }
+  & caption {
+    margin: 0;
+    padding: 3px 0 3px 1em;
+  }
+  & p { margin: 0; }
 }
 
 thead, tbody {
@@ -624,13 +624,6 @@ th {
 :is(tr:nth-child(2n+1), thead+tbody > tr:nth-child(2n)) > td {
   background-color: var(--highlight-color);
 }
-table caption {
-  margin: 0;
-  padding: 3px 0 3px 1em;
-}
-table p {
-  margin: 0;
-}
 
 /* pilcrow */
 a.pilcrow {
@@ -641,18 +634,16 @@ a.pilcrow {
     color: var(--pilcrow-weak);
     &:hover { text-decoration: none; }
   }
-}
-@media not print {
-  :hover > a.pilcrow {
-    opacity: 1;
+  @media not print {
+    :hover > &, &:focus {
+      opacity: 1;
+    }
+    &[href]:hover {
+      color: var(--pilcrow-strong);
+      background-color: transparent;
+    }
   }
-  a.pilcrow[href]:hover {
-    color: var(--pilcrow-strong);
-    background-color: transparent;
-  }
-}
-@media print {
-  a.pilcrow {
+  @media print {
     display: none;
   }
 }
@@ -711,9 +702,9 @@ sub, sup {
   font-size: 0.9em;
   font-style: italic;
   margin-top: 2em;
-}
-.docInfo .prepared {
-  float: right;
+  & .prepared {
+    float: right;
+  }
 }
 
 /* table of contents */
@@ -803,23 +794,27 @@ hr.addr {
   max-width: calc(100% - 16px);
 }
 @media (min-width: 500px) {
-  #authors-addresses > section {
-    column-count: 2;
-    column-gap: 20px;
-  }
-  #authors-addresses > section > h2 {
-    column-span: all;
-  }
-  /* hack for break-inside: avoid-column */
-  #authors-addresses address {
-    display: inline-block;
-    break-inside: avoid-column;
+  #authors-addresses {
+    & > section {
+      column-count: 2;
+      column-gap: 20px;
+    }
+    & > section > h2 {
+      column-span: all;
+    }
+    /* hack for break-inside: avoid-column */
+    & address {
+      display: inline-block;
+      break-inside: avoid-column;
+    }
   }
 }
 
 /* Comments */
-.rfcEditorRemove p:first-of-type {
-  font-style: italic;
+.rfcEditorRemove {
+  & p:first-of-type {
+    font-style: italic;
+  }
 }
 .cref {
   background-color: rgba(249, 232, 105, 0.3);
@@ -830,19 +825,21 @@ hr.addr {
 }
 
 @media screen {
-  #toc nav {
-    font-family: var(--font-title);
-    font-weight: 360;
-    & > ul { margin-bottom: 2em; }
-    & ul {
-      margin: 0 0 0 4px;
-      & :is(p, li) {
-        margin: 2px 0;
+  #toc {
+    & nav {
+      font-family: var(--font-title);
+      font-weight: 360;
+      & > ul { margin-bottom: 2em; }
+      & ul {
+        margin: 0 0 0 4px;
+        & :is(p, li) {
+          margin: 2px 0;
+        }
       }
     }
-  }
-  #toc a.toplink {
-    float: right;
+    & a.toplink {
+      float: right;
+    }
   }
 }
 @media not screen {
@@ -863,54 +860,54 @@ hr.addr {
     margin: 0;
     border-bottom: 1px solid #ccc;
     opacity: 0.6;
-  }
-  #toc h2 {
-    margin: 0;
-    padding: 2px 0 2px 6px;
-    padding-right: 1em;
-    font-size: 18px;
-    line-height: 24px;
-    min-width: 190px;
-    text-align: right;
-    background-color: #444;
-    color: white;
-    cursor: pointer;
-    &::before { /* css hamburger */
-      float: right;
-      position: relative;
-      width: 1em;
-      height: 1px;
-      left: -164px;
-      margin: 8px 0 0 0;
-      background: white none repeat scroll 0 0;
-      box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
-      content: "";
+    & h2 {
+      margin: 0;
+      padding: 2px 0 2px 6px;
+      padding-right: 1em;
+      font-size: 18px;
+      line-height: 24px;
+      min-width: 190px;
+      text-align: right;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+      &::before { /* css hamburger */
+        float: right;
+        position: relative;
+        width: 1em;
+        height: 1px;
+        left: -164px;
+        margin: 8px 0 0 0;
+        background: white none repeat scroll 0 0;
+        box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+        content: "";
+      }
     }
-  }
-  #toc nav {
-    display: none;
-    background-color: var(--background-color);
-    padding: 0.5em 1em 1em;
-    overflow: auto;
-    overscroll-behavior: contain;
-    height: calc(100vh - 48px);
-    border-left: 1px solid #ddd;
-  }
-  #toc.active {
-    opacity: 1;
-    & nav { display: block; }
-  }
-  /* Make the collapsed ToC header render white on gray also when it's a link */
-  #toc h2 a,
-  #toc h2 a:is(:link, :focus, :hover),
-  #toc a.toplink,
-  #toc a.toplink:hover {
-    color: white;
-    background-color: #444;
-    text-decoration: none;
-  }
-  #toc a.toplink {
-    margin: 2px 0.5em 0;
+    & nav {
+      display: none;
+      background-color: var(--background-color);
+      padding: 0.5em 1em 1em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      height: calc(100vh - 48px);
+      border-left: 1px solid #ddd;
+    }
+    &.active {
+      opacity: 1;
+      & nav { display: block; }
+    }
+    /* Make the collapsed ToC header render white on gray also when it's a link */
+    & h2 a,
+    & h2 a:is(:link, :focus, :hover),
+    & a.toplink,
+    & a.toplink:hover {
+      color: white;
+      background-color: #444;
+      text-decoration: none;
+    }
+    & a.toplink {
+      margin: 2px 0.5em 0;
+    }
   }
 }
 
@@ -929,26 +926,26 @@ hr.addr {
     margin: 0;
     padding: 0;
     z-index: 1;
-  }
-  #toc h2 {
-    margin: 0;
-    padding: 0.25em 1em 1em 0;
-  }
-  #toc nav {
-    display: block;
-    height: calc(90vh - 84px);
-    bottom: 0;
-    padding: 0.5em 0 2em;
-    overflow: auto;
-    overscroll-behavior: contain;
-    scrollbar-width: thin;
+    & h2 {
+      margin: 0;
+      padding: 0.25em 1em 1em 0;
+    }
+    & nav {
+      display: block;
+      height: calc(90vh - 84px);
+      bottom: 0;
+      padding: 0.5em 0 2em;
+      overflow: auto;
+      overscroll-behavior: contain;
+      scrollbar-width: thin;
+    }
+    & a.toplink {
+      margin: 8px 0.5em 0;
+    }
   }
   img { /* future proofing */
     max-width: 100%;
     height: auto;
-  }
-  #toc a.toplink {
-    margin: 8px 0.5em 0;
   }
 }
 
@@ -964,12 +961,13 @@ hr.addr {
   #n-copyright-notice {
     border-bottom: none;
   }
-  #toc, #n-introduction {
-    page-break-before: always;
-  }
   #toc {
+    page-break-before: always;
     border-top: none;
     padding-top: 0;
+  }
+  #n-introduction {
+    page-break-before: always;
   }
   figure, pre, .vcard {
     page-break-inside: avoid;
@@ -1031,17 +1029,19 @@ hr.addr {
 }
 
 /* SVG Trick: a prefix match works because only black and white are allowed */
-svg :is([stroke="black"], [stroke^="#000"]) {
-  stroke: var(--text-color);
-}
-svg :is([stroke="white"], [stroke^="#fff"]) {
-  stroke: var(--background-color);
-}
-svg :is([fill="black"], [fill^="#000"], :not([fill])) {
-  fill: var(--text-color);
-}
-svg :is([fill="white"], [fill^="#fff"]) {
-  fill: var(--background-color);
+svg {
+  & :is([stroke="black"], [stroke^="#000"]) {
+    stroke: var(--text-color);
+  }
+  & :is([stroke="white"], [stroke^="#fff"]) {
+    stroke: var(--background-color);
+  }
+  & :is([fill="black"], [fill^="#000"], :not([fill])) {
+    fill: var(--text-color);
+  }
+  & :is([fill="white"], [fill^="#fff"]) {
+    fill: var(--background-color);
+  }
 }
 </style>
 
@@ -1051,11 +1051,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">Crypto Specs</td>
-<td class="right">July 2025</td>
+<td class="right">July 2026</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Sullivan &amp; Wood</td>
-<td class="center">Expires 8 January 2026</td>
+<td class="center">Expires 4 January 2027</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,12 +1068,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-irtf-cfrg-cryptography-specification-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-07-07" class="published">7 July 2025</time>
+<time datetime="2026-07-03" class="published">3 July 2026</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-01-08">8 January 2026</time></dd>
+<dd class="expires"><time datetime="2027-01-04">4 January 2027</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1128,7 +1128,7 @@ suitable for deployment.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 8 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 January 2027.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1137,7 +1137,7 @@ suitable for deployment.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2025 IETF Trust and the persons identified as the
+            Copyright (c) 2026 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1231,7 +1231,7 @@ suitable for deployment.<a href="#section-note.1-1" class="pilcrow">¶</a></p>
                 <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-catering-to-implementers" class="internal xref">Catering to Implementers</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1.2.1">
-                    <p id="section-toc.1-1.5.2.1.2.1.1"><a href="#section-5.1.1" class="auto internal xref">5.1.1</a>.  <a href="#name-test-vectors" class="internal xref">Test vectors</a></p>
+                    <p id="section-toc.1-1.5.2.1.2.1.1"><a href="#section-5.1.1" class="auto internal xref">5.1.1</a>.  <a href="#name-test-vectors" class="internal xref">Test Vectors</a></p>
 </li>
                 </ul>
 </li>
@@ -1338,7 +1338,7 @@ cover mathematical operations, security definitions, and threat models.
 They help ensure that specifications are of high quality and useful for
 their intended audience.  Adhering to these guidelines helps ensure
 that specifications are easier to understand, implement, and analyze,
-leading to high assurance and interoperable systems.<a href="#section-1-1" class="pilcrow">¶</a></p>
+leading to high-assurance and interoperable systems.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
 "<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
 described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="cite xref">RFC8174</a>]</span> when, and only when, they
@@ -1353,11 +1353,11 @@ appear in all capitals, as shown here.<a href="#section-1-2" class="pilcrow">¶<
 <p id="section-2-1">The primary goal of these guidelines is to help guide the authorship
 of cryptographic specifications so that they are as useful as possible
 when creating high-assurance cryptographic software.<a href="#section-2-1" class="pilcrow">¶</a></p>
-<p id="section-2-2">Specifications that follow these guidelines should be able to be
-easily understood, implemented, and analyzed by different audiences,
-including the engineering community, research community, and
-standardization community.  By addressing the unique needs and
-expectations of each group, these guidelines aim to:<a href="#section-2-2" class="pilcrow">¶</a></p>
+<p id="section-2-2">Specifications that follow these guidelines should be easy to
+understand, implement, and analyze for different audiences, including
+the engineering community, research community, and standardization
+community.  By addressing the unique needs and expectations of each
+group, these guidelines aim to:<a href="#section-2-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2-3.1">
           <p id="section-2-3.1.1">Minimize ambiguity and misinterpretations, leading to clearer
@@ -1408,10 +1408,9 @@ the correct implementation of cryptographic algorithms and protocols.<a href="#s
 </li>
       </ol>
 <p id="section-2-6">By following these guidelines and addressing the distinct needs of each
-stakeholder group, authors can create well-structured,
-informative specifications documents that facilitate the development,
-analysis, and implementation of high assurance cryptographic
-solutions.<a href="#section-2-6" class="pilcrow">¶</a></p>
+stakeholder group, authors can create well-structured, informative
+specification documents that facilitate the development, analysis, and
+implementation of high-assurance cryptographic solutions.<a href="#section-2-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="guidelines-for-cryptographic-specification-presentation">
@@ -1421,12 +1420,12 @@ solutions.<a href="#section-2-6" class="pilcrow">¶</a></p>
       </h2>
 <p id="section-3-1">Technical specifications do not stand on their own.  Their value is
 derived from their usefulness to the various communities that rely on
-them.  A specification can have amazing content but without the
+them.  A specification can have excellent content but without the
 appropriate presentation, it may not be as useful as intended.  The
 guidelines in this section are a baseline set of recommendations for
-authors to consider when writing a cryptographic specification and are
-applicable beyond just cryptographic standards and are general good
-practices for specification writers.<a href="#section-3-1" class="pilcrow">¶</a></p>
+authors to consider when writing a cryptographic specification.  They
+apply beyond cryptographic standards and are general good practices for
+specification writers.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <div id="simplicity">
 <section id="section-3.1">
         <h3 id="name-simplicity">
@@ -1499,7 +1498,7 @@ while enabling accurate security analysis.<a href="#section-3.2-1" class="pilcro
             <p id="section-3.2-3.1.1">Use clear and concise language, avoiding jargon or colloquialisms
 that may lead to misinterpretation.  When introducing technical
 terms or concepts, provide clear definitions or explanations to
-ensure that all readers are on the same page.<a href="#section-3.2-3.1.1" class="pilcrow">¶</a></p>
+ensure that all readers share the same understanding.<a href="#section-3.2-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-3.2-3.2">
             <p id="section-3.2-3.2.1">Provide explicit instructions and avoid undefined behavior,
@@ -1714,17 +1713,18 @@ consistent with the notation used in the surrounding text.<a href="#section-3.3.
 <div id="ascii-safe-mathematical-notation">
 <section id="section-3.3.1.6">
             <h5 id="name-ascii-safe-mathematical-not">
-<a href="#section-3.3.1.6" class="section-number selfRef">3.3.1.6. </a><a href="#name-ascii-safe-mathematical-not" class="section-name selfRef">ASCII-safe Mathematical Notation</a>
+<a href="#section-3.3.1.6" class="section-number selfRef">3.3.1.6. </a><a href="#name-ascii-safe-mathematical-not" class="section-name selfRef">ASCII-Safe Mathematical Notation</a>
             </h5>
 <p id="section-3.3.1.6-1">Cryptographic specifications <span class="bcp14">MUST</span> use ASCII-only characters in all
-algorithm descriptions. Symbols that lack direct ASCII representation
-(for example, ⊕, ∥, ⋅, ∞) <span class="bcp14">MAY</span> appear in informative examples or figures,
-but every such symbol <span class="bcp14">MUST</span> be accompanied by an ASCII equivalent and be
-defined exactly once in a dedicated Notation section. Each operator or
-symbol has exactly one meaning; authors <span class="bcp14">MUST NOT</span> overload a glyph (for
-example, <code>^</code>) for multiple operations. Following these rules ensures the
-plain-text RFC renders unambiguously and prevents implementation errors
-stemming from visual formatting differences across output formats.<a href="#section-3.3.1.6-1" class="pilcrow">¶</a></p>
+algorithm descriptions.  Symbols that lack direct ASCII representation
+(for example, ⊕, ∥, ⋅, ∞) <span class="bcp14">MAY</span> appear in informative examples or
+figures, but every such symbol <span class="bcp14">MUST</span> be accompanied by an ASCII
+equivalent and be defined exactly once in a dedicated Notation section.
+Each operator or symbol has exactly one meaning; authors <span class="bcp14">MUST NOT</span>
+overload a glyph (for example, <code>^</code>) for multiple operations.  Following
+these rules ensures the plain-text RFC renders unambiguously and
+prevents implementation errors stemming from visual formatting
+differences across output formats.<a href="#section-3.3.1.6-1" class="pilcrow">¶</a></p>
 <p id="section-3.3.1.6-2">Checklist for authors:<a href="#section-3.3.1.6-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3.3.1.6-3.1">
@@ -1735,16 +1735,16 @@ stemming from visual formatting differences across output formats.<a href="#sect
                 <p id="section-3.3.1.6-3.2.1">Prefer <code>XOR</code> or <code>||</code> over Unicode ⊕ or ∥ in normative text.<a href="#section-3.3.1.6-3.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-3.3.1.6-3.3">
-                <p id="section-3.3.1.6-3.3.1">Never reuse <code>^</code> for both XOR and exponentiation—spell out one of them
-instead.<a href="#section-3.3.1.6-3.3.1" class="pilcrow">¶</a></p>
+                <p id="section-3.3.1.6-3.3.1">Never reuse <code>^</code> for both XOR and exponentiation; spell out one of
+them instead.<a href="#section-3.3.1.6-3.3.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-3.3.1.6-3.4">
-                <p id="section-3.3.1.6-3.4.1">Verify all formulas in the generated <strong>.txt</strong> file; formatting must not
+                <p id="section-3.3.1.6-3.4.1">Verify all formulas in the generated .txt file; formatting must not
 change semantics.<a href="#section-3.3.1.6-3.4.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-3.3.1.6-3.5">
                 <p id="section-3.3.1.6-3.5.1">If Unicode appears in examples, provide the ASCII fallback inline,
-for example: ⊕ (<strong>XOR</strong>).<a href="#section-3.3.1.6-3.5.1" class="pilcrow">¶</a></p>
+for example: ⊕ (XOR).<a href="#section-3.3.1.6-3.5.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 <p id="section-3.3.1.6-4">Rendering considerations (HTML/PDF only):<a href="#section-3.3.1.6-4" class="pilcrow">¶</a></p>
@@ -1756,10 +1756,10 @@ The plain-text RFC <span class="bcp14">MUST</span> still display the caret chara
 </li>
               <li class="normal" id="section-3.3.1.6-5.2">
                 <p id="section-3.3.1.6-5.2.1">It is acceptable for the rendered HTML/PDF to substitute Unicode
-symbols for clarity—e.g., ⊕ (U+2295) for XOR or ⋅ (U+22C5 or U+00B7)
-for multiplication—provided that the canonical text uses the ASCII
-equivalents (<code>XOR</code>, <code>*</code>) and the symbol meanings are listed in the
-Notation table.<a href="#section-3.3.1.6-5.2.1" class="pilcrow">¶</a></p>
+symbols for clarity, e.g., ⊕ (U+2295) for XOR or ⋅ (U+22C5 or
+U+00B7) for multiplication, provided that the canonical text uses
+the ASCII equivalents (<code>XOR</code>, <code>*</code>) and the symbol meanings are
+listed in the Notation table.<a href="#section-3.3.1.6-5.2.1" class="pilcrow">¶</a></p>
 </li>
               <li class="normal" id="section-3.3.1.6-5.3">
                 <p id="section-3.3.1.6-5.3.1">Such styling <span class="bcp14">MUST NOT</span> alter the normative meaning, and the ASCII
@@ -1769,12 +1769,12 @@ representation <span class="bcp14">MUST</span> remain authoritative.<a href="#se
 <div id="two-layer-rule">
 <section id="section-3.3.1.6.1">
               <h6 id="name-two-layer-rule">
-<a href="#section-3.3.1.6.1" class="section-number selfRef">3.3.1.6.1. </a><a href="#name-two-layer-rule" class="section-name selfRef">Two-layer rule</a>
+<a href="#section-3.3.1.6.1" class="section-number selfRef">3.3.1.6.1. </a><a href="#name-two-layer-rule" class="section-name selfRef">Two-Layer Rule</a>
               </h6>
 <p id="section-3.3.1.6.1-1">Normative layer (canonical text):
 - Limited to printable ASCII plus SP and LF.
-- Only the operator glyphs in the table below are
-  permitted.<a href="#section-3.3.1.6.1-1" class="pilcrow">¶</a></p>
+- Operator glyphs are drawn from the table below; any additional
+  operator <span class="bcp14">MUST</span> be defined in the Notation table before first use.<a href="#section-3.3.1.6.1-1" class="pilcrow">¶</a></p>
 <p id="section-3.3.1.6.1-2">Rendered layer (HTML/PDF):
 - Generated automatically by build tools (kramdown-RFC, Sphinx,
   or similar tooling).
@@ -1782,7 +1782,7 @@ representation <span class="bcp14">MUST</span> remain authoritative.<a href="#se
   XOR→⊕, <code>^</code>→superscript).
 - Substitutions are stylistic only; the ASCII source remains
   authoritative.<a href="#section-3.3.1.6.1-2" class="pilcrow">¶</a></p>
-<p id="section-3.3.1.6.1-3">Mandatory operator set<a href="#section-3.3.1.6.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.6.1-3">Baseline operator set<a href="#section-3.3.1.6.1-3" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
                 <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
 <thead>
@@ -1822,7 +1822,17 @@ representation <span class="bcp14">MUST</span> remain authoritative.<a href="#se
                     <td class="text-left" rowspan="1" colspan="1">
                       <code>g^k</code>, <code>2**255 - 19</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">Choose one symbol and use it consistently</td>
+                    <td class="text-left" rowspan="1" colspan="1">Choose one symbol and use it consistently; note <code>^</code> is XOR in C-family languages</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left" rowspan="1" colspan="1">Modular reduction</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>mod</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>x mod L</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">State the modulus and the range of the result</td>
                   </tr>
                   <tr>
                     <td class="text-left" rowspan="1" colspan="1">XOR</td>
@@ -1845,15 +1855,45 @@ representation <span class="bcp14">MUST</span> remain authoritative.<a href="#se
                     <td class="text-left" rowspan="1" colspan="1">Define in glossary</td>
                   </tr>
                   <tr>
-                    <td class="text-left" rowspan="1" colspan="1">Equality / assignment</td>
+                    <td class="text-left" rowspan="1" colspan="1">Comparison</td>
                     <td class="text-left" rowspan="1" colspan="1">
-                      <code>=</code> / <code>&lt;-</code>
+                      <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&gt;</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>s &gt;= L</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">Make boundary conditions exact</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left" rowspan="1" colspan="1">Shift / rotate</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>ROTL</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>x ROTL 16</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">Define operand width and wrapping</td>
+                  </tr>
+                  <tr>
+                    <td class="text-left" rowspan="1" colspan="1">Equality</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>=</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>x = y</code>
+</td>
+                    <td class="text-left" rowspan="1" colspan="1"> </td>
+                  </tr>
+                  <tr>
+                    <td class="text-left" rowspan="1" colspan="1">Assignment</td>
+                    <td class="text-left" rowspan="1" colspan="1">
+                      <code>&lt;-</code>
 </td>
                     <td class="text-left" rowspan="1" colspan="1">
                       <code>x &lt;- y</code>
 </td>
                     <td class="text-left" rowspan="1" colspan="1">
-                      <code>&lt;-</code> optional but must be defined</td>
+                      <span class="bcp14">MUST</span> be distinct from the equality glyph</td>
                   </tr>
                 </tbody>
               </table>
@@ -1862,38 +1902,45 @@ representation <span class="bcp14">MUST</span> remain authoritative.<a href="#se
 <div id="operator-glossary-and-constant-time-annotations">
 <section id="section-3.3.1.6.2">
               <h6 id="name-operator-glossary-and-const">
-<a href="#section-3.3.1.6.2" class="section-number selfRef">3.3.1.6.2. </a><a href="#name-operator-glossary-and-const" class="section-name selfRef">Operator glossary and constant-time annotations</a>
+<a href="#section-3.3.1.6.2" class="section-number selfRef">3.3.1.6.2. </a><a href="#name-operator-glossary-and-const" class="section-name selfRef">Operator Glossary and Constant-Time Annotations</a>
               </h6>
 <p id="section-3.3.1.6.2-1">Immediately after the terminology section, include a short table
-“Mathematical Operators and Symbols”.  Each entry <span class="bcp14">MUST</span> provide:
+"Mathematical Operators and Symbols".  Each entry <span class="bcp14">MUST</span> provide:
 1. ASCII glyph(s)
 2. Description of the operation
 3. Comment on constant-time versus variable-time expectations.<a href="#section-3.3.1.6.2-1" class="pilcrow">¶</a></p>
-<p id="section-3.3.1.6.2-2">When pseudocode requires constant-time behavior, mark the line with the
-<code>CONST</code> tag, for example:<a href="#section-3.3.1.6.2-2" class="pilcrow">¶</a></p>
-<p id="section-3.3.1.6.2-3"><code>
+<p id="section-3.3.1.6.2-2">When pseudocode requires constant-time behavior, mark the line with
+the <code>CONST</code> tag.  For example, with CMOV(x, y, e) defined to return y
+when e = 1 and x when e = 0:<a href="#section-3.3.1.6.2-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.3.1.6.2-3">
+<pre>
 z &lt;- CMOV(x, y, e)  # CONST: branch-free
-</code><a href="#section-3.3.1.6.2-3" class="pilcrow">¶</a></p>
-<p id="section-3.3.1.6.2-4">Style checklist for authors<a href="#section-3.3.1.6.2-4" class="pilcrow">¶</a></p>
+</pre><a href="#section-3.3.1.6.2-3" class="pilcrow">¶</a>
+</div>
+<p id="section-3.3.1.6.2-4">Such annotations state intent; they do not by themselves make an
+implementation constant-time.  Specifications should also identify
+which values are secret, so that implementations avoid branching on,
+or indexing memory by, secret-derived values.<a href="#section-3.3.1.6.2-4" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.6.2-5">Style checklist for authors<a href="#section-3.3.1.6.2-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.3.1.6.2-5.1">
-                  <p id="section-3.3.1.6.2-5.1.1">If a glyph could be ambiguous (e.g., <code>^</code>), add an inline reminder the
-first time it appears: <code>^</code> (exponentiation).<a href="#section-3.3.1.6.2-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.3.1.6.2-6.1">
+                  <p id="section-3.3.1.6.2-6.1.1">If a glyph could be ambiguous (e.g., <code>^</code>), add an inline reminder the
+first time it appears: <code>^</code> (exponentiation).<a href="#section-3.3.1.6.2-6.1.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1.6.2-5.2">
-                  <p id="section-3.3.1.6.2-5.2.1">Never overload the same glyph for two different operations within the
-same specification.<a href="#section-3.3.1.6.2-5.2.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1.6.2-6.2">
+                  <p id="section-3.3.1.6.2-6.2.1">Never overload the same glyph for two different operations within the
+same specification.<a href="#section-3.3.1.6.2-6.2.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1.6.2-5.3">
-                  <p id="section-3.3.1.6.2-5.3.1">Prefer italic variables in rendered formats; keep them plain in ASCII.<a href="#section-3.3.1.6.2-5.3.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1.6.2-6.3">
+                  <p id="section-3.3.1.6.2-6.3.1">Prefer italic variables in rendered formats; keep them plain in ASCII.<a href="#section-3.3.1.6.2-6.3.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1.6.2-5.4">
-                  <p id="section-3.3.1.6.2-5.4.1">Provide at least one worked example that exercises every operator.<a href="#section-3.3.1.6.2-5.4.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1.6.2-6.4">
+                  <p id="section-3.3.1.6.2-6.4.1">Provide at least one worked example that exercises every operator.<a href="#section-3.3.1.6.2-6.4.1" class="pilcrow">¶</a></p>
 </li>
-                <li class="normal" id="section-3.3.1.6.2-5.5">
-                  <p id="section-3.3.1.6.2-5.5.1">If an uncommon Unicode symbol is truly necessary (e.g., ⟂ for "perp"),
-include it only inside <code>&lt;artwork type="html"&gt;</code> with an ASCII fallback
-in canonical text.<a href="#section-3.3.1.6.2-5.5.1" class="pilcrow">¶</a></p>
+                <li class="normal" id="section-3.3.1.6.2-6.5">
+                  <p id="section-3.3.1.6.2-6.5.1">If an uncommon Unicode symbol is truly necessary (e.g., ⟂ for
+"perp"), include it only inside <code>&lt;artwork type="html"&gt;</code> with an
+ASCII fallback in canonical text.<a href="#section-3.3.1.6.2-6.5.1" class="pilcrow">¶</a></p>
 </li>
               </ul>
 </section>
@@ -1981,10 +2028,10 @@ abstractions for the components and primitives they describe.<a href="#section-4
 <p id="section-4.1.3-2">Well-defined interfaces enable developers to understand and interact
 with a component without needing to know the details of its internal
 implementation.<a href="#section-4.1.3-2" class="pilcrow">¶</a></p>
-<p id="section-4.1.3-3">This approach allows for the replacement or
-modification of components with minimal impact on the overall system
-and encourages the development of interchangeable components that can
-be reused across different applications and within protocols.<a href="#section-4.1.3-3" class="pilcrow">¶</a></p>
+<p id="section-4.1.3-3">This approach allows for the replacement or modification of components
+with minimal impact on the overall system and encourages the development
+of interchangeable components that can be reused across different
+applications and within protocols.<a href="#section-4.1.3-3" class="pilcrow">¶</a></p>
 <p id="section-4.1.3-4">Cryptographic objects typically have a set of functions associated
 with them that make up the interface; structuring the functions to
 fit well-understood and existing abstractions helps make the job of
@@ -2001,21 +2048,22 @@ code duplication.<a href="#section-4.1.3-4" class="pilcrow">¶</a></p>
 complete, with defined behavior on all inputs.  This includes error
 handling and edge cases which would otherwise not impact the
 algorithm's cryptographic properties.<a href="#section-4.1.4-1" class="pilcrow">¶</a></p>
-<p id="section-4.1.4-2">In particular, when
-deserializing a byte string, the behavior on all byte strings should
-be defined, including cases which would not be valid outputs of the
-corresponding serialization function.  A complete specification helps
-avoid implementation variations.  These variations can lead to
-interoperability failures, gaps between formal analysis and real-world
-practice, or security vulnerabilities.<a href="#section-4.1.4-2" class="pilcrow">¶</a></p>
+<p id="section-4.1.4-2">In particular, when deserializing a byte string, the behavior on all
+byte strings should be defined, including cases which would not be valid
+outputs of the corresponding serialization function.  A complete
+specification helps avoid implementation variations.  These variations
+can lead to interoperability failures, gaps between formal analysis and
+real-world practice, or security vulnerabilities.<a href="#section-4.1.4-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.1.4-3.1">
               <p id="section-4.1.4-3.1.1">Define behavior for all inputs: Ensure that every possible input
 scenario is accounted for, including edge cases.<a href="#section-4.1.4-3.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4.1.4-3.2">
-              <p id="section-4.1.4-3.2.1">Error handling: Clearly specify how errors should be managed to
-prevent unexpected behavior.<a href="#section-4.1.4-3.2.1" class="pilcrow">¶</a></p>
+              <p id="section-4.1.4-3.2.1">Error handling: Enumerate the error conditions of each operation,
+state whether distinct failures are distinguishable to callers or
+peers (distinguishable failures invite oracle attacks), and define
+post-failure behavior, such as whether partial output is released.<a href="#section-4.1.4-3.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-4.1.4-3.3">
               <p id="section-4.1.4-3.3.1">Avoid multiple valid behaviors: Consistency is key; avoid leaving
@@ -2023,10 +2071,10 @@ multiple implementation options open.<a href="#section-4.1.4-3.3.1" class="pilcr
 </li>
           </ul>
 <p id="section-4.1.4-4">Avoid defining multiple implementation behaviors as valid.  Leaving
-multiple options to implementators leads to compounding complexity:
-downstream specifications may need to profile the algorithm to pick
-the preferred option, and validation tools must be configurable to
-assert either case.<a href="#section-4.1.4-4" class="pilcrow">¶</a></p>
+multiple options to implementers leads to compounding complexity:
+downstream specifications may need to profile the algorithm to pick the
+preferred option, and validation tools must be configurable to assert
+either case.<a href="#section-4.1.4-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="documentation-and-examples">
@@ -2060,16 +2108,16 @@ in more robust and widely adopted solutions.<a href="#section-4.1.5-3" class="pi
 <a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-defining-security-definitio" class="section-name selfRef">Defining Security Definitions and Threat Models</a>
         </h3>
 <p id="section-4.2-1">Cryptographic protocols are always used within a context of a broader
-system whose security relies on an understanding capabilities of
+system whose security relies on an understanding of the capabilities of
 potential attackers.  An incorrect definition or assumption about the
 threat models to a protocol can make a protocol that is safe in one
 context unsafe in a different context.  Precise definitions help
 researchers assess the security of the proposed algorithms and
 protocols, while comprehensible threat models enable implementers and
-protocol designers to understand the potential risks and limitations
-of the specification.  This section provides guidelines for defining
-security definitions and threat models in a way that caters to the
-needs of all target audiences.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+protocol designers to understand the potential risks and limitations of
+the specification.  This section provides guidelines for defining
+security definitions and threat models in a way that caters to the needs
+of all target audiences.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
 <div id="defining-security-goals">
 <section id="section-4.2.1">
           <h4 id="name-defining-security-goals">
@@ -2081,17 +2129,25 @@ should be comprehensive, covering all relevant aspects, such as
 confidentiality, integrity, authentication, non-repudiation, and
 availability as well as resistance to implementation flaws such as
 side-channels.<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
-<p id="section-4.2.1-2">Furthermore, authors should clarify any trade-offs or
-limitations associated with the security goals, ensuring that the
-target audiences understand the intended balance between security and
-other factors, such as performance or ease of implementation.<a href="#section-4.2.1-2" class="pilcrow">¶</a></p>
-<p id="section-4.2.1-3">Common Security Goals:
+<p id="section-4.2.1-2">Furthermore, authors should clarify any trade-offs or limitations
+associated with the security goals, ensuring that the target audiences
+understand the intended balance between security and other factors,
+such as performance or ease of implementation.<a href="#section-4.2.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.2.1-3">Authors should also enumerate relevant security properties that the
+construction does not provide whenever a target audience might plausibly
+assume them, such as an AEAD that is not key-committing or a signature
+scheme that does not guarantee non-malleability; higher-level designs
+fail most often by relying on absent properties.  Some goals are
+context-dependent: non-repudiation is an explicit anti-goal of deniable
+protocols, and availability is typically a property of the surrounding
+system rather than of a cryptographic construction.<a href="#section-4.2.1-3" class="pilcrow">¶</a></p>
+<p id="section-4.2.1-4">Common Security Goals:
   - Confidentiality
   - Integrity
   - Authentication
   - Non-repudiation
   - Availability
-  - Resistance to side-channels<a href="#section-4.2.1-3" class="pilcrow">¶</a></p>
+  - Resistance to side-channels<a href="#section-4.2.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="formalizing-security-definitions">
@@ -2228,7 +2284,7 @@ specifying their impact on interoperability and security.<a href="#section-5.1-3
 <div id="test-vectors">
 <section id="section-5.1.1">
           <h4 id="name-test-vectors">
-<a href="#section-5.1.1" class="section-number selfRef">5.1.1. </a><a href="#name-test-vectors" class="section-name selfRef">Test vectors</a>
+<a href="#section-5.1.1" class="section-number selfRef">5.1.1. </a><a href="#name-test-vectors" class="section-name selfRef">Test Vectors</a>
           </h4>
 <p id="section-5.1.1-1">Test vectors ideally cover all branches of the specification, with
 reasonable exceptions, such as branches that occur with negligible
@@ -2237,9 +2293,10 @@ To facilitate writing tests, where possible, all functions should be
 written with determinism in mind.  In particular, this means that
 functions that produce random outputs, such as a function that
 produces random elements in a prime-order group, should accept
-randomness as input and test vectors should specify this randomness as
-an input to the function.  Specifications should minimize internal
-calls to PRNGs or similar and emphasize determinism.<a href="#section-5.1.1-1" class="pilcrow">¶</a></p>
+randomness as input and test vectors should specify this randomness
+as an input to the function.  Specifications should minimize
+internal calls to pseudorandom number generators (PRNGs) or similar
+and emphasize determinism.<a href="#section-5.1.1-1" class="pilcrow">¶</a></p>
 <p id="section-5.1.1-2">Finally, specifications should make the connection between
 specification and test vectors clear by including explicit
 reproducibility steps that describe how test vectors were derived for
@@ -2247,7 +2304,7 @@ parts of the specification.  This might mean pointing to a reference
 implementation with instructions for how to run it, where the
 reference implementation is written in a way that is clearly
 consistent with the specification.<a href="#section-5.1.1-2" class="pilcrow">¶</a></p>
-<p id="section-5.1.1-3">It's possible to include too many test vectors in a specification,
+<p id="section-5.1.1-3">It is possible to include too many test vectors in a specification,
 which increases document length and decreases readability.  Authors
 should provide test vectors that cover:<a href="#section-5.1.1-3" class="pilcrow">¶</a></p>
 <ul class="normal">
@@ -2262,21 +2319,34 @@ an algorithm<a href="#section-5.1.1-4.2.1" class="pilcrow">¶</a></p>
             <li class="normal" id="section-5.1.1-4.3">
               <p id="section-5.1.1-4.3.1">Exceptions that can be reached by attacker-controlled inputs<a href="#section-5.1.1-4.3.1" class="pilcrow">¶</a></p>
 </li>
+            <li class="normal" id="section-5.1.1-4.4">
+              <p id="section-5.1.1-4.4.1">Invalid inputs that implementations are required to reject, such as
+non-canonical encodings, invalid points or group elements, and
+modified authenticators, each labeled with the expected error result<a href="#section-5.1.1-4.4.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-5.1.1-4.5">
+              <p id="section-5.1.1-4.5.1">Boundary values for every comparison or range check in the
+specification, together with values immediately adjacent to the
+boundary<a href="#section-5.1.1-4.5.1" class="pilcrow">¶</a></p>
+</li>
           </ul>
-<p id="section-5.1.1-5">It is NOT necessary to include test vectors for cases that are
+<p id="section-5.1.1-5">For multi-step algorithms, at least one test vector should include
+intermediate values, such as per-round state or derived subkeys, so
+that implementers can localize divergence rather than only detect it.<a href="#section-5.1.1-5" class="pilcrow">¶</a></p>
+<p id="section-5.1.1-6">It is not necessary to include test vectors for cases that are
 statistically improbable to be triggered, even by attacker-controlled
 input, based on the underlying cryptographic assumptions.  For example,
 if an error case is only reachable when an intermediate data point
 matches the pre-image of a hash value that was randomly generated,
-finding a test vector to trigger that case would require the ability
-to compute a hash pre-image, which is deemed unfeasible for
-sufficiently strong hash functions.  Exceptional cases that don't have
-test vectors should be explicitly noted in the algorithm description.<a href="#section-5.1.1-5" class="pilcrow">¶</a></p>
-<p id="section-5.1.1-6">Lastly, specifications should provide references to machine-readable
+finding a test vector to trigger that case would require the ability to
+compute a hash pre-image, which is deemed unfeasible for sufficiently
+strong hash functions.  Exceptional cases that do not have test vectors
+should be explicitly noted in the algorithm description.<a href="#section-5.1.1-6" class="pilcrow">¶</a></p>
+<p id="section-5.1.1-7">Lastly, specifications should provide references to machine-readable
 test vectors (e.g., in JSON format) that persist alongside the
 specification.  This helps avoid possibly error-prone parsing in
 translating test vectors from a textual specification to test code
-inputs.<a href="#section-5.1.1-6" class="pilcrow">¶</a></p>
+inputs.<a href="#section-5.1.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2335,10 +2405,12 @@ protocol designers:<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <li class="normal" id="section-5.3-2.1">
             <p id="section-5.3-2.1.1">Clearly define the interfaces, APIs, or functions exposed by the
 protocol or primitive, indicating how they should be used and any
-potential risks associated with their misuse.  For example, for each
-input to the protocol, it should be made clear whether or not these
-are attacker controlled and, if so, describe what steps must be taken
-to validate that input.<a href="#section-5.3-2.1.1" class="pilcrow">¶</a></p>
+potential risks associated with their misuse.  For each input, state
+the requirements it must satisfy for security to hold, such as secrecy,
+uniqueness, or uniform randomness, whether security is retained when
+that input is adversarially chosen, and what validation is required
+before use; the consuming protocol determines which inputs are attacker
+controlled in its own deployment.<a href="#section-5.3-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.3-2.2">
             <p id="section-5.3-2.2.1">Describe any corner cases or situations that may impact security,
@@ -2357,6 +2429,19 @@ or interoperability issues.<a href="#section-5.3-2.3.1" class="pilcrow">¶</a></
 considerations that may affect the security or performance of the
 protocol in real-world scenarios.  This includes the impact of new
 discoveries that weaken the security assumptions of a primitive.<a href="#section-5.3-2.4.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-2.5">
+            <p id="section-5.3-2.5.1">State concrete usage limits derived from the security analysis, such
+as the maximum amount of data or number of invocations per key and when
+rekeying is required, in operational units that a consuming protocol
+can budget against.<a href="#section-5.3-2.5.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-5.3-2.6">
+            <p id="section-5.3-2.6.1">Identify the context-binding inputs the construction exposes, such as
+associated data, info strings, salts, and labels; state what a
+consuming protocol is expected to bind into them to achieve domain
+separation; and state whether keys may safely be reused across the
+construction's operations or with other algorithms.<a href="#section-5.3-2.6.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-5.3-3">By addressing the specific needs of implementers, researchers, and
@@ -2487,9 +2572,11 @@ implementers and researchers understand the algorithms better.<a href="#section-
           </h4>
 <p id="section-7.1.3-1"><span>[<a href="#RFC8439" class="cite xref">RFC8439</a>]</span> includes test vectors for both ChaCha20 and Poly1305,
 providing concrete examples of inputs and expected outputs for the
-algorithms.  This section is invaluable for implementers, allowing them
-to verify that their implementations are correct and compatible with
-others.<a href="#section-7.1.3-1" class="pilcrow">¶</a></p>
+algorithms.  Notably, the vectors include intermediate values, such as
+the ChaCha state after 20 rounds, allowing implementers to localize a
+divergence rather than only detect it.  This section is invaluable for
+implementers, allowing them to verify that their implementations are
+correct and compatible with others.<a href="#section-7.1.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="security-considerations">
@@ -2524,17 +2611,20 @@ coordinate with existing registries.<a href="#section-7.1.5-1" class="pilcrow">�
 <a href="#section-7.1.6" class="section-number selfRef">7.1.6. </a><a href="#name-problematic-aspects" class="section-name selfRef">Problematic Aspects</a>
           </h4>
 <p id="section-7.1.6-1">A criticism of this document is that it does not cater enough to
-protocol designers in that it does not explicitly define a decryption
-algorithm.  Researchers familiar with the concept of a stream cipher
-understand that decryption and encryption are identical in stream
-cipher constructions, but this may not be clear to implementers.<a href="#section-7.1.6-1" class="pilcrow">¶</a></p>
-<p id="section-7.1.6-2">In summary, <span>[<a href="#RFC8439" class="cite xref">RFC8439</a>]</span> serves as an excellent example of a
-well-written cryptography specification, providing clear, precise, and
-comprehensive information for implementers, researchers, and protocol <br>
-designers alike.  By studying and emulating the structure and content
-of specifications like <span>[<a href="#RFC8439" class="cite xref">RFC8439</a>]</span>, authors can create high-quality
-specifications that cater to the diverse needs of their target
-audiences.<a href="#section-7.1.6-2" class="pilcrow">¶</a></p>
+implementers in that it does not define decryption as a standalone
+algorithm; <span><a href="https://rfc-editor.org/rfc/rfc8439#section-2.8" class="relref">Section 2.8</a> of [<a href="#RFC8439" class="cite xref">RFC8439</a>]</span> describes decryption only as a set
+of differences relative to encryption.  Researchers familiar with the
+concept of a stream cipher understand that decryption and encryption are
+identical in stream cipher constructions, but this may not be clear to
+implementers.  The identity also holds only for the stream cipher core:
+AEAD decryption must additionally verify the authentication tag before
+releasing any plaintext, so it is not symmetric with encryption.<a href="#section-7.1.6-1" class="pilcrow">¶</a></p>
+<p id="section-7.1.6-2">In summary, <span>[<a href="#RFC8439" class="cite xref">RFC8439</a>]</span> serves as an excellent example of a well-written
+cryptography specification, providing clear, precise, and comprehensive
+information for implementers, researchers, and protocol designers alike.
+By studying and emulating the structure and content of specifications
+like <span>[<a href="#RFC8439" class="cite xref">RFC8439</a>]</span>, authors can create high-quality specifications that
+cater to the diverse needs of their target audiences.<a href="#section-7.1.6-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2555,11 +2645,12 @@ criticisms published online.<a href="#section-8-1" class="pilcrow">¶</a></p>
         <h3 id="name-test-vectors-3">
 <a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-test-vectors-3" class="section-name selfRef">Test Vectors</a>
         </h3>
-<p id="section-8.1-1">The test vectors included in this document were not comprehensive and
-did not cover all the cases described in the algorithm, resulting in
+<p id="section-8.1-1">The test vectors included in <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> were not comprehensive and did
+not cover all the cases described in the algorithm, resulting in
 multiple incompatible implementations.  There were also issues with a
-"greater than" comparison which should have been a "greater than or
-equal to" which were not explicitly covered by the test vectors.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+boundary comparison on the signature scalar, a "greater than" that
+should have been a "greater than or equal to" (RFC 8032 Errata ID 5968),
+a case the test vectors did not exercise.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="unnecessary-branching">
@@ -2569,12 +2660,13 @@ equal to" which were not explicitly covered by the test vectors.<a href="#sectio
         </h3>
 <p id="section-8.2-1">Some parts of EdDSA permit more than one verification path, which can
 split implementations.  For Ed25519, <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> gives two options:
-8<em>S</em>B = 8<em>R + 8</em>k<em>A' (where * denotes scalar multiplication, '
-denotes a derived point, and = denotes equality) or S</em>B = R + k*A'
-(shortcut).  The shortcut saves cycles but lets libraries disagree on
-which signatures are valid.  Specs should avoid such optional
-branches—especially performance-only shortcuts—to keep implementations
-interoperable.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
+8<em>S</em>B = 8<em>R + 8</em>k<em>A' (where * denotes scalar multiplication, ' denotes a
+derived point, and = denotes equality) or S</em>B = R + k*A'.  These
+equations are not equivalent:  they disagree on signatures containing
+low-order components, so libraries that choose different equations
+disagree on which signatures are valid.  Specifications should avoid
+such optional branches and instead mandate a single verification path to
+keep implementations interoperable.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="compatibility-and-modularity">
@@ -2584,13 +2676,17 @@ interoperable.<a href="#section-8.2-1" class="pilcrow">¶</a></p>
         </h3>
 <p id="section-8.3-1">EdDSA is a variant of the Schnorr signature scheme, but with some small
 variations that make it incompatible with other related Schnorr
-signature schemes.  This includes a "clamping" operation that makes
-EdDSA keys and operations incompatible with x25519 (<span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span>).  Many
-of the issues in the specification derive from the fact that the
-specification was written to match an existing implementation rather
-than define an algorithm.  This limited the authors from focusing on
-compatibility with other related standards and primitives, resulting
-in numerous issues.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
+signature schemes.  This includes a "clamping" operation on private
+scalars that produces non-uniform scalars, complicating compositions
+that require uniformly random scalars, such as threshold signing, key
+blinding, and hierarchical key derivation.  The often-cited
+incompatibility between Ed25519 and X25519 (<span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span>) keys stems not
+from clamping, which both apply, but from EdDSA deriving its signing
+scalar by hashing the private seed.  Many of the issues in the
+specification derive from the fact that the specification was written to
+match an existing implementation rather than define an algorithm.  This
+limited the authors from focusing on compatibility with other related
+standards and primitives, resulting in numerous issues.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2602,12 +2698,12 @@ in numerous issues.<a href="#section-8.3-1" class="pilcrow">¶</a></p>
       </h2>
 <p id="section-9-1">Quality matters in cryptographic specification writing.  This document
 provides guidelines for writing effective cryptography specifications,
-emphasizing the importance of catering to different audiences, such as
-target audiences, with the end goal of enabling high-assurance
-cryptographic software.  By focusing on simplicity, precision,
-consistency, reusability, collaboration, and compromise, specification
-writers can create documents that are easier to understand, implement,
-and analyze.<a href="#section-9-1" class="pilcrow">¶</a></p>
+emphasizing the importance of catering to different audiences, including
+implementers, researchers, and protocol designers, with the end goal of
+enabling high-assurance cryptographic software.  By focusing on
+simplicity, precision, consistency, reusability, collaboration, and
+compromise, specification writers can create documents that are easier
+to understand, implement, and analyze.<a href="#section-9-1" class="pilcrow">¶</a></p>
 <p id="section-9-2">We have also discussed the representation of mathematical operations
 and the importance of clearly defining security definitions and threat
 models.  These elements are critical in ensuring that specifications
