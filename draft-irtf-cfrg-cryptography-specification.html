@@ -1626,8 +1626,11 @@ operations require precise and clear representation in specifications.<a href="#
 <p id="section-3.3.1-2">Ambiguous or inconsistent mathematical notation leads directly to
 implementation errors and interoperability failures.<a href="#section-3.3.1-2" class="pilcrow">¶</a></p>
 <p id="section-3.3.1-3"><span>[<a href="#RFC7748" class="cite xref">RFC7748</a>]</span> demonstrates effective mathematical representation through
-clear introduction of scalar multiplication notation, consistent usage
-throughout, and concrete examples.<a href="#section-3.3.1-3" class="pilcrow">¶</a></p>
+clear introduction of scalar multiplication notation and concrete
+examples.  It is not flawless: it also uses <code>^</code> for both XOR, in the
+Montgomery ladder, and exponentiation, as in <code>2^255 - 19</code>, without
+distinguishing them.  This is the kind of operator overloading the
+notation guidance below is intended to prevent.<a href="#section-3.3.1-3" class="pilcrow">¶</a></p>
 <div id="notation-consistency">
 <section id="section-3.3.1.1">
             <h5 id="name-notation-consistency">
@@ -1747,8 +1750,7 @@ particular, authors <span class="bcp14">MUST NOT</span> use <code>^</code> for b
 or function-style equivalent at first use, and <span class="bcp14">SHOULD</span> give the Unicode
 code point or character name for less common, visually confusable, or
 domain-specific symbols.  For example, <code>⊕</code> can be introduced as <code>⊕</code>
-(XOR, U+2295), <code>∥</code> as concatenation (<code>||</code>), and <code>⊥</code> as failure or
-invalid output, if that notation is used.<a href="#section-3.3.1.6-4" class="pilcrow">¶</a></p>
+(XOR, U+2295) and <code>∥</code> as concatenation (<code>||</code>).<a href="#section-3.3.1.6-4" class="pilcrow">¶</a></p>
 <p id="section-3.3.1.6-5">Formatting <span class="bcp14">MUST NOT</span> be required to recover the meaning of an algorithm.
 Superscripts, font choice, glyph shape, or rendering differences across
 formats <span class="bcp14">MUST NOT</span> change semantics.  Authors <span class="bcp14">SHOULD</span> verify all formulas,
