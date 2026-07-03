@@ -294,8 +294,11 @@ Ambiguous or inconsistent mathematical notation leads directly to
 implementation errors and interoperability failures.
 
 {{RFC7748}} demonstrates effective mathematical representation through
-clear introduction of scalar multiplication notation, consistent usage
-throughout, and concrete examples.
+clear introduction of scalar multiplication notation and concrete
+examples.  It is not flawless: it also uses `^` for both XOR, in the
+Montgomery ladder, and exponentiation, as in `2^255 - 19`, without
+distinguishing them.  This is the kind of operator overloading the
+notation guidance below is intended to prevent.
 
 
 #### Notation Consistency
