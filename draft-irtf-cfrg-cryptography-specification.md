@@ -294,8 +294,11 @@ Ambiguous or inconsistent mathematical notation leads directly to
 implementation errors and interoperability failures.
 
 {{RFC7748}} demonstrates effective mathematical representation through
-clear introduction of scalar multiplication notation, consistent usage
-throughout, and concrete examples.
+clear introduction of scalar multiplication notation and concrete
+examples.  It is not flawless: it also uses `^` for both XOR, in the
+Montgomery ladder, and exponentiation, as in `2^255 - 19`, without
+distinguishing them.  This is the kind of operator overloading the
+notation guidance below is intended to prevent.
 
 
 #### Notation Consistency
@@ -396,8 +399,7 @@ When a Unicode symbol is used, the specification SHOULD provide an ASCII
 or function-style equivalent at first use, and SHOULD give the Unicode
 code point or character name for less common, visually confusable, or
 domain-specific symbols.  For example, `⊕` can be introduced as `⊕`
-(XOR, U+2295), `∥` as concatenation (`||`), and `⊥` as failure or
-invalid output, if that notation is used.
+(XOR, U+2295) and `∥` as concatenation (`||`).
 
 Formatting MUST NOT be required to recover the meaning of an algorithm.
 Superscripts, font choice, glyph shape, or rendering differences across
