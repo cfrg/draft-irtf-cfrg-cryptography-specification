@@ -1683,6 +1683,18 @@ implementation.  Pseudocode should be written in a style that
 resembles real programming languages.  Comments clarify the logic.
 Control structures such as loops and conditionals should use
 consistent notation throughout the document.<a href="#section-3.3.1.4-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.4-2">When pseudocode requires constant-time behavior, mark the line with the
+<code>CONST</code> tag.  For example, with CMOV(x, y, e) defined to return y when e
+= 1 and x when e = 0:<a href="#section-3.3.1.4-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.3.1.4-3">
+<pre>
+z &lt;- CMOV(x, y, e)  # CONST: branch-free
+</pre><a href="#section-3.3.1.4-3" class="pilcrow">¶</a>
+</div>
+<p id="section-3.3.1.4-4">Such annotations state intent; they do not by themselves make an
+implementation constant-time.  Specifications should also identify which
+values are secret, so that implementations avoid branching on, or
+indexing memory by, secret-derived values.<a href="#section-3.3.1.4-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="visual-representations">
@@ -1710,241 +1722,198 @@ consistent with the notation used in the surrounding text.<a href="#section-3.3.
             </ol>
 </section>
 </div>
-<div id="ascii-safe-mathematical-notation">
+<div id="mathematical-notation-and-unicode">
 <section id="section-3.3.1.6">
-            <h5 id="name-ascii-safe-mathematical-not">
-<a href="#section-3.3.1.6" class="section-number selfRef">3.3.1.6. </a><a href="#name-ascii-safe-mathematical-not" class="section-name selfRef">ASCII-Safe Mathematical Notation</a>
+            <h5 id="name-mathematical-notation-and-u">
+<a href="#section-3.3.1.6" class="section-number selfRef">3.3.1.6. </a><a href="#name-mathematical-notation-and-u" class="section-name selfRef">Mathematical Notation and Unicode</a>
             </h5>
-<p id="section-3.3.1.6-1">Cryptographic specifications <span class="bcp14">MUST</span> use ASCII-only characters in all
-algorithm descriptions.  Symbols that lack direct ASCII representation
-(for example, ⊕, ∥, ⋅, ∞) <span class="bcp14">MAY</span> appear in informative examples or
-figures, but every such symbol <span class="bcp14">MUST</span> be accompanied by an ASCII
-equivalent and be defined exactly once in a dedicated Notation section.
-Each operator or symbol has exactly one meaning; authors <span class="bcp14">MUST NOT</span>
-overload a glyph (for example, <code>^</code>) for multiple operations.  Following
-these rules ensures the plain-text RFC renders unambiguously and
-prevents implementation errors stemming from visual formatting
-differences across output formats.<a href="#section-3.3.1.6-1" class="pilcrow">¶</a></p>
-<p id="section-3.3.1.6-2">Checklist for authors:<a href="#section-3.3.1.6-2" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.6-1">Cryptographic specifications <span class="bcp14">SHOULD</span> make mathematical notation and
+algorithm descriptions clear in all RFC publication formats, including
+plain text, HTML, and PDF.  Pseudocode intended to guide implementations
+<span class="bcp14">SHOULD</span> prefer simple, programming-like notation when that notation is
+equally clear, for example <code>xor(a, b)</code>, <code>XOR</code>, <code>concat(a, b)</code>, <code>||</code>,
+<code>mod</code>, and <code>randbits(n)</code>.<a href="#section-3.3.1.6-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.6-2">Non-ASCII mathematical symbols <span class="bcp14">MAY</span> be used in normative mathematical
+exposition or algorithm descriptions when they materially improve
+clarity, are expected to render correctly, and are understandable to the
+intended audience.  Such symbols <span class="bcp14">MUST NOT</span> be used as a substitute for
+defining the operation they represent.  Guidance on the use of non-ASCII
+characters in RFCs is given in <span>[<a href="#RFC7997" class="cite xref">RFC7997</a>]</span>.<a href="#section-3.3.1.6-2" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.6-3">Every non-obvious symbol, whether ASCII or Unicode, <span class="bcp14">MUST</span> be defined
+exactly once in a dedicated Notation section or at first use.  A symbol
+<span class="bcp14">MUST</span> have exactly one meaning throughout the specification.  In
+particular, authors <span class="bcp14">MUST NOT</span> use <code>^</code> for both XOR and exponentiation.<a href="#section-3.3.1.6-3" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.6-4">When a Unicode symbol is used, the specification <span class="bcp14">SHOULD</span> provide an ASCII
+or function-style equivalent at first use, and <span class="bcp14">SHOULD</span> give the Unicode
+code point or character name for less common, visually confusable, or
+domain-specific symbols.  For example, <code>⊕</code> can be introduced as <code>⊕</code>
+(XOR, U+2295), <code>∥</code> as concatenation (<code>||</code>), and <code>⊥</code> as failure or
+invalid output, if that notation is used.<a href="#section-3.3.1.6-4" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.6-5">Formatting <span class="bcp14">MUST NOT</span> be required to recover the meaning of an algorithm.
+Superscripts, font choice, glyph shape, or rendering differences across
+formats <span class="bcp14">MUST NOT</span> change semantics.  Authors <span class="bcp14">SHOULD</span> verify all formulas,
+pseudocode, tables, and figures in the generated plain-text, HTML, and
+PDF outputs, and <span class="bcp14">SHOULD</span> consider copy/paste behavior, searchability,
+screen readers, and font support.<a href="#section-3.3.1.6-5" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.6-6">The notation is normative as written, whether ASCII or Unicode, provided
+it is defined, unambiguous, and stable across publication formats.<a href="#section-3.3.1.6-6" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.6-7">Checklist for authors:<a href="#section-3.3.1.6-7" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.3.1.6-3.1">
-                <p id="section-3.3.1.6-3.1.1">Define a concise notation table covering every non-obvious operator
-(<code>||</code>, <code>^</code>, <code>mod</code>, <code>XOR</code>, etc.).<a href="#section-3.3.1.6-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.3.1.6-8.1">
+                <p id="section-3.3.1.6-8.1.1">Define a concise notation table covering every non-obvious operator
+or symbol (<code>||</code>, <code>^</code>, <code>**</code>, <code>mod</code>, <code>XOR</code>, sampling notation, failure
+symbols, Unicode operators, etc.).<a href="#section-3.3.1.6-8.1.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-3.3.1.6-3.2">
-                <p id="section-3.3.1.6-3.2.1">Prefer <code>XOR</code> or <code>||</code> over Unicode ⊕ or ∥ in normative text.<a href="#section-3.3.1.6-3.2.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-3.3.1.6-8.2">
+                <p id="section-3.3.1.6-8.2.1">Use exactly one notation for each operation throughout the document.<a href="#section-3.3.1.6-8.2.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-3.3.1.6-3.3">
-                <p id="section-3.3.1.6-3.3.1">Never reuse <code>^</code> for both XOR and exponentiation; spell out one of
-them instead.<a href="#section-3.3.1.6-3.3.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-3.3.1.6-8.3">
+                <p id="section-3.3.1.6-8.3.1">Never reuse <code>^</code> for both XOR and exponentiation; spell out one of
+them or use a defined function-style operator.<a href="#section-3.3.1.6-8.3.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-3.3.1.6-3.4">
-                <p id="section-3.3.1.6-3.4.1">Verify all formulas in the generated .txt file; formatting must not
-change semantics.<a href="#section-3.3.1.6-3.4.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-3.3.1.6-8.4">
+                <p id="section-3.3.1.6-8.4.1">Prefer clear function-style or programming-like notation in
+implementer-facing pseudocode, especially where readers may copy the
+text into code.<a href="#section-3.3.1.6-8.4.1" class="pilcrow">¶</a></p>
 </li>
-              <li class="normal" id="section-3.3.1.6-3.5">
-                <p id="section-3.3.1.6-3.5.1">If Unicode appears in examples, provide the ASCII fallback inline,
-for example: ⊕ (XOR).<a href="#section-3.3.1.6-3.5.1" class="pilcrow">¶</a></p>
+              <li class="normal" id="section-3.3.1.6-8.5">
+                <p id="section-3.3.1.6-8.5.1">Use Unicode mathematical symbols only when they improve clarity for
+the intended audience.<a href="#section-3.3.1.6-8.5.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.3.1.6-8.6">
+                <p id="section-3.3.1.6-8.6.1">Provide ASCII or function-style equivalents for Unicode symbols that
+implementers may need to type, search for, copy, or translate into
+code.<a href="#section-3.3.1.6-8.6.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.3.1.6-8.7">
+                <p id="section-3.3.1.6-8.7.1">Give Unicode code points or character names for uncommon, visually
+confusable, or domain-specific symbols.<a href="#section-3.3.1.6-8.7.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.3.1.6-8.8">
+                <p id="section-3.3.1.6-8.8.1">Provide at least one worked example that exercises every operator.<a href="#section-3.3.1.6-8.8.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.3.1.6-8.9">
+                <p id="section-3.3.1.6-8.9.1">Verify the generated plain-text, HTML, and PDF outputs; formatting
+must not change semantics.<a href="#section-3.3.1.6-8.9.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
-<p id="section-3.3.1.6-4">Rendering considerations (HTML/PDF only):<a href="#section-3.3.1.6-4" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.3.1.6-5.1">
-                <p id="section-3.3.1.6-5.1.1">Authors <span class="bcp14">MAY</span> use <code>&lt;sup&gt;</code> (or Markdown <code>^</code>) markup so the ASCII <code>^</code>
-exponent indicator renders as a superscript in HTML or PDF outputs.
-The plain-text RFC <span class="bcp14">MUST</span> still display the caret character.<a href="#section-3.3.1.6-5.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-3.3.1.6-5.2">
-                <p id="section-3.3.1.6-5.2.1">It is acceptable for the rendered HTML/PDF to substitute Unicode
-symbols for clarity, e.g., ⊕ (U+2295) for XOR or ⋅ (U+22C5 or
-U+00B7) for multiplication, provided that the canonical text uses
-the ASCII equivalents (<code>XOR</code>, <code>*</code>) and the symbol meanings are
-listed in the Notation table.<a href="#section-3.3.1.6-5.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-3.3.1.6-5.3">
-                <p id="section-3.3.1.6-5.3.1">Such styling <span class="bcp14">MUST NOT</span> alter the normative meaning, and the ASCII
-representation <span class="bcp14">MUST</span> remain authoritative.<a href="#section-3.3.1.6-5.3.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-<div id="two-layer-rule">
-<section id="section-3.3.1.6.1">
-              <h6 id="name-two-layer-rule">
-<a href="#section-3.3.1.6.1" class="section-number selfRef">3.3.1.6.1. </a><a href="#name-two-layer-rule" class="section-name selfRef">Two-Layer Rule</a>
-              </h6>
-<p id="section-3.3.1.6.1-1">Normative layer (canonical text):
-- Limited to printable ASCII plus SP and LF.
-- Operator glyphs are drawn from the table below; any additional
-  operator <span class="bcp14">MUST</span> be defined in the Notation table before first use.<a href="#section-3.3.1.6.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.3.1.6.1-2">Rendered layer (HTML/PDF):
-- Generated automatically by build tools (kramdown-RFC, Sphinx,
-  or similar tooling).
-- May substitute typographical symbols (for example, *→⋅,
-  XOR→⊕, <code>^</code>→superscript).
-- Substitutions are stylistic only; the ASCII source remains
-  authoritative.<a href="#section-3.3.1.6.1-2" class="pilcrow">¶</a></p>
-<p id="section-3.3.1.6.1-3">Baseline operator set<a href="#section-3.3.1.6.1-3" class="pilcrow">¶</a></p>
+<p id="section-3.3.1.6-9">The following baseline operator set covers the operations most
+cryptographic specifications need; any additional operator <span class="bcp14">MUST</span> be
+defined in the Notation table before first use.<a href="#section-3.3.1.6-9" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
-                <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
+              <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
 <thead>
-                  <tr>
-                    <th class="text-left" rowspan="1" colspan="1">Concept</th>
-                    <th class="text-left" rowspan="1" colspan="1">ASCII glyph(s)</th>
-                    <th class="text-left" rowspan="1" colspan="1">Example</th>
-                    <th class="text-left" rowspan="1" colspan="1">Notes</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="text-left" rowspan="1" colspan="1">Addition / subtraction</td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>+</code>, <code>-</code>
+                <tr>
+                  <th class="text-left" rowspan="1" colspan="1">Concept</th>
+                  <th class="text-left" rowspan="1" colspan="1">ASCII glyph(s)</th>
+                  <th class="text-left" rowspan="1" colspan="1">Example</th>
+                  <th class="text-left" rowspan="1" colspan="1">Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">Addition / subtraction</td>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>+</code>, <code>-</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>a + b</code>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>a + b</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1"> </td>
-                  </tr>
-                  <tr>
-                    <td class="text-left" rowspan="1" colspan="1">Multiplication</td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>*</code>
+                  <td class="text-left" rowspan="1" colspan="1"> </td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">Multiplication</td>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>*</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>x * y</code>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>x * y</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">Define early that <code>*</code> is group/field multiplication</td>
-                  </tr>
-                  <tr>
-                    <td class="text-left" rowspan="1" colspan="1">Exponentiation</td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>^</code> or <code>**</code>
+                  <td class="text-left" rowspan="1" colspan="1">Define early that <code>*</code> is group/field multiplication</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">Exponentiation</td>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>^</code> or <code>**</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>g^k</code>, <code>2**255 - 19</code>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>g^k</code>, <code>2**255 - 19</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">Choose one symbol and use it consistently; note <code>^</code> is XOR in C-family languages</td>
-                  </tr>
-                  <tr>
-                    <td class="text-left" rowspan="1" colspan="1">Modular reduction</td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>mod</code>
+                  <td class="text-left" rowspan="1" colspan="1">Choose one symbol and use it consistently; note <code>^</code> is XOR in C-family languages</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">Modular reduction</td>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>mod</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>x mod L</code>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>x mod L</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">State the modulus and the range of the result</td>
-                  </tr>
-                  <tr>
-                    <td class="text-left" rowspan="1" colspan="1">XOR</td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>XOR</code>
+                  <td class="text-left" rowspan="1" colspan="1">State the modulus and the range of the result</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">XOR</td>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>XOR</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>a XOR b</code>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>a XOR b</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">Avoids clash with <code>^</code>; all-caps stands out</td>
-                  </tr>
-                  <tr>
-                    <td class="text-left" rowspan="1" colspan="1">Concatenation</td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>||</code>
+                  <td class="text-left" rowspan="1" colspan="1">Avoids clash with <code>^</code>; all-caps stands out</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">Concatenation</td>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>||</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>M1 || M2</code>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>M1 || M2</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">Define in glossary</td>
-                  </tr>
-                  <tr>
-                    <td class="text-left" rowspan="1" colspan="1">Comparison</td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&gt;</code>
+                  <td class="text-left" rowspan="1" colspan="1">Define in glossary</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">Comparison</td>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>&gt;</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>s &gt;= L</code>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>s &gt;= L</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">Make boundary conditions exact</td>
-                  </tr>
-                  <tr>
-                    <td class="text-left" rowspan="1" colspan="1">Shift / rotate</td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>ROTL</code>
+                  <td class="text-left" rowspan="1" colspan="1">Make boundary conditions exact</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">Shift / rotate</td>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>&lt;&lt;</code>, <code>&gt;&gt;</code>, <code>ROTL</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>x ROTL 16</code>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>x ROTL 16</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">Define operand width and wrapping</td>
-                  </tr>
-                  <tr>
-                    <td class="text-left" rowspan="1" colspan="1">Equality</td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>=</code>
+                  <td class="text-left" rowspan="1" colspan="1">Define operand width and wrapping</td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">Equality</td>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>=</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>x = y</code>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>x = y</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1"> </td>
-                  </tr>
-                  <tr>
-                    <td class="text-left" rowspan="1" colspan="1">Assignment</td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>&lt;-</code>
+                  <td class="text-left" rowspan="1" colspan="1"> </td>
+                </tr>
+                <tr>
+                  <td class="text-left" rowspan="1" colspan="1">Assignment</td>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>&lt;-</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <code>x &lt;- y</code>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <code>x &lt;- y</code>
 </td>
-                    <td class="text-left" rowspan="1" colspan="1">
-                      <span class="bcp14">MUST</span> be distinct from the equality glyph</td>
-                  </tr>
-                </tbody>
-              </table>
-</section>
-</div>
-<div id="operator-glossary-and-constant-time-annotations">
-<section id="section-3.3.1.6.2">
-              <h6 id="name-operator-glossary-and-const">
-<a href="#section-3.3.1.6.2" class="section-number selfRef">3.3.1.6.2. </a><a href="#name-operator-glossary-and-const" class="section-name selfRef">Operator Glossary and Constant-Time Annotations</a>
-              </h6>
-<p id="section-3.3.1.6.2-1">Immediately after the terminology section, include a short table
-"Mathematical Operators and Symbols".  Each entry <span class="bcp14">MUST</span> provide:
-1. ASCII glyph(s)
-2. Description of the operation
-3. Comment on constant-time versus variable-time expectations.<a href="#section-3.3.1.6.2-1" class="pilcrow">¶</a></p>
-<p id="section-3.3.1.6.2-2">When pseudocode requires constant-time behavior, mark the line with
-the <code>CONST</code> tag.  For example, with CMOV(x, y, e) defined to return y
-when e = 1 and x when e = 0:<a href="#section-3.3.1.6.2-2" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.3.1.6.2-3">
-<pre>
-z &lt;- CMOV(x, y, e)  # CONST: branch-free
-</pre><a href="#section-3.3.1.6.2-3" class="pilcrow">¶</a>
-</div>
-<p id="section-3.3.1.6.2-4">Such annotations state intent; they do not by themselves make an
-implementation constant-time.  Specifications should also identify
-which values are secret, so that implementations avoid branching on,
-or indexing memory by, secret-derived values.<a href="#section-3.3.1.6.2-4" class="pilcrow">¶</a></p>
-<p id="section-3.3.1.6.2-5">Style checklist for authors<a href="#section-3.3.1.6.2-5" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.3.1.6.2-6.1">
-                  <p id="section-3.3.1.6.2-6.1.1">If a glyph could be ambiguous (e.g., <code>^</code>), add an inline reminder the
-first time it appears: <code>^</code> (exponentiation).<a href="#section-3.3.1.6.2-6.1.1" class="pilcrow">¶</a></p>
-</li>
-                <li class="normal" id="section-3.3.1.6.2-6.2">
-                  <p id="section-3.3.1.6.2-6.2.1">Never overload the same glyph for two different operations within the
-same specification.<a href="#section-3.3.1.6.2-6.2.1" class="pilcrow">¶</a></p>
-</li>
-                <li class="normal" id="section-3.3.1.6.2-6.3">
-                  <p id="section-3.3.1.6.2-6.3.1">Prefer italic variables in rendered formats; keep them plain in ASCII.<a href="#section-3.3.1.6.2-6.3.1" class="pilcrow">¶</a></p>
-</li>
-                <li class="normal" id="section-3.3.1.6.2-6.4">
-                  <p id="section-3.3.1.6.2-6.4.1">Provide at least one worked example that exercises every operator.<a href="#section-3.3.1.6.2-6.4.1" class="pilcrow">¶</a></p>
-</li>
-                <li class="normal" id="section-3.3.1.6.2-6.5">
-                  <p id="section-3.3.1.6.2-6.5.1">If an uncommon Unicode symbol is truly necessary (e.g., ⟂ for
-"perp"), include it only inside <code>&lt;artwork type="html"&gt;</code> with an
-ASCII fallback in canonical text.<a href="#section-3.3.1.6.2-6.5.1" class="pilcrow">¶</a></p>
-</li>
-              </ul>
-</section>
-</div>
+                  <td class="text-left" rowspan="1" colspan="1">
+                    <span class="bcp14">MUST</span> be distinct from the equality glyph</td>
+                </tr>
+              </tbody>
+            </table>
 </section>
 </div>
 </section>
@@ -2780,6 +2749,10 @@ incompatible implementations with different security properties.<a href="#sectio
 <dt id="RFC7748">[RFC7748]</dt>
         <dd>
 <span class="refAuthor">Langley, A.</span>, <span class="refAuthor">Hamburg, M.</span>, and <span class="refAuthor">S. Turner</span>, <span class="refTitle">"Elliptic Curves for Security"</span>, <span class="seriesInfo">RFC 7748</span>, <span class="seriesInfo">DOI 10.17487/RFC7748</span>, <time datetime="2016-01" class="refDate">January 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7748">https://www.rfc-editor.org/rfc/rfc7748</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7997">[RFC7997]</dt>
+        <dd>
+<span class="refAuthor">Flanagan, H., Ed.</span>, <span class="refTitle">"The Use of Non-ASCII Characters in RFCs"</span>, <span class="seriesInfo">RFC 7997</span>, <span class="seriesInfo">DOI 10.17487/RFC7997</span>, <time datetime="2016-12" class="refDate">December 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7997">https://www.rfc-editor.org/rfc/rfc7997</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8032">[RFC8032]</dt>
         <dd>

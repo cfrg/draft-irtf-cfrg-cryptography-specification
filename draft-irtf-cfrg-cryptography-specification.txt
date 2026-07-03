@@ -419,6 +419,17 @@ Table of Contents
    logic.  Control structures such as loops and conditionals should use
    consistent notation throughout the document.
 
+   When pseudocode requires constant-time behavior, mark the line with
+   the CONST tag.  For example, with CMOV(x, y, e) defined to return y
+   when e = 1 and x when e = 0:
+
+   z <- CMOV(x, y, e)  # CONST: branch-free
+
+   Such annotations state intent; they do not by themselves make an
+   implementation constant-time.  Specifications should also identify
+   which values are secret, so that implementations avoid branching on,
+   or indexing memory by, secret-derived values.
+
 3.3.1.5.  Visual Representations
 
    Diagrams and other visual aids help convey complex mathematical
@@ -435,65 +446,80 @@ Table of Contents
    3.  Keep every label, variable name, and symbol in your figures
        consistent with the notation used in the surrounding text.
 
-3.3.1.6.  ASCII-Safe Mathematical Notation
+3.3.1.6.  Mathematical Notation and Unicode
 
-   Cryptographic specifications MUST use ASCII-only characters in all
-   algorithm descriptions.  Symbols that lack direct ASCII
-   representation (for example, ⊕, ∥, ⋅, ∞) MAY appear in informative
-   examples or figures, but every such symbol MUST be accompanied by an
-   ASCII equivalent and be defined exactly once in a dedicated Notation
-   section.  Each operator or symbol has exactly one meaning; authors
-   MUST NOT overload a glyph (for example, ^) for multiple operations.
-   Following these rules ensures the plain-text RFC renders
-   unambiguously and prevents implementation errors stemming from visual
-   formatting differences across output formats.
+   Cryptographic specifications SHOULD make mathematical notation and
+   algorithm descriptions clear in all RFC publication formats,
+   including plain text, HTML, and PDF.  Pseudocode intended to guide
+   implementations SHOULD prefer simple, programming-like notation when
+   that notation is equally clear, for example xor(a, b), XOR, concat(a,
+   b), ||, mod, and randbits(n).
+
+   Non-ASCII mathematical symbols MAY be used in normative mathematical
+   exposition or algorithm descriptions when they materially improve
+   clarity, are expected to render correctly, and are understandable to
+   the intended audience.  Such symbols MUST NOT be used as a substitute
+   for defining the operation they represent.  Guidance on the use of
+   non-ASCII characters in RFCs is given in [RFC7997].
+
+   Every non-obvious symbol, whether ASCII or Unicode, MUST be defined
+   exactly once in a dedicated Notation section or at first use.  A
+   symbol MUST have exactly one meaning throughout the specification.
+   In particular, authors MUST NOT use ^ for both XOR and
+   exponentiation.
+
+   When a Unicode symbol is used, the specification SHOULD provide an
+   ASCII or function-style equivalent at first use, and SHOULD give the
+   Unicode code point or character name for less common, visually
+   confusable, or domain-specific symbols.  For example, ⊕ can be
+   introduced as ⊕ (XOR, U+2295), ∥ as concatenation (||), and ⊥ as
+   failure or invalid output, if that notation is used.
+
+   Formatting MUST NOT be required to recover the meaning of an
+   algorithm.  Superscripts, font choice, glyph shape, or rendering
+   differences across formats MUST NOT change semantics.  Authors SHOULD
+   verify all formulas, pseudocode, tables, and figures in the generated
+   plain-text, HTML, and PDF outputs, and SHOULD consider copy/paste
+   behavior, searchability, screen readers, and font support.
+
+   The notation is normative as written, whether ASCII or Unicode,
+   provided it is defined, unambiguous, and stable across publication
+   formats.
 
    Checklist for authors:
 
    *  Define a concise notation table covering every non-obvious
-      operator (||, ^, mod, XOR, etc.).
+      operator or symbol (||, ^, **, mod, XOR, sampling notation,
+      failure symbols, Unicode operators, etc.).
 
-   *  Prefer XOR or || over Unicode ⊕ or ∥ in normative text.
+   *  Use exactly one notation for each operation throughout the
+      document.
 
    *  Never reuse ^ for both XOR and exponentiation; spell out one of
-      them instead.
+      them or use a defined function-style operator.
 
-   *  Verify all formulas in the generated .txt file; formatting must
-      not change semantics.
+   *  Prefer clear function-style or programming-like notation in
+      implementer-facing pseudocode, especially where readers may copy
+      the text into code.
 
-   *  If Unicode appears in examples, provide the ASCII fallback inline,
-      for example: ⊕ (XOR).
+   *  Use Unicode mathematical symbols only when they improve clarity
+      for the intended audience.
 
-   Rendering considerations (HTML/PDF only):
+   *  Provide ASCII or function-style equivalents for Unicode symbols
+      that implementers may need to type, search for, copy, or translate
+      into code.
 
-   *  Authors MAY use <sup> (or Markdown ^) markup so the ASCII ^
-      exponent indicator renders as a superscript in HTML or PDF
-      outputs.  The plain-text RFC MUST still display the caret
-      character.
+   *  Give Unicode code points or character names for uncommon, visually
+      confusable, or domain-specific symbols.
 
-   *  It is acceptable for the rendered HTML/PDF to substitute Unicode
-      symbols for clarity, e.g., ⊕ (U+2295) for XOR or ⋅ (U+22C5 or
-      U+00B7) for multiplication, provided that the canonical text uses
-      the ASCII equivalents (XOR, *) and the symbol meanings are listed
-      in the Notation table.
+   *  Provide at least one worked example that exercises every operator.
 
-   *  Such styling MUST NOT alter the normative meaning, and the ASCII
-      representation MUST remain authoritative.
+   *  Verify the generated plain-text, HTML, and PDF outputs; formatting
+      must not change semantics.
 
-3.3.1.6.1.  Two-Layer Rule
-
-   Normative layer (canonical text): - Limited to printable ASCII plus
-   SP and LF. - Operator glyphs are drawn from the table below; any
-   additional operator MUST be defined in the Notation table before
-   first use.
-
-   Rendered layer (HTML/PDF): - Generated automatically by build tools
-   (kramdown-RFC, Sphinx, or similar tooling). - May substitute
-   typographical symbols (for example, *→⋅, XOR→⊕, ^→superscript). -
-   Substitutions are stylistic only; the ASCII source remains
-   authoritative.
-
-   Baseline operator set
+   The following baseline operator set covers the operations most
+   cryptographic specifications need; any additional operator MUST be
+   defined in the Notation table before first use.
 
    +================+==========+=========+============================+
    | Concept        | ASCII    | Example | Notes                      |
@@ -531,41 +557,6 @@ Table of Contents
    +----------------+----------+---------+----------------------------+
 
                                  Table 1
-
-3.3.1.6.2.  Operator Glossary and Constant-Time Annotations
-
-   Immediately after the terminology section, include a short table
-   "Mathematical Operators and Symbols".  Each entry MUST provide: 1.
-   ASCII glyph(s) 2.  Description of the operation 3.  Comment on
-   constant-time versus variable-time expectations.
-
-   When pseudocode requires constant-time behavior, mark the line with
-   the CONST tag.  For example, with CMOV(x, y, e) defined to return y
-   when e = 1 and x when e = 0:
-
-   z <- CMOV(x, y, e)  # CONST: branch-free
-
-   Such annotations state intent; they do not by themselves make an
-   implementation constant-time.  Specifications should also identify
-   which values are secret, so that implementations avoid branching on,
-   or indexing memory by, secret-derived values.
-
-   Style checklist for authors
-
-   *  If a glyph could be ambiguous (e.g., ^), add an inline reminder
-      the first time it appears: ^ (exponentiation).
-
-   *  Never overload the same glyph for two different operations within
-      the same specification.
-
-   *  Prefer italic variables in rendered formats; keep them plain in
-      ASCII.
-
-   *  Provide at least one worked example that exercises every operator.
-
-   *  If an uncommon Unicode symbol is truly necessary (e.g., ⟂ for
-      "perp"), include it only inside <artwork type="html"> with an
-      ASCII fallback in canonical text.
 
 4.  Guidelines for Cryptography Specification Content
 
@@ -1220,6 +1211,10 @@ Table of Contents
    [RFC7748]  Langley, A., Hamburg, M., and S. Turner, "Elliptic Curves
               for Security", RFC 7748, DOI 10.17487/RFC7748, January
               2016, <https://www.rfc-editor.org/rfc/rfc7748>.
+
+   [RFC7997]  Flanagan, H., Ed., "The Use of Non-ASCII Characters in
+              RFCs", RFC 7997, DOI 10.17487/RFC7997, December 2016,
+              <https://www.rfc-editor.org/rfc/rfc7997>.
 
    [RFC8032]  Josefsson, S. and I. Liusvaara, "Edwards-Curve Digital
               Signature Algorithm (EdDSA)", RFC 8032,
