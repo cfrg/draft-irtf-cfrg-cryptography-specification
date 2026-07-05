@@ -5,8 +5,8 @@
 Crypto Forum Research Group                                  N. Sullivan
 Internet-Draft                               Cryptography Consulting LLC
 Intended status: Informational                                C. A. Wood
-Expires: 4 January 2027                                 Cloudflare, Inc.
-                                                             3 July 2026
+Expires: 6 January 2027                                 Cloudflare, Inc.
+                                                             5 July 2026
 
 
            Guidelines for Writing Cryptography Specifications
@@ -46,7 +46,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 January 2027.
+   This Internet-Draft will expire on 6 January 2027.
 
 Copyright Notice
 
@@ -460,10 +460,10 @@ Table of Contents
 
    Non-ASCII mathematical symbols MAY be used in normative mathematical
    exposition or algorithm descriptions when they materially improve
-   clarity, are expected to render correctly, and are understandable to
-   the intended audience.  Such symbols MUST NOT be used as a substitute
-   for defining the operation they represent.  Guidance on the use of
-   non-ASCII characters in RFCs is given in [RFC7997].
+   clarity, satisfy the criteria for non-ASCII characters in [RFC7997],
+   and are understandable to the intended audience.  Such symbols MUST
+   NOT be used as a substitute for defining the operation they
+   represent.
 
    Every non-obvious symbol, whether ASCII or Unicode, MUST be defined
    exactly once in a dedicated Notation section or at first use.  A
@@ -480,9 +480,10 @@ Table of Contents
    Formatting MUST NOT be required to recover the meaning of an
    algorithm.  Superscripts, font choice, glyph shape, or rendering
    differences across formats MUST NOT change semantics.  Authors SHOULD
-   verify all formulas, pseudocode, tables, and figures in the generated
-   plain-text, HTML, and PDF outputs, and SHOULD consider copy/paste
-   behavior, searchability, screen readers, and font support.
+   review formulas, pseudocode, tables, and figures in the generated
+   plain-text, HTML, and PDF outputs against the criteria in [RFC7997],
+   and SHOULD consider copy/paste behavior, searchability, screen
+   readers, and font support.
 
    The notation is normative as written, whether ASCII or Unicode,
    provided it is defined, unambiguous, and stable across publication
@@ -523,42 +524,67 @@ Table of Contents
    cryptographic specifications need; any additional operator MUST be
    defined in the Notation table before first use.
 
-   +================+==========+=========+============================+
-   | Concept        | ASCII    | Example | Notes                      |
-   |                | glyph(s) |         |                            |
-   +================+==========+=========+============================+
-   | Addition /     | +, -     | a + b   |                            |
-   | subtraction    |          |         |                            |
-   +----------------+----------+---------+----------------------------+
-   | Multiplication | *        | x * y   | Define early that * is     |
-   |                |          |         | group/field multiplication |
-   +----------------+----------+---------+----------------------------+
-   | Exponentiation | ^ or **  | g^k,    | Choose one symbol and use  |
-   |                |          | 2**255  | it consistently; note ^ is |
-   |                |          | - 19    | XOR in C-family languages  |
-   +----------------+----------+---------+----------------------------+
-   | Modular        | mod      | x mod L | State the modulus and the  |
-   | reduction      |          |         | range of the result        |
-   +----------------+----------+---------+----------------------------+
-   | XOR            | XOR      | a XOR b | Avoids clash with ^; all-  |
-   |                |          |         | caps stands out            |
-   +----------------+----------+---------+----------------------------+
-   | Concatenation  | ||       | M1 ||   | Define in glossary         |
-   |                |          | M2      |                            |
-   +----------------+----------+---------+----------------------------+
-   | Comparison     | <, <=,   | s >= L  | Make boundary conditions   |
-   |                | >=, >    |         | exact                      |
-   +----------------+----------+---------+----------------------------+
-   | Shift / rotate | <<, >>,  | x ROTL  | Define operand width and   |
-   |                | ROTL     | 16      | wrapping                   |
-   +----------------+----------+---------+----------------------------+
-   | Equality       | =        | x = y   |                            |
-   +----------------+----------+---------+----------------------------+
-   | Assignment     | <-       | x <- y  | MUST be distinct from the  |
-   |                |          |         | equality glyph             |
-   +----------------+----------+---------+----------------------------+
+   +================+==========+==========+============================+
+   | Concept        | ASCII    | Example  | Notes                      |
+   |                | glyph(s) |          |                            |
+   +================+==========+==========+============================+
+   | Addition /     | +, -     | a + b    |                            |
+   | subtraction    |          |          |                            |
+   +----------------+----------+----------+----------------------------+
+   | Multiplication | *        | x * y    | Define early that *        |
+   |                |          |          | is group/field             |
+   |                |          |          | multiplication             |
+   +----------------+----------+----------+----------------------------+
+   | Exponentiation | ^ or **  | g^k,     | Choose one symbol and      |
+   |                |          | 2**255 - | use it consistently;       |
+   |                |          | 19       | note ^ is XOR in           |
+   |                |          |          | C-family languages         |
+   +----------------+----------+----------+----------------------------+
+   | Modular        | mod      | x mod L  | State the modulus and      |
+   | reduction      |          |          | the range of the           |
+   |                |          |          | result                     |
+   +----------------+----------+----------+----------------------------+
+   | XOR            | XOR      | a XOR b  | Avoids clash with ^;       |
+   |                |          |          | all-caps stands out        |
+   +----------------+----------+----------+----------------------------+
+   | Concatenation  | ||       | M1 || M2 | Define in glossary         |
+   +----------------+----------+----------+----------------------------+
+   | Comparison     | <, <=,   | s >= L   | Make boundary              |
+   |                | >=, >    |          | conditions exact           |
+   +----------------+----------+----------+----------------------------+
+   | Shift / rotate | <<, >>,  | x ROTL   | Define operand width       |
+   |                | ROTL     | 16       | and wrapping               |
+   +----------------+----------+----------+----------------------------+
+   | Equality       | =        | x = y    |                            |
+   +----------------+----------+----------+----------------------------+
+   | Assignment     | <-       | x <- y   | MUST be distinct from      |
+   |                |          |          | the equality glyph         |
+   +----------------+----------+----------+----------------------------+
+   | Constant-time  | CMOV     | CMOV(x,  | Returns y when e = 1       |
+   | selection      |          | y, e)    | and x when e = 0           |
+   +----------------+----------+----------+----------------------------+
+   | Integer /      | I2OSP,   | I2OSP(x, | Define output length       |
+   | byte-string    | OS2IP    | 32)      | and byte order; see        |
+   | conversion     |          |          | [RFC8017]                  |
+   +----------------+----------+----------+----------------------------+
+   | Length         | len      | len(M)   | State whether the          |
+   |                |          |          | result counts bits or      |
+   |                |          |          | bytes                      |
+   +----------------+----------+----------+----------------------------+
+   | Truncation /   | M[a..b]  | M[0..15] | State whether indices      |
+   | slicing        |          |          | are zero-based and         |
+   |                |          |          | bounds inclusive           |
+   +----------------+----------+----------+----------------------------+
+   | Random         | <-$      | x <-$ S  | Define the set and         |
+   | sampling       |          |          | distribution; uniform      |
+   |                |          |          | unless stated              |
+   +----------------+----------+----------+----------------------------+
+   | Failure        | INVALID  | return   | MUST be                    |
+   |                |          | INVALID  | distinguishable from       |
+   |                |          |          | every valid output         |
+   +----------------+----------+----------+----------------------------+
 
-                                 Table 1
+                                  Table 1
 
 4.  Guidelines for Cryptography Specification Content
 
@@ -1217,6 +1243,11 @@ Table of Contents
    [RFC7997]  Flanagan, H., Ed., "The Use of Non-ASCII Characters in
               RFCs", RFC 7997, DOI 10.17487/RFC7997, December 2016,
               <https://www.rfc-editor.org/rfc/rfc7997>.
+
+   [RFC8017]  Moriarty, K., Ed., Kaliski, B., Jonsson, J., and A. Rusch,
+              "PKCS #1: RSA Cryptography Specifications Version 2.2",
+              RFC 8017, DOI 10.17487/RFC8017, November 2016,
+              <https://www.rfc-editor.org/rfc/rfc8017>.
 
    [RFC8032]  Josefsson, S. and I. Liusvaara, "Edwards-Curve Digital
               Signature Algorithm (EdDSA)", RFC 8032,
