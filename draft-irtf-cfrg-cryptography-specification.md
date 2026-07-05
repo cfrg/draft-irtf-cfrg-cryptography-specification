@@ -26,6 +26,7 @@ author:
     email: caw@heapingbits.net
 
 informative:
+  RFC8017:
   RFC8439:
   RFC8874:
   RFC3552:
@@ -385,10 +386,9 @@ equally clear, for example `xor(a, b)`, `XOR`, `concat(a, b)`, `||`,
 
 Non-ASCII mathematical symbols MAY be used in normative mathematical
 exposition or algorithm descriptions when they materially improve
-clarity, are expected to render correctly, and are understandable to the
-intended audience.  Such symbols MUST NOT be used as a substitute for
-defining the operation they represent.  Guidance on the use of non-ASCII
-characters in RFCs is given in {{RFC7997}}.
+clarity, satisfy the criteria for non-ASCII characters in {{RFC7997}},
+and are understandable to the intended audience.  Such symbols MUST NOT
+be used as a substitute for defining the operation they represent.
 
 Every non-obvious symbol, whether ASCII or Unicode, MUST be defined
 exactly once in a dedicated Notation section or at first use.  A symbol
@@ -403,10 +403,10 @@ domain-specific symbols.  For example, `⊕` can be introduced as `⊕`
 
 Formatting MUST NOT be required to recover the meaning of an algorithm.
 Superscripts, font choice, glyph shape, or rendering differences across
-formats MUST NOT change semantics.  Authors SHOULD verify all formulas,
+formats MUST NOT change semantics.  Authors SHOULD review formulas,
 pseudocode, tables, and figures in the generated plain-text, HTML, and
-PDF outputs, and SHOULD consider copy/paste behavior, searchability,
-screen readers, and font support.
+PDF outputs against the criteria in {{RFC7997}}, and SHOULD consider
+copy/paste behavior, searchability, screen readers, and font support.
 
 The notation is normative as written, whether ASCII or Unicode, provided
 it is defined, unambiguous, and stable across publication formats.
@@ -449,6 +449,12 @@ defined in the Notation table before first use.
 | Shift / rotate | `<<`, `>>`, `ROTL` | `x ROTL 16` | Define operand width and wrapping |
 | Equality | `=` | `x = y` | |
 | Assignment | `<-` | `x <- y` | MUST be distinct from the equality glyph |
+| Constant-time selection | `CMOV` | `CMOV(x, y, e)` | Returns y when e = 1 and x when e = 0 |
+| Integer / byte-string conversion | `I2OSP`, `OS2IP` | `I2OSP(x, 32)` | Define output length and byte order; see {{RFC8017}} |
+| Length | `len` | `len(M)` | State whether the result counts bits or bytes |
+| Truncation / slicing | `M[a..b]` | `M[0..15]` | State whether indices are zero-based and bounds inclusive |
+| Random sampling | `<-$` | `x <-$ S` | Define the set and distribution; uniform unless stated |
+| Failure | `INVALID` | `return INVALID` | MUST be distinguishable from every valid output |
 
 
 # Guidelines for Cryptography Specification Content
