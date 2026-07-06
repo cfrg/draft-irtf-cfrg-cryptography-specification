@@ -2682,10 +2682,10 @@ criticisms published online.<a href="#section-8-1" class="pilcrow">¶</a></p>
         </h3>
 <p id="section-8.1-1">The test vectors included in <span>[<a href="#RFC8032" class="cite xref">RFC8032</a>]</span> were not comprehensive and did
 not cover all the cases described in the algorithm, resulting in
-multiple incompatible implementations.  There were also issues with a
-boundary comparison on the signature scalar, a "greater than" that
-should have been a "greater than or equal to" (RFC 8032 Errata ID 5968),
-a case the test vectors did not exercise.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+multiple incompatible implementations.  There were also issues with the
+permitted range for encoding the signature scalar, which excluded both
+endpoints when it should have included them (RFC 8032 Errata ID 5968), a
+case the test vectors did not exercise.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="unnecessary-branching">
