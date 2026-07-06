@@ -355,10 +355,13 @@ When pseudocode requires constant-time behavior, mark the line with the
 z <- CMOV(x, y, e)  # CONST: branch-free
 ~~~~
 
-Such annotations state intent; they do not by themselves make an
-implementation constant-time.  Specifications should also identify which
-values are secret, so that implementations avoid branching on, or
-indexing memory by, secret-derived values.
+The `CONST` tag and the CMOV function above are an illustrative
+convention used in this document, not a standardized notation; a
+specification that adopts a similar marker SHOULD define it explicitly
+in its own Notation section.  Such annotations state intent; they do not
+by themselves make an implementation constant-time.  Specifications
+should also identify which values are secret, so that implementations
+avoid branching on, or indexing memory by, secret-derived values.
 
 
 #### Visual Representations
@@ -398,8 +401,8 @@ particular, authors MUST NOT use `^` for both XOR and exponentiation.
 When a Unicode symbol is used, the specification SHOULD provide an ASCII
 or function-style equivalent at first use, and SHOULD give the Unicode
 code point or character name for less common, visually confusable, or
-domain-specific symbols.  For example, `⊕` can be introduced as `⊕`
-(XOR, U+2295) and `∥` as concatenation (`||`).
+domain-specific symbols.  For example, `⊕` can be introduced as XOR
+(`⊕`, U+2295) and `∥` can be introduced as concatenation (`||`).
 
 Formatting MUST NOT be required to recover the meaning of an algorithm.
 Superscripts, font choice, glyph shape, or rendering differences across
