@@ -1023,10 +1023,10 @@ criticisms published online.
 
 The test vectors included in {{RFC8032}} were not comprehensive and did
 not cover all the cases described in the algorithm, resulting in
-multiple incompatible implementations.  There were also issues with a
-boundary comparison on the signature scalar, a "greater than" that
-should have been a "greater than or equal to" (RFC 8032 Errata ID 5968),
-a case the test vectors did not exercise.
+multiple incompatible implementations.  There were also issues with the
+permitted range for encoding the signature scalar, which excluded both
+endpoints when it should have included them (RFC 8032 Errata ID 5968), a
+case the test vectors did not exercise.
 
 
 ## Unnecessary Branching
